@@ -40,6 +40,7 @@ export default withAuth(
       url:
         process.env.DATABASE_URL ||
         "postgres://postgres:postgres@localhost:5432/rd-keystone",
+      useMigrations: true,
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
