@@ -38,11 +38,11 @@ export const lists = createSchema({
   Post: list({
     fields: {
       title: text(),
-      // slug: text({
-      //   defaultValue: defaultSlug,
-      //   ui: { createView: { fieldMode: "hidden" } },
-      //   isUnique: true,
-      // }),
+      slug: text({
+        defaultValue: defaultSlug,
+        ui: { createView: { fieldMode: "hidden" } },
+        isUnique: true,
+      }),
       status: select({
         options: [
           { label: "Published", value: "published" },
