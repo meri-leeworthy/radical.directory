@@ -12,7 +12,6 @@ CREATE TABLE "User" (
 CREATE TABLE "Post" (
     "id" TEXT NOT NULL,
     "title" TEXT,
-    "slug" TEXT,
     "status" TEXT,
     "content" JSONB,
     "publishDate" TIMESTAMP(3),
@@ -37,9 +36,6 @@ CREATE TABLE "_Post_tags_Tag_posts" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Post.slug_unique" ON "Post"("slug");
 
 -- CreateIndex
 CREATE INDEX "Post.author_index" ON "Post"("author");
