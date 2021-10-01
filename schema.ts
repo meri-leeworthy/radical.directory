@@ -6,6 +6,9 @@ import {
   timestamp,
   checkbox,
   select,
+  integer,
+  json,
+  float,
 } from "@keystone-next/fields";
 import { document } from "@keystone-next/fields-document";
 import { permissions, rules } from "./access";
@@ -59,6 +62,10 @@ export const lists = createSchema({
       role: relationship({
         ref: "Role.users",
         access: permissions.canManageUsers,
+      }),
+      formations: relationship({
+        ref: "Formation.people",
+        many: true,
       }),
     },
   }),
@@ -136,6 +143,108 @@ export const lists = createSchema({
       name: text(),
       posts: relationship({
         ref: "Post.tags",
+        many: true,
+      }),
+      formations: relationship({
+        ref: "Formation.tags",
+        many: true,
+      }),
+      description: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
+    },
+  }),
+  Image: list({
+    fields: {
+      filesize: integer(),
+      filename: text(),
+      url: text(),
+      mimetype: text(),
+      description: text(),
+    },
+  }),
+  Formation: list({
+    fields: {
+      name: text({
+        isRequired: true,
+      }),
+      acronym: text(),
+      description: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
+      //todo: add relationships!
+      people: relationship({
+        ref: "User.formations",
+        many: true,
+      }),
+      parents: relationship({
+        ref: "Formation.children",
+        many: true,
+      }),
+      children: relationship({
+        ref: "Formation.parents",
+        many: true,
+      }),
+      tags: relationship({
+        ref: "Tag.formations",
+        many: true,
+      }),
+      events: relationship({
+        ref: "Event.formations",
+        many: true,
+      }),
+      posts: relationship({
+        ref: "Post",
+        many: true,
+      }),
+    },
+  }),
+  Event: list({
+    fields: {
+      name: text(),
+      description: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
+      eventStart: timestamp({
+        isRequired: true,
+      }),
+      eventEnd: timestamp(),
+      latitude: float(),
+      longitude: float(),
+      url: text(),
+      formations: relationship({
+        ref: "Formation.events",
+        many: true,
+      }),
+      posts: relationship({
+        ref: "Post",
         many: true,
       }),
     },

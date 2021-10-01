@@ -36,6 +36,27 @@ type Mutation {
   updateTags(data: [TagUpdateArgs!]!): [Tag]
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  createImage(data: ImageCreateInput!): Image
+  createImages(data: [ImageCreateInput!]!): [Image]
+  updateImage(where: ImageWhereUniqueInput!, data: ImageUpdateInput!): Image
+  updateImages(data: [ImageUpdateArgs!]!): [Image]
+  deleteImage(where: ImageWhereUniqueInput!): Image
+  deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
+  createFormation(data: FormationCreateInput!): Formation
+  createFormations(data: [FormationCreateInput!]!): [Formation]
+  updateFormation(
+    where: FormationWhereUniqueInput!
+    data: FormationUpdateInput!
+  ): Formation
+  updateFormations(data: [FormationUpdateArgs!]!): [Formation]
+  deleteFormation(where: FormationWhereUniqueInput!): Formation
+  deleteFormations(where: [FormationWhereUniqueInput!]!): [Formation]
+  createEvent(data: EventCreateInput!): Event
+  createEvents(data: [EventCreateInput!]!): [Event]
+  updateEvent(where: EventWhereUniqueInput!, data: EventUpdateInput!): Event
+  updateEvents(data: [EventUpdateArgs!]!): [Event]
+  deleteEvent(where: EventWhereUniqueInput!): Event
+  deleteEvents(where: [EventWhereUniqueInput!]!): [Event]
   endSession: Boolean!
 }
 
@@ -82,6 +103,13 @@ type User {
   town: String
   website: String
   role: Role
+  formations(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  formationsCount(where: FormationWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -104,6 +132,7 @@ input UserWhereInput {
   town: StringNullableFilter
   website: StringNullableFilter
   role: RoleWhereInput
+  formations: FormationManyRelationFilter
 }
 
 input IDFilter {
@@ -161,6 +190,12 @@ input PostManyRelationFilter {
   none: PostWhereInput
 }
 
+input FormationManyRelationFilter {
+  every: FormationWhereInput
+  some: FormationWhereInput
+  none: FormationWhereInput
+}
+
 input UserWhereUniqueInput {
   id: ID
   email: String
@@ -195,6 +230,7 @@ input UserUpdateInput {
   town: String
   website: String
   role: RoleRelateToOneForUpdateInput
+  formations: FormationRelateToManyForUpdateInput
 }
 
 input PostRelateToManyForUpdateInput {
@@ -208,6 +244,13 @@ input RoleRelateToOneForUpdateInput {
   create: RoleCreateInput
   connect: RoleWhereUniqueInput
   disconnect: Boolean
+}
+
+input FormationRelateToManyForUpdateInput {
+  disconnect: [FormationWhereUniqueInput!]
+  set: [FormationWhereUniqueInput!]
+  create: [FormationCreateInput!]
+  connect: [FormationWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -227,6 +270,7 @@ input UserCreateInput {
   town: String
   website: String
   role: RoleRelateToOneForCreateInput
+  formations: FormationRelateToManyForCreateInput
 }
 
 input PostRelateToManyForCreateInput {
@@ -237,6 +281,11 @@ input PostRelateToManyForCreateInput {
 input RoleRelateToOneForCreateInput {
   create: RoleCreateInput
   connect: RoleWhereUniqueInput
+}
+
+input FormationRelateToManyForCreateInput {
+  create: [FormationCreateInput!]
+  connect: [FormationWhereUniqueInput!]
 }
 
 type Role {
@@ -439,6 +488,18 @@ type Tag {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  formations(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  formationsCount(where: FormationWhereInput! = {}): Int
+  description: Tag_description_DocumentField
+}
+
+type Tag_description_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input TagWhereInput {
@@ -448,6 +509,7 @@ input TagWhereInput {
   id: IDFilter
   name: StringNullableFilter
   posts: PostManyRelationFilter
+  formations: FormationManyRelationFilter
 }
 
 input TagWhereUniqueInput {
@@ -462,6 +524,8 @@ input TagOrderByInput {
 input TagUpdateInput {
   name: String
   posts: PostRelateToManyForUpdateInput
+  formations: FormationRelateToManyForUpdateInput
+  description: JSON
 }
 
 input TagUpdateArgs {
@@ -471,6 +535,297 @@ input TagUpdateArgs {
 
 input TagCreateInput {
   name: String
+  posts: PostRelateToManyForCreateInput
+  formations: FormationRelateToManyForCreateInput
+  description: JSON
+}
+
+type Image {
+  id: ID!
+  filesize: Int
+  filename: String
+  url: String
+  mimetype: String
+  description: String
+}
+
+input ImageWhereInput {
+  AND: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+  id: IDFilter
+  filesize: IntNullableFilter
+  filename: StringNullableFilter
+  url: StringNullableFilter
+  mimetype: StringNullableFilter
+  description: StringNullableFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input ImageWhereUniqueInput {
+  id: ID
+}
+
+input ImageOrderByInput {
+  id: OrderDirection
+  filesize: OrderDirection
+  filename: OrderDirection
+  url: OrderDirection
+  mimetype: OrderDirection
+  description: OrderDirection
+}
+
+input ImageUpdateInput {
+  filesize: Int
+  filename: String
+  url: String
+  mimetype: String
+  description: String
+}
+
+input ImageUpdateArgs {
+  where: ImageWhereUniqueInput!
+  data: ImageUpdateInput!
+}
+
+input ImageCreateInput {
+  filesize: Int
+  filename: String
+  url: String
+  mimetype: String
+  description: String
+}
+
+type Formation {
+  id: ID!
+  name: String
+  acronym: String
+  description: Formation_description_DocumentField
+  people(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  peopleCount(where: UserWhereInput! = {}): Int
+  parents(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  parentsCount(where: FormationWhereInput! = {}): Int
+  children(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  childrenCount(where: FormationWhereInput! = {}): Int
+  tags(
+    where: TagWhereInput! = {}
+    orderBy: [TagOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
+  events(
+    where: EventWhereInput! = {}
+    orderBy: [EventOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Event!]
+  eventsCount(where: EventWhereInput! = {}): Int
+  posts(
+    where: PostWhereInput! = {}
+    orderBy: [PostOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+}
+
+type Formation_description_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input FormationWhereInput {
+  AND: [FormationWhereInput!]
+  OR: [FormationWhereInput!]
+  NOT: [FormationWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  acronym: StringNullableFilter
+  people: UserManyRelationFilter
+  parents: FormationManyRelationFilter
+  children: FormationManyRelationFilter
+  tags: TagManyRelationFilter
+  events: EventManyRelationFilter
+  posts: PostManyRelationFilter
+}
+
+input EventManyRelationFilter {
+  every: EventWhereInput
+  some: EventWhereInput
+  none: EventWhereInput
+}
+
+input FormationWhereUniqueInput {
+  id: ID
+}
+
+input FormationOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  acronym: OrderDirection
+}
+
+input FormationUpdateInput {
+  name: String
+  acronym: String
+  description: JSON
+  people: UserRelateToManyForUpdateInput
+  parents: FormationRelateToManyForUpdateInput
+  children: FormationRelateToManyForUpdateInput
+  tags: TagRelateToManyForUpdateInput
+  events: EventRelateToManyForUpdateInput
+  posts: PostRelateToManyForUpdateInput
+}
+
+input EventRelateToManyForUpdateInput {
+  disconnect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input FormationUpdateArgs {
+  where: FormationWhereUniqueInput!
+  data: FormationUpdateInput!
+}
+
+input FormationCreateInput {
+  name: String
+  acronym: String
+  description: JSON
+  people: UserRelateToManyForCreateInput
+  parents: FormationRelateToManyForCreateInput
+  children: FormationRelateToManyForCreateInput
+  tags: TagRelateToManyForCreateInput
+  events: EventRelateToManyForCreateInput
+  posts: PostRelateToManyForCreateInput
+}
+
+input EventRelateToManyForCreateInput {
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+type Event {
+  id: ID!
+  name: String
+  description: Event_description_DocumentField
+  eventStart: String
+  eventEnd: String
+  latitude: Float
+  longitude: Float
+  url: String
+  formations(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  formationsCount(where: FormationWhereInput! = {}): Int
+  posts(
+    where: PostWhereInput! = {}
+    orderBy: [PostOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+}
+
+type Event_description_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input EventWhereInput {
+  AND: [EventWhereInput!]
+  OR: [EventWhereInput!]
+  NOT: [EventWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  eventStart: DateTimeNullableFilter
+  eventEnd: DateTimeNullableFilter
+  latitude: FloatNullableFilter
+  longitude: FloatNullableFilter
+  url: StringNullableFilter
+  formations: FormationManyRelationFilter
+  posts: PostManyRelationFilter
+}
+
+input FloatNullableFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: FloatNullableFilter
+}
+
+input EventWhereUniqueInput {
+  id: ID
+}
+
+input EventOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  eventStart: OrderDirection
+  eventEnd: OrderDirection
+  latitude: OrderDirection
+  longitude: OrderDirection
+  url: OrderDirection
+}
+
+input EventUpdateInput {
+  name: String
+  description: JSON
+  eventStart: String
+  eventEnd: String
+  latitude: Float
+  longitude: Float
+  url: String
+  formations: FormationRelateToManyForUpdateInput
+  posts: PostRelateToManyForUpdateInput
+}
+
+input EventUpdateArgs {
+  where: EventWhereUniqueInput!
+  data: EventUpdateInput!
+}
+
+input EventCreateInput {
+  name: String
+  description: JSON
+  eventStart: String
+  eventEnd: String
+  latitude: Float
+  longitude: Float
+  url: String
+  formations: FormationRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
 }
 
@@ -516,6 +871,30 @@ type Query {
   ): [Tag!]
   tag(where: TagWhereUniqueInput!): Tag
   tagsCount(where: TagWhereInput! = {}): Int
+  images(
+    where: ImageWhereInput! = {}
+    orderBy: [ImageOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Image!]
+  image(where: ImageWhereUniqueInput!): Image
+  imagesCount(where: ImageWhereInput! = {}): Int
+  formations(
+    where: FormationWhereInput! = {}
+    orderBy: [FormationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Formation!]
+  formation(where: FormationWhereUniqueInput!): Formation
+  formationsCount(where: FormationWhereInput! = {}): Int
+  events(
+    where: EventWhereInput! = {}
+    orderBy: [EventOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Event!]
+  event(where: EventWhereUniqueInput!): Event
+  eventsCount(where: EventWhereInput! = {}): Int
   keystone: KeystoneMeta!
 }
 
