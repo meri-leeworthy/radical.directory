@@ -4,9 +4,11 @@ import {
   relationship,
   password,
   timestamp,
+  checkbox,
   select,
 } from "@keystone-next/fields";
 import { document } from "@keystone-next/fields-document";
+import { permissions, rules } from "./access";
 
 function defaultSlug({ originalInput }: any) {
   const date = new Date();
@@ -23,9 +25,23 @@ function defaultSlug({ originalInput }: any) {
 
 export const lists = createSchema({
   User: list({
+    access: {
+      create: true,
+      read: true,
+      update: rules.canManageUserList,
+      delete: rules.canManageUserList,
+    },
     ui: {
+      hideCreate: (context) => !permissions.canManageUsers(context),
+      hideDelete: (context) => !permissions.canManageUsers(context),
+      itemView: {
+        defaultFieldMode: (context) =>
+          permissions.canManageUsers(context) ? "edit" : "hidden",
+      },
       listView: {
         initialColumns: ["name", "posts"],
+        defaultFieldMode: (context) =>
+          permissions.canManageUsers(context) ? "read" : "hidden",
       },
     },
     fields: {
@@ -33,6 +49,29 @@ export const lists = createSchema({
       email: text({ isRequired: true, isUnique: true }),
       password: password({ isRequired: true }),
       posts: relationship({ ref: "Post.author", many: true }),
+      //i am going to try to add some fields now - surname avatar pronouns bio town website
+      surname: text(),
+      avatar: text(),
+      pronouns: text(),
+      bio: text(),
+      town: text(),
+      website: text(),
+      role: relationship({
+        ref: "Role.users",
+        access: permissions.canManageUsers,
+      }),
+    },
+  }),
+  Role: list({
+    access: permissions.canManageUsers,
+    ui: {
+      isHidden: (context) => !permissions.canManageUsers(context),
+    },
+    fields: {
+      name: text(),
+      canManageContent: checkbox({ defaultValue: false }),
+      canManageUsers: checkbox({ defaultValue: false }),
+      users: relationship({ ref: "User.role", many: true }),
     },
   }),
   Post: list({
@@ -90,9 +129,9 @@ export const lists = createSchema({
     },
   }),
   Tag: list({
-    ui: {
-      isHidden: true,
-    },
+    // ui: {
+    //   isHidden: true,
+    // },
     fields: {
       name: text(),
       posts: relationship({

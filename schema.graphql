@@ -18,6 +18,12 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createRole(data: RoleCreateInput!): Role
+  createRoles(data: [RoleCreateInput!]!): [Role]
+  updateRole(where: RoleWhereUniqueInput!, data: RoleUpdateInput!): Role
+  updateRoles(data: [RoleUpdateArgs!]!): [Role]
+  deleteRole(where: RoleWhereUniqueInput!): Role
+  deleteRoles(where: [RoleWhereUniqueInput!]!): [Role]
   createPost(data: PostCreateInput!): Post
   createPosts(data: [PostCreateInput!]!): [Post]
   updatePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): Post
@@ -69,6 +75,13 @@ type User {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  surname: String
+  avatar: String
+  pronouns: String
+  bio: String
+  town: String
+  website: String
+  role: Role
 }
 
 type PasswordState {
@@ -84,6 +97,13 @@ input UserWhereInput {
   email: StringNullableFilter
   password: PasswordFilter
   posts: PostManyRelationFilter
+  surname: StringNullableFilter
+  avatar: StringNullableFilter
+  pronouns: StringNullableFilter
+  bio: StringNullableFilter
+  town: StringNullableFilter
+  website: StringNullableFilter
+  role: RoleWhereInput
 }
 
 input IDFilter {
@@ -150,6 +170,12 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
+  surname: OrderDirection
+  avatar: OrderDirection
+  pronouns: OrderDirection
+  bio: OrderDirection
+  town: OrderDirection
+  website: OrderDirection
 }
 
 enum OrderDirection {
@@ -162,6 +188,13 @@ input UserUpdateInput {
   email: String
   password: String
   posts: PostRelateToManyForUpdateInput
+  surname: String
+  avatar: String
+  pronouns: String
+  bio: String
+  town: String
+  website: String
+  role: RoleRelateToOneForUpdateInput
 }
 
 input PostRelateToManyForUpdateInput {
@@ -169,6 +202,12 @@ input PostRelateToManyForUpdateInput {
   set: [PostWhereUniqueInput!]
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+input RoleRelateToOneForUpdateInput {
+  create: RoleCreateInput
+  connect: RoleWhereUniqueInput
+  disconnect: Boolean
 }
 
 input UserUpdateArgs {
@@ -181,11 +220,101 @@ input UserCreateInput {
   email: String
   password: String
   posts: PostRelateToManyForCreateInput
+  surname: String
+  avatar: String
+  pronouns: String
+  bio: String
+  town: String
+  website: String
+  role: RoleRelateToOneForCreateInput
 }
 
 input PostRelateToManyForCreateInput {
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+input RoleRelateToOneForCreateInput {
+  create: RoleCreateInput
+  connect: RoleWhereUniqueInput
+}
+
+type Role {
+  id: ID!
+  name: String
+  canManageContent: Boolean
+  canManageUsers: Boolean
+  users(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  usersCount(where: UserWhereInput! = {}): Int
+}
+
+input RoleWhereInput {
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  canManageContent: BooleanNullableFilter
+  canManageUsers: BooleanNullableFilter
+  users: UserManyRelationFilter
+}
+
+input BooleanNullableFilter {
+  equals: Boolean
+  not: BooleanNullableFilter
+}
+
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input RoleWhereUniqueInput {
+  id: ID
+}
+
+input RoleOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  canManageContent: OrderDirection
+  canManageUsers: OrderDirection
+}
+
+input RoleUpdateInput {
+  name: String
+  canManageContent: Boolean
+  canManageUsers: Boolean
+  users: UserRelateToManyForUpdateInput
+}
+
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input RoleUpdateArgs {
+  where: RoleWhereUniqueInput!
+  data: RoleUpdateInput!
+}
+
+input RoleCreateInput {
+  name: String
+  canManageContent: Boolean
+  canManageUsers: Boolean
+  users: UserRelateToManyForCreateInput
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 type Post {
@@ -363,6 +492,14 @@ type Query {
   ): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
+  roles(
+    where: RoleWhereInput! = {}
+    orderBy: [RoleOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Role!]
+  role(where: RoleWhereUniqueInput!): Role
+  rolesCount(where: RoleWhereInput! = {}): Int
   posts(
     where: PostWhereInput! = {}
     orderBy: [PostOrderByInput!]! = []

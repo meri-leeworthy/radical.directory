@@ -22,9 +22,21 @@ const { withAuth } = createAuth({
   listKey: "User",
   identityField: "email",
   secretField: "password",
-  sessionData: "name",
+  sessionData: `id name role {
+    canManageContent
+    canManageUsers
+  }`,
   initFirstItem: {
     fields: ["name", "email", "password"],
+    itemData: {
+      role: {
+        create: {
+          name: "Super User",
+          canManageContent: true,
+          canManageUsers: true,
+        },
+      },
+    },
   },
 });
 
