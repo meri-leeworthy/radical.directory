@@ -26,6 +26,7 @@ function defaultSlug({ originalInput }: any) {
   }`;
 }
 
+// database schema is defined here
 export const lists = createSchema({
   User: list({
     access: {
