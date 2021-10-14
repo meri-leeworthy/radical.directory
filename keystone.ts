@@ -1,4 +1,4 @@
-import { config } from "@keystone-next/keystone/schema";
+import { config } from "@keystone-next/keystone";
 import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
 
@@ -48,7 +48,7 @@ const session = statelessSessions({
 export default withAuth(
   config({
     db: {
-      adapter: "prisma_postgresql",
+      provider: "postgresql",
       url:
         process.env.DATABASE_URL ||
         "postgres://postgres:postgres@localhost:5432/rd-keystone",
@@ -61,7 +61,7 @@ export default withAuth(
     session,
     graphql: {
       apolloConfig: {
-        playground: process.env.NODE_ENV !== "production",
+        introspection: process.env.NODE_ENV !== "production",
       },
     },
   })

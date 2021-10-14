@@ -39,9 +39,9 @@ export const rules = {
     if (session?.itemId === item.id) return true;
     return false;
   },
-  canManageUserList: ({ session }: ItemContext) => {
+  canManageUserList: ({ session }: SessionContext) => {
     if (permissions.canManageUsers({ session })) return true;
     if (!isSignedIn({ session })) return false;
-    return { id: session!.itemId };
+    return { where: { id: { equals: session!.itemId } } };
   },
 };

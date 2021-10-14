@@ -1,4 +1,4 @@
-import { createSchema, list } from "@keystone-next/keystone/schema";
+import { list } from "@keystone-next/keystone";
 import {
   text,
   relationship,
@@ -7,9 +7,8 @@ import {
   checkbox,
   select,
   integer,
-  json,
   float,
-} from "@keystone-next/fields";
+} from "@keystone-next/keystone/fields";
 import { document } from "@keystone-next/fields-document";
 import { permissions, rules } from "./access";
 
@@ -27,13 +26,17 @@ function defaultSlug({ originalInput }: any) {
 }
 
 // database schema is defined here
-export const lists = createSchema({
+export const lists = {
   User: list({
     access: {
-      create: true,
-      read: true,
-      update: rules.canManageUserList,
-      delete: rules.canManageUserList,
+      operation: {
+        create: () => true,
+      },
+      filter: {
+        query: () => true,
+        update: rules.canManageUserList,
+        delete: rules.canManageUserList,
+      },
     },
     ui: {
       hideCreate: (context) => !permissions.canManageUsers(context),
@@ -49,17 +52,17 @@ export const lists = createSchema({
       },
     },
     fields: {
-      name: text({ isRequired: true }),
-      email: text({ isRequired: true, isUnique: true }),
-      password: password({ isRequired: true }),
+      name: text({ validation: { isRequired: true } }),
+      email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
+      password: password({ validation: { isRequired: true } }),
       posts: relationship({ ref: "Post.author", many: true }),
       //i am going to try to add some fields now - surname avatar pronouns bio town website
-      surname: text(),
-      avatar: text(),
-      pronouns: text(),
-      bio: text(),
-      town: text(),
-      website: text(),
+      surname: text({ db: { isNullable: true } }),
+      avatar: text({ db: { isNullable: true } }),
+      pronouns: text({ db: { isNullable: true } }),
+      bio: text({ db: { isNullable: true } }),
+      postcode: text({ db: { isNullable: true } }),
+      website: text({ db: { isNullable: true } }),
       role: relationship({
         ref: "Role.users",
         access: permissions.canManageUsers,
@@ -71,7 +74,11 @@ export const lists = createSchema({
     },
   }),
   Role: list({
-    access: permissions.canManageUsers,
+    access: {
+      operation: {
+        query: ({ session }) => permissions.canManageUsers({ session }),
+      },
+    },
     ui: {
       isHidden: (context) => !permissions.canManageUsers(context),
     },
@@ -86,9 +93,16 @@ export const lists = createSchema({
     fields: {
       title: text(),
       slug: text({
-        defaultValue: defaultSlug,
         ui: { createView: { fieldMode: "hidden" } },
-        isUnique: true,
+        isIndexed: "unique",
+        hooks: {
+          resolveInput: ({ operation, resolvedData, inputData, context }) => {
+            if (operation === "create" && !inputData.slug) {
+              return defaultSlug({ context, inputData });
+            }
+            return resolvedData.slug;
+          },
+        },
       }),
       status: select({
         options: [
@@ -176,7 +190,9 @@ export const lists = createSchema({
   Formation: list({
     fields: {
       name: text({
-        isRequired: true,
+        validation: {
+          isRequired: true,
+        },
       }),
       acronym: text(),
       description: document({
@@ -234,7 +250,9 @@ export const lists = createSchema({
         dividers: true,
       }),
       eventStart: timestamp({
-        isRequired: true,
+        validation: {
+          isRequired: true,
+        },
       }),
       eventEnd: timestamp(),
       latitude: float(),
@@ -250,4 +268,4 @@ export const lists = createSchema({
       }),
     },
   }),
-});
+};
