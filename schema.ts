@@ -56,7 +56,6 @@ export const lists = {
       email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
       password: password({ validation: { isRequired: true } }),
       posts: relationship({ ref: "Post.author", many: true }),
-      //i am going to try to add some fields now - surname avatar pronouns bio town website
       surname: text({ db: { isNullable: true } }),
       avatar: text({ db: { isNullable: true } }),
       pronouns: text({ db: { isNullable: true } }),
