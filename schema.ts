@@ -67,8 +67,8 @@ export const lists = {
         ref: "Role.users",
         access: permissions.canManageUsers,
       }),
-      formations: relationship({
-        ref: "Formation.people",
+      projects: relationship({
+        ref: "Project.people",
         many: true,
       }),
     },
@@ -160,8 +160,8 @@ export const lists = {
         ref: "Post.tags",
         many: true,
       }),
-      formations: relationship({
-        ref: "Formation.tags",
+      projects: relationship({
+        ref: "Project.tags",
         many: true,
       }),
       description: document({
@@ -187,7 +187,7 @@ export const lists = {
       description: text(),
     },
   }),
-  Formation: list({
+  Project: list({
     fields: {
       name: text({
         validation: {
@@ -209,23 +209,23 @@ export const lists = {
       }),
       //todo: add relationships!
       people: relationship({
-        ref: "User.formations",
+        ref: "User.projects",
         many: true,
       }),
       parents: relationship({
-        ref: "Formation.children",
+        ref: "Project.children",
         many: true,
       }),
       children: relationship({
-        ref: "Formation.parents",
+        ref: "Project.parents",
         many: true,
       }),
       tags: relationship({
-        ref: "Tag.formations",
+        ref: "Tag.projects",
         many: true,
       }),
       events: relationship({
-        ref: "Event.formations",
+        ref: "Event.projects",
         many: true,
       }),
       posts: relationship({
@@ -258,8 +258,8 @@ export const lists = {
       latitude: float(),
       longitude: float(),
       url: text(),
-      formations: relationship({
-        ref: "Formation.events",
+      projects: relationship({
+        ref: "Project.events",
         many: true,
       }),
       posts: relationship({

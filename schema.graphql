@@ -45,15 +45,15 @@ type Mutation {
   updateImages(data: [ImageUpdateArgs!]!): [Image]
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
-  createFormation(data: FormationCreateInput!): Formation
-  createFormations(data: [FormationCreateInput!]!): [Formation]
-  updateFormation(
-    where: FormationWhereUniqueInput!
-    data: FormationUpdateInput!
-  ): Formation
-  updateFormations(data: [FormationUpdateArgs!]!): [Formation]
-  deleteFormation(where: FormationWhereUniqueInput!): Formation
-  deleteFormations(where: [FormationWhereUniqueInput!]!): [Formation]
+  createProject(data: ProjectCreateInput!): Project
+  createProjects(data: [ProjectCreateInput!]!): [Project]
+  updateProject(
+    where: ProjectWhereUniqueInput!
+    data: ProjectUpdateInput!
+  ): Project
+  updateProjects(data: [ProjectUpdateArgs!]!): [Project]
+  deleteProject(where: ProjectWhereUniqueInput!): Project
+  deleteProjects(where: [ProjectWhereUniqueInput!]!): [Project]
   createEvent(data: EventCreateInput!): Event
   createEvents(data: [EventCreateInput!]!): [Event]
   updateEvent(where: EventWhereUniqueInput!, data: EventUpdateInput!): Event
@@ -97,13 +97,13 @@ type User {
   postcode: String
   website: String
   role: Role
-  formations(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+  projects(
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  formationsCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -130,7 +130,7 @@ input UserWhereInput {
   postcode: StringNullableFilter
   website: StringNullableFilter
   role: RoleWhereInput
-  formations: FormationManyRelationFilter
+  projects: ProjectManyRelationFilter
 }
 
 input IDFilter {
@@ -213,10 +213,10 @@ input NestedStringNullableFilter {
   not: NestedStringNullableFilter
 }
 
-input FormationManyRelationFilter {
-  every: FormationWhereInput
-  some: FormationWhereInput
-  none: FormationWhereInput
+input ProjectManyRelationFilter {
+  every: ProjectWhereInput
+  some: ProjectWhereInput
+  none: ProjectWhereInput
 }
 
 input UserOrderByInput {
@@ -248,7 +248,7 @@ input UserUpdateInput {
   postcode: String
   website: String
   role: RoleRelateToOneForUpdateInput
-  formations: FormationRelateToManyForUpdateInput
+  projects: ProjectRelateToManyForUpdateInput
 }
 
 input PostRelateToManyForUpdateInput {
@@ -264,11 +264,11 @@ input RoleRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input FormationRelateToManyForUpdateInput {
-  disconnect: [FormationWhereUniqueInput!]
-  set: [FormationWhereUniqueInput!]
-  create: [FormationCreateInput!]
-  connect: [FormationWhereUniqueInput!]
+input ProjectRelateToManyForUpdateInput {
+  disconnect: [ProjectWhereUniqueInput!]
+  set: [ProjectWhereUniqueInput!]
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -288,7 +288,7 @@ input UserCreateInput {
   postcode: String
   website: String
   role: RoleRelateToOneForCreateInput
-  formations: FormationRelateToManyForCreateInput
+  projects: ProjectRelateToManyForCreateInput
 }
 
 input PostRelateToManyForCreateInput {
@@ -301,9 +301,9 @@ input RoleRelateToOneForCreateInput {
   connect: RoleWhereUniqueInput
 }
 
-input FormationRelateToManyForCreateInput {
-  create: [FormationCreateInput!]
-  connect: [FormationWhereUniqueInput!]
+input ProjectRelateToManyForCreateInput {
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
 }
 
 type Role {
@@ -509,13 +509,13 @@ type Tag {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
-  formations(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+  projects(
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  formationsCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
   description: Tag_description_Document
 }
 
@@ -534,7 +534,7 @@ input TagWhereInput {
   id: IDFilter
   name: StringFilter
   posts: PostManyRelationFilter
-  formations: FormationManyRelationFilter
+  projects: ProjectManyRelationFilter
 }
 
 input TagOrderByInput {
@@ -545,7 +545,7 @@ input TagOrderByInput {
 input TagUpdateInput {
   name: String
   posts: PostRelateToManyForUpdateInput
-  formations: FormationRelateToManyForUpdateInput
+  projects: ProjectRelateToManyForUpdateInput
   description: JSON
 }
 
@@ -557,7 +557,7 @@ input TagUpdateArgs {
 input TagCreateInput {
   name: String
   posts: PostRelateToManyForCreateInput
-  formations: FormationRelateToManyForCreateInput
+  projects: ProjectRelateToManyForCreateInput
   description: JSON
 }
 
@@ -627,11 +627,11 @@ input ImageCreateInput {
   description: String
 }
 
-type Formation {
+type Project {
   id: ID!
   name: String
   acronym: String
-  description: Formation_description_Document
+  description: Project_description_Document
   people(
     where: UserWhereInput! = {}
     orderBy: [UserOrderByInput!]! = []
@@ -640,19 +640,19 @@ type Formation {
   ): [User!]
   peopleCount(where: UserWhereInput! = {}): Int
   parents(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  parentsCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  parentsCount(where: ProjectWhereInput! = {}): Int
   children(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  childrenCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  childrenCount(where: ProjectWhereInput! = {}): Int
   tags(
     where: TagWhereInput! = {}
     orderBy: [TagOrderByInput!]! = []
@@ -676,24 +676,24 @@ type Formation {
   postsCount(where: PostWhereInput! = {}): Int
 }
 
-type Formation_description_Document {
+type Project_description_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
-input FormationWhereUniqueInput {
+input ProjectWhereUniqueInput {
   id: ID
 }
 
-input FormationWhereInput {
-  AND: [FormationWhereInput!]
-  OR: [FormationWhereInput!]
-  NOT: [FormationWhereInput!]
+input ProjectWhereInput {
+  AND: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
   id: IDFilter
   name: StringFilter
   acronym: StringFilter
   people: UserManyRelationFilter
-  parents: FormationManyRelationFilter
-  children: FormationManyRelationFilter
+  parents: ProjectManyRelationFilter
+  children: ProjectManyRelationFilter
   tags: TagManyRelationFilter
   events: EventManyRelationFilter
   posts: PostManyRelationFilter
@@ -705,19 +705,19 @@ input EventManyRelationFilter {
   none: EventWhereInput
 }
 
-input FormationOrderByInput {
+input ProjectOrderByInput {
   id: OrderDirection
   name: OrderDirection
   acronym: OrderDirection
 }
 
-input FormationUpdateInput {
+input ProjectUpdateInput {
   name: String
   acronym: String
   description: JSON
   people: UserRelateToManyForUpdateInput
-  parents: FormationRelateToManyForUpdateInput
-  children: FormationRelateToManyForUpdateInput
+  parents: ProjectRelateToManyForUpdateInput
+  children: ProjectRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   events: EventRelateToManyForUpdateInput
   posts: PostRelateToManyForUpdateInput
@@ -730,18 +730,18 @@ input EventRelateToManyForUpdateInput {
   connect: [EventWhereUniqueInput!]
 }
 
-input FormationUpdateArgs {
-  where: FormationWhereUniqueInput!
-  data: FormationUpdateInput!
+input ProjectUpdateArgs {
+  where: ProjectWhereUniqueInput!
+  data: ProjectUpdateInput!
 }
 
-input FormationCreateInput {
+input ProjectCreateInput {
   name: String
   acronym: String
   description: JSON
   people: UserRelateToManyForCreateInput
-  parents: FormationRelateToManyForCreateInput
-  children: FormationRelateToManyForCreateInput
+  parents: ProjectRelateToManyForCreateInput
+  children: ProjectRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   events: EventRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
@@ -761,13 +761,13 @@ type Event {
   latitude: Float
   longitude: Float
   url: String
-  formations(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+  projects(
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  formationsCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
   posts(
     where: PostWhereInput! = {}
     orderBy: [PostOrderByInput!]! = []
@@ -796,7 +796,7 @@ input EventWhereInput {
   latitude: FloatNullableFilter
   longitude: FloatNullableFilter
   url: StringFilter
-  formations: FormationManyRelationFilter
+  projects: ProjectManyRelationFilter
   posts: PostManyRelationFilter
 }
 
@@ -840,7 +840,7 @@ input EventUpdateInput {
   latitude: Float
   longitude: Float
   url: String
-  formations: FormationRelateToManyForUpdateInput
+  projects: ProjectRelateToManyForUpdateInput
   posts: PostRelateToManyForUpdateInput
 }
 
@@ -857,7 +857,7 @@ input EventCreateInput {
   latitude: Float
   longitude: Float
   url: String
-  formations: FormationRelateToManyForCreateInput
+  projects: ProjectRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
 }
 
@@ -911,14 +911,14 @@ type Query {
   ): [Image!]
   image(where: ImageWhereUniqueInput!): Image
   imagesCount(where: ImageWhereInput! = {}): Int
-  formations(
-    where: FormationWhereInput! = {}
-    orderBy: [FormationOrderByInput!]! = []
+  projects(
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
-  ): [Formation!]
-  formation(where: FormationWhereUniqueInput!): Formation
-  formationsCount(where: FormationWhereInput! = {}): Int
+  ): [Project!]
+  project(where: ProjectWhereUniqueInput!): Project
+  projectsCount(where: ProjectWhereInput! = {}): Int
   events(
     where: EventWhereInput! = {}
     orderBy: [EventOrderByInput!]! = []

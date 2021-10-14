@@ -13,20 +13,20 @@ generator client {
 }
 
 model User {
-  id         String      @id @default(cuid())
-  name       String      @default("")
-  email      String      @unique @default("")
-  password   String
-  posts      Post[]      @relation("Post_author")
-  surname    String?
-  avatar     String?
-  pronouns   String?
-  bio        String?
-  postcode   String?
-  website    String?
-  role       Role?       @relation("User_role", fields: [roleId], references: [id])
-  roleId     String?     @map("role")
-  formations Formation[] @relation("Formation_people_User_formations")
+  id       String    @id @default(cuid())
+  name     String    @default("")
+  email    String    @unique @default("")
+  password String
+  posts    Post[]    @relation("Post_author")
+  surname  String?
+  avatar   String?
+  pronouns String?
+  bio      String?
+  postcode String?
+  website  String?
+  role     Role?     @relation("User_role", fields: [roleId], references: [id])
+  roleId   String?   @map("role")
+  projects Project[] @relation("Project_people_User_projects")
 
   @@index([roleId])
 }
@@ -40,27 +40,27 @@ model Role {
 }
 
 model Post {
-  id                   String      @id @default(cuid())
-  title                String      @default("")
-  slug                 String      @unique @default("")
-  status               String?
-  content              Json        @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  publishDate          DateTime?
-  author               User?       @relation("Post_author", fields: [authorId], references: [id])
-  authorId             String?     @map("author")
-  tags                 Tag[]       @relation("Post_tags_Tag_posts")
-  from_Formation_posts Formation[] @relation("Formation_posts_many")
-  from_Event_posts     Event[]     @relation("Event_posts_many")
+  id                 String    @id @default(cuid())
+  title              String    @default("")
+  slug               String    @unique @default("")
+  status             String?
+  content            Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  publishDate        DateTime?
+  author             User?     @relation("Post_author", fields: [authorId], references: [id])
+  authorId           String?   @map("author")
+  tags               Tag[]     @relation("Post_tags_Tag_posts")
+  from_Project_posts Project[] @relation("Project_posts_many")
+  from_Event_posts   Event[]   @relation("Event_posts_many")
 
   @@index([authorId])
 }
 
 model Tag {
-  id          String      @id @default(cuid())
-  name        String      @default("")
-  posts       Post[]      @relation("Post_tags_Tag_posts")
-  formations  Formation[] @relation("Formation_tags_Tag_formations")
-  description Json        @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  posts       Post[]    @relation("Post_tags_Tag_posts")
+  projects    Project[] @relation("Project_tags_Tag_projects")
+  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
 }
 
 model Image {
@@ -72,28 +72,28 @@ model Image {
   description String @default("")
 }
 
-model Formation {
-  id          String      @id @default(cuid())
-  name        String      @default("")
-  acronym     String      @default("")
-  description Json        @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  people      User[]      @relation("Formation_people_User_formations")
-  parents     Formation[] @relation("Formation_children_Formation_parents")
-  children    Formation[] @relation("Formation_children_Formation_parents")
-  tags        Tag[]       @relation("Formation_tags_Tag_formations")
-  events      Event[]     @relation("Event_formations_Formation_events")
-  posts       Post[]      @relation("Formation_posts_many")
+model Project {
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  acronym     String    @default("")
+  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  people      User[]    @relation("Project_people_User_projects")
+  parents     Project[] @relation("Project_children_Project_parents")
+  children    Project[] @relation("Project_children_Project_parents")
+  tags        Tag[]     @relation("Project_tags_Tag_projects")
+  events      Event[]   @relation("Event_projects_Project_events")
+  posts       Post[]    @relation("Project_posts_many")
 }
 
 model Event {
-  id          String      @id @default(cuid())
-  name        String      @default("")
-  description Json        @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   eventStart  DateTime
   eventEnd    DateTime?
   latitude    Float?
   longitude   Float?
-  url         String      @default("")
-  formations  Formation[] @relation("Event_formations_Formation_events")
-  posts       Post[]      @relation("Event_posts_many")
+  url         String    @default("")
+  projects    Project[] @relation("Event_projects_Project_events")
+  posts       Post[]    @relation("Event_posts_many")
 }
