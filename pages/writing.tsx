@@ -4,7 +4,7 @@ import { Footer } from "components/Footer";
 import { Page } from "components/Page";
 import { Back } from "components/Back";
 import { gql } from "@apollo/client";
-import client from "apollo-client";
+import client from "lib/apollo-client";
 import { Node } from "slate";
 import { RDLogo } from "components/RDLogo";
 

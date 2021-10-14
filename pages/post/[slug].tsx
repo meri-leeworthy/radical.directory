@@ -4,7 +4,7 @@ import { Footer } from "components/Footer";
 import { Page } from "components/Page";
 import { RDLogo } from "components/RDLogo";
 import { gql } from "@apollo/client";
-import client from "apollo-client";
+import client from "lib/apollo-client";
 import {
   DocumentRenderer,
   DocumentRendererProps,
