@@ -3,23 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: "Viksjo";
-    src: url("../fonts/viksjo/ViksjoeTrial-RegularItalic.woff2") format("woff2"),
-      url("../fonts/viksjo/ViksjoeTrial-RegularItalic.woff") format("woff"),
-      url("../fonts/bebas-neue/BebasNeue-Bold.woff2") format("woff2"),
-      url("../fonts/bebas-neue/BebasNeue-Bold.woff") format("woff");
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-  }
 
   @font-face {
     font-family: "Viksjo";
-    src: url("../fonts/viksjo/ViksjoeTrial-Regular.woff2") format("woff2"),
-      url("../fonts/viksjo/ViksjoeTrial-Regular.woff") format("woff"),
-      url("../fonts/bebas-neue/BebasNeue-Bold.woff2") format("woff2"),
-      url("../fonts/bebas-neue/BebasNeue-Bold.woff") format("woff");
+    src: url("../fonts/viksjo/ViksjoeWeb-Regular.woff2") format("woff2"),
+      url("../fonts/viksjo/ViksjoeWeb-Regular.woff") format("woff"),
     font-weight: normal;
     font-style: normal;
     font-display: swap;

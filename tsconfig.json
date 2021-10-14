@@ -15,6 +15,12 @@
     "jsx": "preserve",
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "lib/get-fonts.js",
+    "lib/s3-client.js"
+  ],
   "exclude": ["node_modules"]
 }

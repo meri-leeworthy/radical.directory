@@ -7,8 +7,9 @@
     "start": "keystone-next start",
     "build": "keystone-next build",
     "postinstall": "keystone-next postinstall",
+    "fonts": "node lib/get-fonts.js",
     "next-dev": "next dev -p 4000",
-    "next-build": "next build",
+    "next-build": "node lib/get-fonts.js && next build",
     "lint": "next lint"
   },
   "dependencies": {
@@ -20,12 +21,14 @@
     "@keystone-next/keystone": "^26.0.1",
     "@keystone-ui/fields": "^5.0.1",
     "@prisma/generator-helper": "^3.2.1",
+    "aws-sdk": "^2.1007.0",
     "graphql": "^15.6.1",
     "next": "^11.1.2",
     "next-themes": "^0.0.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "s3-client": "^4.4.2",
     "slate": "^0.66.5",
     "slate-react": "^0.66.7",
     "typescript": "^4.3.5"
