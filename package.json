@@ -9,7 +9,7 @@
     "postinstall": "keystone-next postinstall",
     "fonts": "node lib/get-fonts.js",
     "next-dev": "next dev -p 4000",
-    "next-build": "node lib/get-fonts.js && next build",
+    "next-build": "next build",
     "next-start": "next start",
     "lint": "next lint"
   },
