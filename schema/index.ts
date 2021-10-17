@@ -8,6 +8,7 @@ import {
   select,
   integer,
   float,
+  json,
 } from "@keystone-next/keystone/fields";
 import { document } from "@keystone-next/fields-document";
 import { permissions, rules } from "./access";
@@ -56,7 +57,6 @@ export const lists = {
       email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
       password: password({ validation: { isRequired: true } }),
       posts: relationship({ ref: "Post.author", many: true }),
-      surname: text({ db: { isNullable: true } }),
       avatar: text({ db: { isNullable: true } }),
       pronouns: text({ db: { isNullable: true } }),
       bio: text({ db: { isNullable: true } }),
@@ -66,8 +66,20 @@ export const lists = {
         ref: "Role.users",
         access: permissions.canManageUsers,
       }),
-      projects: relationship({
-        ref: "Project.people",
+      memberOf: relationship({
+        ref: "Project.members",
+        many: true,
+      }),
+      eventSubs: relationship({
+        ref: "Event",
+        many: true,
+      }),
+      projectSubs: relationship({
+        ref: "Project.subscribers",
+        many: true,
+      }),
+      tagSubs: relationship({
+        ref: "Tag",
         many: true,
       }),
     },
@@ -127,6 +139,7 @@ export const lists = {
       publishDate: timestamp(),
       author: relationship({
         ref: "User.posts",
+        many: true,
         ui: {
           displayMode: "cards",
           cardFields: ["name", "email"],
@@ -193,7 +206,7 @@ export const lists = {
           isRequired: true,
         },
       }),
-      acronym: text(),
+      acronym: text({ db: { isNullable: true } }),
       description: document({
         formatting: true,
         layouts: [
@@ -207,8 +220,12 @@ export const lists = {
         dividers: true,
       }),
       //todo: add relationships!
-      people: relationship({
-        ref: "User.projects",
+      members: relationship({
+        ref: "User.memberOf",
+        many: true,
+      }),
+      subscribers: relationship({
+        ref: "User.projectSubs",
         many: true,
       }),
       parents: relationship({
@@ -256,6 +273,7 @@ export const lists = {
       eventEnd: timestamp(),
       latitude: float(),
       longitude: float(),
+      location: json(),
       url: text(),
       projects: relationship({
         ref: "Project.events",
@@ -263,6 +281,10 @@ export const lists = {
       }),
       posts: relationship({
         ref: "Post",
+        many: true,
+      }),
+      subscribers: relationship({
+        ref: "User.eventSubs",
         many: true,
       }),
     },
