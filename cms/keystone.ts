@@ -49,9 +49,9 @@ export default withAuth(
   config({
     db: {
       provider: "postgresql",
-      url:
-        process.env.DATABASE_URL ||
-        "postgres://postgres:postgres@localhost:5432/rd-keystone",
+      url: process.env.DB_PASSWORD
+        ? `postgresql://doadmin:${process.env.DB_PASSWORD}@app-375043ea-83f4-478e-b2b5-479d6c35ae5e-do-user-7952506-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require&schema=public`
+        : "postgres://postgres:postgres@localhost:5432/rd-keystone",
       useMigrations: true,
     },
     ui: {
