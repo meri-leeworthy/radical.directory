@@ -1,6 +1,10 @@
 import { config } from "@keystone-next/keystone";
 import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
+import {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageDisabled,
+} from "apollo-server-core";
 
 import { lists } from "./schema";
 
@@ -63,6 +67,11 @@ export default withAuth(
     graphql: {
       apolloConfig: {
         introspection: process.env.NODE_ENV !== "production",
+        plugins: [
+          process.env.NODE_ENV === "production"
+            ? ApolloServerPluginLandingPageDisabled()
+            : ApolloServerPluginLandingPageGraphQLPlayground(),
+        ],
       },
     },
   })

@@ -7,11 +7,11 @@ import { gql } from "@apollo/client";
 import client from "lib/apollo-client";
 import { Node } from "slate";
 import { RDLogo } from "components/RDLogo";
+import { isNonEmptyArray } from "@apollo/client/utilities";
 
 const GET_POSTS = gql`
   query {
-    # don't fetch posts where there is no author
-    posts(where: { NOT: { author: null } }) {
+    posts {
       slug
       title
       author {
@@ -27,9 +27,13 @@ const GET_POSTS = gql`
 type Post = {
   slug: string;
   title: string;
-  author: {
-    name: string;
-  };
+  author:
+    | {
+        name: string;
+      }
+    | {
+        name: string;
+      }[];
   content: {
     document: Node[];
   };
@@ -47,9 +51,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // apply the serialisation to the document property on each post in posts array, return as 'snippet' property
   const getSnippets = (posts: Post[]) => {
     return posts.map((post) => {
+      const authorArray = Array.isArray(post.author)
+        ? post.author.map((author) => author.name)
+        : [post.author.name];
+      //multiple authors rendered as X, Y & Z
+      const joinedNames =
+        authorArray.slice(0, -1).join(", ") +
+        (authorArray[1] ? " & " : "") +
+        authorArray.pop();
       return {
         ...post,
-        author: post.author.name,
+        author: joinedNames,
         content: {
           snippet: serialize(post.content.document),
         },
