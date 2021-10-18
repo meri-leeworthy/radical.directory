@@ -35,22 +35,22 @@ export const lists = {
       },
       filter: {
         query: () => true,
-        update: rules.canManageUserList,
+        // update: rules.canManageUserList,
         delete: rules.canManageUserList,
       },
     },
     ui: {
-      hideCreate: (context) => !permissions.canManageUsers(context),
-      hideDelete: (context) => !permissions.canManageUsers(context),
-      itemView: {
-        defaultFieldMode: (context) =>
-          permissions.canManageUsers(context) ? "edit" : "hidden",
-      },
-      listView: {
-        initialColumns: ["name", "posts"],
-        defaultFieldMode: (context) =>
-          permissions.canManageUsers(context) ? "read" : "hidden",
-      },
+      // hideCreate: (context) => !permissions.canManageUsers(context),
+      // hideDelete: (context) => !permissions.canManageUsers(context),
+      // itemView: {
+      //   defaultFieldMode: (context) =>
+      //     permissions.canManageUsers(context) ? "edit" : "hidden",
+      // },
+      // listView: {
+      //   initialColumns: ["name", "posts"],
+      //   defaultFieldMode: (context) =>
+      //     permissions.canManageUsers(context) ? "read" : "hidden",
+      // },
     },
     fields: {
       name: text({ validation: { isRequired: true } }),
@@ -65,7 +65,7 @@ export const lists = {
       website: text({ db: { isNullable: true } }),
       role: relationship({
         ref: "Role.users",
-        access: permissions.canManageUsers,
+        // access: permissions.canManageUsers,
       }),
       memberOf: relationship({
         ref: "Project.members",
@@ -88,11 +88,11 @@ export const lists = {
   Role: list({
     access: {
       operation: {
-        query: ({ session }) => permissions.canManageUsers({ session }),
+        query: () => true, // ({ session }) => permissions.canManageUsers({ session }),
       },
     },
     ui: {
-      isHidden: (context) => !permissions.canManageUsers(context),
+      isHidden: false, //(context) => !permissions.canManageUsers(context),
     },
     fields: {
       name: text(),
