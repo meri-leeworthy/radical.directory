@@ -1,0 +1,33 @@
+{
+  "name": "rd-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.4.10",
+    "@keystone-next/document-renderer": "^4.0.0",
+    "s3-client": "^4.4.2",
+    "graphql": "^15.5.2",
+    "next": "11.1.0",
+    "next-themes": "^0.0.15",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.2.0",
+    "slate": "^0.66.2",
+    "slate-react": "^0.66.2"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.19",
+    "autoprefixer": "^10.3.2",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.0",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7",
+    "typescript": "4.3.5"
+  }
+}

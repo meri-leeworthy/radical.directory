@@ -57,6 +57,7 @@ export const lists = {
       email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
       password: password({ validation: { isRequired: true } }),
       posts: relationship({ ref: "Post.author", many: true }),
+      surname: text({ db: { isNullable: true } }),
       avatar: text({ db: { isNullable: true } }),
       pronouns: text({ db: { isNullable: true } }),
       bio: text({ db: { isNullable: true } }),
@@ -71,7 +72,7 @@ export const lists = {
         many: true,
       }),
       eventSubs: relationship({
-        ref: "Event",
+        ref: "Event.subscribers",
         many: true,
       }),
       projectSubs: relationship({
@@ -79,7 +80,7 @@ export const lists = {
         many: true,
       }),
       tagSubs: relationship({
-        ref: "Tag",
+        ref: "Tag.subscribers",
         many: true,
       }),
     },
@@ -188,6 +189,14 @@ export const lists = {
         links: true,
         dividers: true,
       }),
+      subscribers: relationship({
+        ref: "User.tagSubs",
+        many: true,
+      }),
+      events: relationship({
+        ref: "Event.tags",
+        many: true,
+      }),
     },
   }),
   Image: list({
@@ -285,6 +294,10 @@ export const lists = {
       }),
       subscribers: relationship({
         ref: "User.eventSubs",
+        many: true,
+      }),
+      tags: relationship({
+        ref: "Tag.events",
         many: true,
       }),
     },

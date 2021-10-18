@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-
   @font-face {
     font-family: "Viksjo";
     src: url("../fonts/viksjo/ViksjoeWeb-Regular.woff2") format("woff2"),
-      url("../fonts/viksjo/ViksjoeWeb-Regular.woff") format("woff"),
+      url("../fonts/viksjo/ViksjoeWeb-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;

@@ -97,13 +97,34 @@ type User {
   postcode: String
   website: String
   role: Role
-  projects(
+  memberOf(
     where: ProjectWhereInput! = {}
     orderBy: [ProjectOrderByInput!]! = []
     take: Int
     skip: Int! = 0
   ): [Project!]
-  projectsCount(where: ProjectWhereInput! = {}): Int
+  memberOfCount(where: ProjectWhereInput! = {}): Int
+  eventSubs(
+    where: EventWhereInput! = {}
+    orderBy: [EventOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Event!]
+  eventSubsCount(where: EventWhereInput! = {}): Int
+  projectSubs(
+    where: ProjectWhereInput! = {}
+    orderBy: [ProjectOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Project!]
+  projectSubsCount(where: ProjectWhereInput! = {}): Int
+  tagSubs(
+    where: TagWhereInput! = {}
+    orderBy: [TagOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Tag!]
+  tagSubsCount(where: TagWhereInput! = {}): Int
 }
 
 type PasswordState {
@@ -130,7 +151,10 @@ input UserWhereInput {
   postcode: StringNullableFilter
   website: StringNullableFilter
   role: RoleWhereInput
-  projects: ProjectManyRelationFilter
+  memberOf: ProjectManyRelationFilter
+  eventSubs: EventManyRelationFilter
+  projectSubs: ProjectManyRelationFilter
+  tagSubs: TagManyRelationFilter
 }
 
 input IDFilter {
@@ -219,6 +243,18 @@ input ProjectManyRelationFilter {
   none: ProjectWhereInput
 }
 
+input EventManyRelationFilter {
+  every: EventWhereInput
+  some: EventWhereInput
+  none: EventWhereInput
+}
+
+input TagManyRelationFilter {
+  every: TagWhereInput
+  some: TagWhereInput
+  none: TagWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -248,7 +284,10 @@ input UserUpdateInput {
   postcode: String
   website: String
   role: RoleRelateToOneForUpdateInput
-  projects: ProjectRelateToManyForUpdateInput
+  memberOf: ProjectRelateToManyForUpdateInput
+  eventSubs: EventRelateToManyForUpdateInput
+  projectSubs: ProjectRelateToManyForUpdateInput
+  tagSubs: TagRelateToManyForUpdateInput
 }
 
 input PostRelateToManyForUpdateInput {
@@ -271,6 +310,20 @@ input ProjectRelateToManyForUpdateInput {
   connect: [ProjectWhereUniqueInput!]
 }
 
+input EventRelateToManyForUpdateInput {
+  disconnect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input TagRelateToManyForUpdateInput {
+  disconnect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  create: [TagCreateInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -288,7 +341,10 @@ input UserCreateInput {
   postcode: String
   website: String
   role: RoleRelateToOneForCreateInput
-  projects: ProjectRelateToManyForCreateInput
+  memberOf: ProjectRelateToManyForCreateInput
+  eventSubs: EventRelateToManyForCreateInput
+  projectSubs: ProjectRelateToManyForCreateInput
+  tagSubs: TagRelateToManyForCreateInput
 }
 
 input PostRelateToManyForCreateInput {
@@ -304,6 +360,16 @@ input RoleRelateToOneForCreateInput {
 input ProjectRelateToManyForCreateInput {
   create: [ProjectCreateInput!]
   connect: [ProjectWhereUniqueInput!]
+}
+
+input EventRelateToManyForCreateInput {
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input TagRelateToManyForCreateInput {
+  create: [TagCreateInput!]
+  connect: [TagWhereUniqueInput!]
 }
 
 type Role {
@@ -391,7 +457,13 @@ type Post {
   status: String
   content: Post_content_Document
   publishDate: DateTime
-  author: User
+  author(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  authorCount(where: UserWhereInput! = {}): Int
   tags(
     where: TagWhereInput! = {}
     orderBy: [TagOrderByInput!]! = []
@@ -422,7 +494,7 @@ input PostWhereInput {
   slug: StringFilter
   status: StringNullableFilter
   publishDate: DateTimeNullableFilter
-  author: UserWhereInput
+  author: UserManyRelationFilter
   tags: TagManyRelationFilter
 }
 
@@ -435,12 +507,6 @@ input DateTimeNullableFilter {
   gt: DateTime
   gte: DateTime
   not: DateTimeNullableFilter
-}
-
-input TagManyRelationFilter {
-  every: TagWhereInput
-  some: TagWhereInput
-  none: TagWhereInput
 }
 
 input PostOrderByInput {
@@ -457,21 +523,8 @@ input PostUpdateInput {
   status: String
   content: JSON
   publishDate: DateTime
-  author: UserRelateToOneForUpdateInput
+  author: UserRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
-}
-
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-}
-
-input TagRelateToManyForUpdateInput {
-  disconnect: [TagWhereUniqueInput!]
-  set: [TagWhereUniqueInput!]
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
 }
 
 input PostUpdateArgs {
@@ -485,18 +538,8 @@ input PostCreateInput {
   status: String
   content: JSON
   publishDate: DateTime
-  author: UserRelateToOneForCreateInput
+  author: UserRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-}
-
-input TagRelateToManyForCreateInput {
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
 }
 
 type Tag {
@@ -517,6 +560,20 @@ type Tag {
   ): [Project!]
   projectsCount(where: ProjectWhereInput! = {}): Int
   description: Tag_description_Document
+  subscribers(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  subscribersCount(where: UserWhereInput! = {}): Int
+  events(
+    where: EventWhereInput! = {}
+    orderBy: [EventOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Event!]
+  eventsCount(where: EventWhereInput! = {}): Int
 }
 
 type Tag_description_Document {
@@ -535,6 +592,8 @@ input TagWhereInput {
   name: StringFilter
   posts: PostManyRelationFilter
   projects: ProjectManyRelationFilter
+  subscribers: UserManyRelationFilter
+  events: EventManyRelationFilter
 }
 
 input TagOrderByInput {
@@ -547,6 +606,8 @@ input TagUpdateInput {
   posts: PostRelateToManyForUpdateInput
   projects: ProjectRelateToManyForUpdateInput
   description: JSON
+  subscribers: UserRelateToManyForUpdateInput
+  events: EventRelateToManyForUpdateInput
 }
 
 input TagUpdateArgs {
@@ -559,6 +620,8 @@ input TagCreateInput {
   posts: PostRelateToManyForCreateInput
   projects: ProjectRelateToManyForCreateInput
   description: JSON
+  subscribers: UserRelateToManyForCreateInput
+  events: EventRelateToManyForCreateInput
 }
 
 type Image {
@@ -632,13 +695,20 @@ type Project {
   name: String
   acronym: String
   description: Project_description_Document
-  people(
+  members(
     where: UserWhereInput! = {}
     orderBy: [UserOrderByInput!]! = []
     take: Int
     skip: Int! = 0
   ): [User!]
-  peopleCount(where: UserWhereInput! = {}): Int
+  membersCount(where: UserWhereInput! = {}): Int
+  subscribers(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  subscribersCount(where: UserWhereInput! = {}): Int
   parents(
     where: ProjectWhereInput! = {}
     orderBy: [ProjectOrderByInput!]! = []
@@ -690,19 +760,14 @@ input ProjectWhereInput {
   NOT: [ProjectWhereInput!]
   id: IDFilter
   name: StringFilter
-  acronym: StringFilter
-  people: UserManyRelationFilter
+  acronym: StringNullableFilter
+  members: UserManyRelationFilter
+  subscribers: UserManyRelationFilter
   parents: ProjectManyRelationFilter
   children: ProjectManyRelationFilter
   tags: TagManyRelationFilter
   events: EventManyRelationFilter
   posts: PostManyRelationFilter
-}
-
-input EventManyRelationFilter {
-  every: EventWhereInput
-  some: EventWhereInput
-  none: EventWhereInput
 }
 
 input ProjectOrderByInput {
@@ -715,19 +780,13 @@ input ProjectUpdateInput {
   name: String
   acronym: String
   description: JSON
-  people: UserRelateToManyForUpdateInput
+  members: UserRelateToManyForUpdateInput
+  subscribers: UserRelateToManyForUpdateInput
   parents: ProjectRelateToManyForUpdateInput
   children: ProjectRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   events: EventRelateToManyForUpdateInput
   posts: PostRelateToManyForUpdateInput
-}
-
-input EventRelateToManyForUpdateInput {
-  disconnect: [EventWhereUniqueInput!]
-  set: [EventWhereUniqueInput!]
-  create: [EventCreateInput!]
-  connect: [EventWhereUniqueInput!]
 }
 
 input ProjectUpdateArgs {
@@ -739,17 +798,13 @@ input ProjectCreateInput {
   name: String
   acronym: String
   description: JSON
-  people: UserRelateToManyForCreateInput
+  members: UserRelateToManyForCreateInput
+  subscribers: UserRelateToManyForCreateInput
   parents: ProjectRelateToManyForCreateInput
   children: ProjectRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   events: EventRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
-}
-
-input EventRelateToManyForCreateInput {
-  create: [EventCreateInput!]
-  connect: [EventWhereUniqueInput!]
 }
 
 type Event {
@@ -760,6 +815,7 @@ type Event {
   eventEnd: DateTime
   latitude: Float
   longitude: Float
+  location: JSON
   url: String
   projects(
     where: ProjectWhereInput! = {}
@@ -775,6 +831,20 @@ type Event {
     skip: Int! = 0
   ): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  subscribers(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  subscribersCount(where: UserWhereInput! = {}): Int
+  tags(
+    where: TagWhereInput! = {}
+    orderBy: [TagOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
 }
 
 type Event_description_Document {
@@ -798,6 +868,8 @@ input EventWhereInput {
   url: StringFilter
   projects: ProjectManyRelationFilter
   posts: PostManyRelationFilter
+  subscribers: UserManyRelationFilter
+  tags: TagManyRelationFilter
 }
 
 input DateTimeFilter {
@@ -839,9 +911,12 @@ input EventUpdateInput {
   eventEnd: DateTime
   latitude: Float
   longitude: Float
+  location: JSON
   url: String
   projects: ProjectRelateToManyForUpdateInput
   posts: PostRelateToManyForUpdateInput
+  subscribers: UserRelateToManyForUpdateInput
+  tags: TagRelateToManyForUpdateInput
 }
 
 input EventUpdateArgs {
@@ -856,9 +931,12 @@ input EventCreateInput {
   eventEnd: DateTime
   latitude: Float
   longitude: Float
+  location: JSON
   url: String
   projects: ProjectRelateToManyForCreateInput
   posts: PostRelateToManyForCreateInput
+  subscribers: UserRelateToManyForCreateInput
+  tags: TagRelateToManyForCreateInput
 }
 
 """

@@ -13,20 +13,23 @@ generator client {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  name     String    @default("")
-  email    String    @unique @default("")
-  password String
-  posts    Post[]    @relation("Post_author")
-  surname  String?
-  avatar   String?
-  pronouns String?
-  bio      String?
-  postcode String?
-  website  String?
-  role     Role?     @relation("User_role", fields: [roleId], references: [id])
-  roleId   String?   @map("role")
-  projects Project[] @relation("Project_people_User_projects")
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  email       String    @unique @default("")
+  password    String
+  posts       Post[]    @relation("Post_author_User_posts")
+  surname     String?
+  avatar      String?
+  pronouns    String?
+  bio         String?
+  postcode    String?
+  website     String?
+  role        Role?     @relation("User_role", fields: [roleId], references: [id])
+  roleId      String?   @map("role")
+  memberOf    Project[] @relation("Project_members_User_memberOf")
+  eventSubs   Event[]   @relation("Event_subscribers_User_eventSubs")
+  projectSubs Project[] @relation("Project_subscribers_User_projectSubs")
+  tagSubs     Tag[]     @relation("Tag_subscribers_User_tagSubs")
 
   @@index([roleId])
 }
@@ -46,13 +49,10 @@ model Post {
   status             String?
   content            Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   publishDate        DateTime?
-  author             User?     @relation("Post_author", fields: [authorId], references: [id])
-  authorId           String?   @map("author")
+  author             User[]    @relation("Post_author_User_posts")
   tags               Tag[]     @relation("Post_tags_Tag_posts")
   from_Project_posts Project[] @relation("Project_posts_many")
   from_Event_posts   Event[]   @relation("Event_posts_many")
-
-  @@index([authorId])
 }
 
 model Tag {
@@ -61,6 +61,8 @@ model Tag {
   posts       Post[]    @relation("Post_tags_Tag_posts")
   projects    Project[] @relation("Project_tags_Tag_projects")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  subscribers User[]    @relation("Tag_subscribers_User_tagSubs")
+  events      Event[]   @relation("Event_tags_Tag_events")
 }
 
 model Image {
@@ -75,9 +77,10 @@ model Image {
 model Project {
   id          String    @id @default(cuid())
   name        String    @default("")
-  acronym     String    @default("")
+  acronym     String?
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  people      User[]    @relation("Project_people_User_projects")
+  members     User[]    @relation("Project_members_User_memberOf")
+  subscribers User[]    @relation("Project_subscribers_User_projectSubs")
   parents     Project[] @relation("Project_children_Project_parents")
   children    Project[] @relation("Project_children_Project_parents")
   tags        Tag[]     @relation("Project_tags_Tag_projects")
@@ -93,7 +96,10 @@ model Event {
   eventEnd    DateTime?
   latitude    Float?
   longitude   Float?
+  location    Json?
   url         String    @default("")
   projects    Project[] @relation("Event_projects_Project_events")
   posts       Post[]    @relation("Event_posts_many")
+  subscribers User[]    @relation("Event_subscribers_User_eventSubs")
+  tags        Tag[]     @relation("Event_tags_Tag_events")
 }
