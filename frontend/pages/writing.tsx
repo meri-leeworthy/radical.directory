@@ -1,4 +1,4 @@
-import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import Link from "next/link";
 import { Footer } from "components/Footer";
 import { Page } from "components/Page";
@@ -7,7 +7,6 @@ import { gql } from "@apollo/client";
 import client from "lib/apollo-client";
 import { Node } from "slate";
 import { RDLogo } from "components/RDLogo";
-import { isNonEmptyArray } from "@apollo/client/utilities";
 
 const GET_POSTS = gql`
   query {
@@ -33,7 +32,8 @@ type Post = {
       }
     | {
         name: string;
-      }[];
+      }[]
+    | [];
   content: {
     document: Node[];
   };
@@ -52,7 +52,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const getSnippets = (posts: Post[]) => {
     return posts.map((post) => {
       const authorArray = Array.isArray(post.author)
-        ? post.author.map((author) => author.name)
+        ? post.author[0]
+          ? post.author.map((author) => author.name)
+          : [""]
         : [post.author.name];
       //multiple authors rendered as X, Y & Z
       const joinedNames =
