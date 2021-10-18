@@ -66,11 +66,12 @@ export default withAuth(
     session,
     graphql: {
       apolloConfig: {
-        introspection: process.env.NODE_ENV !== "production",
+        introspection: true, //process.env.NODE_ENV !== "production",
         plugins: [
-          process.env.NODE_ENV === "production"
-            ? ApolloServerPluginLandingPageDisabled()
-            : ApolloServerPluginLandingPageGraphQLPlayground(),
+          // process.env.NODE_ENV === "production"
+          //   ? ApolloServerPluginLandingPageDisabled()
+          //   :
+          ApolloServerPluginLandingPageGraphQLPlayground(),
         ],
       },
     },
