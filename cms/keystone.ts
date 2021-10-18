@@ -50,7 +50,7 @@ export default withAuth(
     db: {
       provider: "postgresql",
       url: process.env.DB_PASSWORD
-        ? `postgresql://rd-keystone-db:${process.env.DB_PASSWORD}@app-375043ea-83f4-478e-b2b5-479d6c35ae5e-do-user-7952506-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require&schema=public`
+        ? `postgresql://rd-keystone-db:${process.env.DB_PASSWORD}@app-375043ea-83f4-478e-b2b5-479d6c35ae5e-do-user-7952506-0.b.db.ondigitalocean.com:25060/rd-keystone-db?sslmode=require&schema=public`
         : "postgres://postgres:postgres@localhost:5432/rd-keystone",
       useMigrations: true,
     },
