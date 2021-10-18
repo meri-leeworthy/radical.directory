@@ -74,9 +74,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const { data, error } = await client.query({
       query: GET_POSTS,
-      variables: {
-        slug: params?.slug,
-      },
     });
     // error -> 404 (rather than just breaking)
     if (!data || error) return { notFound: true };
