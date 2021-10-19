@@ -58,6 +58,7 @@ model Post {
 model Tag {
   id          String    @id @default(cuid())
   name        String    @default("")
+  slug        String    @unique @default("")
   posts       Post[]    @relation("Post_tags_Tag_posts")
   projects    Project[] @relation("Project_tags_Tag_projects")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
@@ -78,6 +79,7 @@ model Project {
   id          String    @id @default(cuid())
   name        String    @default("")
   acronym     String?
+  slug        String    @unique @default("")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   members     User[]    @relation("Project_members_User_memberOf")
   subscribers User[]    @relation("Project_subscribers_User_projectSubs")
@@ -91,6 +93,7 @@ model Project {
 model Event {
   id          String    @id @default(cuid())
   name        String    @default("")
+  slug        String    @unique @default("")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   eventStart  DateTime
   eventEnd    DateTime?

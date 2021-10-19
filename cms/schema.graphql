@@ -464,6 +464,7 @@ type Post {
     skip: Int! = 0
   ): [User!]
   authorCount(where: UserWhereInput! = {}): Int
+  authorString: String
   tags(
     where: TagWhereInput! = {}
     orderBy: [TagOrderByInput!]! = []
@@ -545,6 +546,7 @@ input PostCreateInput {
 type Tag {
   id: ID!
   name: String
+  slug: String
   posts(
     where: PostWhereInput! = {}
     orderBy: [PostOrderByInput!]! = []
@@ -582,6 +584,7 @@ type Tag_description_Document {
 
 input TagWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input TagWhereInput {
@@ -590,6 +593,7 @@ input TagWhereInput {
   NOT: [TagWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   posts: PostManyRelationFilter
   projects: ProjectManyRelationFilter
   subscribers: UserManyRelationFilter
@@ -599,10 +603,12 @@ input TagWhereInput {
 input TagOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
 }
 
 input TagUpdateInput {
   name: String
+  slug: String
   posts: PostRelateToManyForUpdateInput
   projects: ProjectRelateToManyForUpdateInput
   description: JSON
@@ -617,6 +623,7 @@ input TagUpdateArgs {
 
 input TagCreateInput {
   name: String
+  slug: String
   posts: PostRelateToManyForCreateInput
   projects: ProjectRelateToManyForCreateInput
   description: JSON
@@ -694,6 +701,7 @@ type Project {
   id: ID!
   name: String
   acronym: String
+  slug: String
   description: Project_description_Document
   members(
     where: UserWhereInput! = {}
@@ -752,6 +760,7 @@ type Project_description_Document {
 
 input ProjectWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input ProjectWhereInput {
@@ -761,6 +770,7 @@ input ProjectWhereInput {
   id: IDFilter
   name: StringFilter
   acronym: StringNullableFilter
+  slug: StringFilter
   members: UserManyRelationFilter
   subscribers: UserManyRelationFilter
   parents: ProjectManyRelationFilter
@@ -774,11 +784,13 @@ input ProjectOrderByInput {
   id: OrderDirection
   name: OrderDirection
   acronym: OrderDirection
+  slug: OrderDirection
 }
 
 input ProjectUpdateInput {
   name: String
   acronym: String
+  slug: String
   description: JSON
   members: UserRelateToManyForUpdateInput
   subscribers: UserRelateToManyForUpdateInput
@@ -797,6 +809,7 @@ input ProjectUpdateArgs {
 input ProjectCreateInput {
   name: String
   acronym: String
+  slug: String
   description: JSON
   members: UserRelateToManyForCreateInput
   subscribers: UserRelateToManyForCreateInput
@@ -810,6 +823,7 @@ input ProjectCreateInput {
 type Event {
   id: ID!
   name: String
+  slug: String
   description: Event_description_Document
   eventStart: DateTime
   eventEnd: DateTime
@@ -853,6 +867,7 @@ type Event_description_Document {
 
 input EventWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input EventWhereInput {
@@ -861,6 +876,7 @@ input EventWhereInput {
   NOT: [EventWhereInput!]
   id: IDFilter
   name: StringFilter
+  slug: StringFilter
   eventStart: DateTimeFilter
   eventEnd: DateTimeNullableFilter
   latitude: FloatNullableFilter
@@ -897,6 +913,7 @@ input FloatNullableFilter {
 input EventOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
   eventStart: OrderDirection
   eventEnd: OrderDirection
   latitude: OrderDirection
@@ -906,6 +923,7 @@ input EventOrderByInput {
 
 input EventUpdateInput {
   name: String
+  slug: String
   description: JSON
   eventStart: DateTime
   eventEnd: DateTime
@@ -926,6 +944,7 @@ input EventUpdateArgs {
 
 input EventCreateInput {
   name: String
+  slug: String
   description: JSON
   eventStart: DateTime
   eventEnd: DateTime
