@@ -62,25 +62,26 @@ export const Post = list({
       field: graphql.field({
         type: graphql.String,
         async resolve(item, args, context) {
-          const { authors } = await context.query.Post.findOne({
+          const { author } = await context.query.Post.findOne({
             where: { id: item.id.toString() },
             query: "author { name }",
           });
-          //   const authorArray =
-          //     authors &&
-          //     (Array.isArray(authors)
-          //       ? authors[0]
-          //         ? authors.map((author) => author.name)
-          //         : [""]
-          //       : [authors.name]);
-          //   //multiple authors rendered as X, Y & Z
-          //   const joinedNames =
-          //     authorArray &&
-          //     authorArray.slice(0, -1).join(", ") +
-          //       (authorArray[1] ? " & " : "") +
-          //       authorArray.pop();
-          //   return joinedNames;
-          return authors.toString();
+          const authorArray =
+            author &&
+            (Array.isArray(author)
+              ? author[0]
+                ? author.map((eachAuthor) => eachAuthor.name)
+                : [""]
+              : [author.name]);
+          //multiple authors rendered as X, Y & Z
+          const joinedNames =
+            authorArray &&
+            authorArray.slice(0, -1).join(", ") +
+              (authorArray[1] ? " & " : "") +
+              authorArray.pop();
+          return joinedNames;
+          //   console.log(author);
+          //   return author && author.name;
         },
       }),
     }),
