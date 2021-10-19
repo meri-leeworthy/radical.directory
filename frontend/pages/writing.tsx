@@ -5,7 +5,6 @@ import { Page } from "components/Page";
 import { Back } from "components/Back";
 import { gql } from "@apollo/client";
 import client from "lib/apollo-client";
-import { Node } from "slate";
 import { RDLogo } from "components/RDLogo";
 
 const GET_POSTS = gql`
@@ -13,64 +12,13 @@ const GET_POSTS = gql`
     posts {
       slug
       title
-      author {
-        name
-      }
-      content {
-        document
-      }
+      authorString
+      snippet
     }
   }
 `;
 
-type Post = {
-  slug: string;
-  title: string;
-  author:
-    | {
-        name: string;
-      }
-    | {
-        name: string;
-      }[]
-    | [];
-  content: {
-    document: Node[];
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // turn Slate notes into a string of plaintext.
-  const serialize = (nodes: Node[]) => {
-    const shortNodes = nodes.slice(0, 2);
-    const stringText = shortNodes.map((n) => Node.string(n)).join("\n");
-    // if over 100 char, truncate with "..."
-    return stringText.slice(0, 100) + (stringText.length > 100 ? "..." : "");
-  };
-
-  // apply the serialisation to the document property on each post in posts array, return as 'snippet' property
-  const getSnippets = (posts: Post[]) => {
-    return posts.map((post) => {
-      const authorArray = Array.isArray(post.author)
-        ? post.author[0]
-          ? post.author.map((author) => author.name)
-          : [""]
-        : [post.author.name];
-      //multiple authors rendered as X, Y & Z
-      const joinedNames =
-        authorArray.slice(0, -1).join(", ") +
-        (authorArray[1] ? " & " : "") +
-        authorArray.pop();
-      return {
-        ...post,
-        author: joinedNames,
-        content: {
-          snippet: serialize(post.content.document),
-        },
-      };
-    });
-  };
-
+export const getStaticProps: GetStaticProps = async () => {
   try {
     const { data, error } = await client.query({
       query: GET_POSTS,
@@ -80,7 +28,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         // return modified data
-        posts: getSnippets(data.posts),
+        posts: data.posts,
       },
       revalidate: 10,
     };
@@ -94,10 +42,8 @@ type Props = {
   posts: {
     title: string;
     slug: string;
-    author: string;
-    content: {
-      snippet: string;
-    };
+    authorString: string;
+    snippet: string;
   }[];
 };
 
@@ -115,8 +61,8 @@ const Writing: NextPage<Props> = ({ posts }: Props) => {
               <Link href={"/post/" + post.slug}>
                 <a className="a-unstyled">
                   <h3>{post.title}</h3>
-                  <p className="text-muted">{post.content.snippet}</p>
-                  <p className="text-muted author-line">{post.author}</p>
+                  <p className="text-muted">{post.snippet}</p>
+                  <p className="text-muted author-line">{post.authorString}</p>
 
                   <hr />
                 </a>
