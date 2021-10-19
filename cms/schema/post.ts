@@ -9,6 +9,7 @@ import {
 import { document } from "@keystone-next/fields-document";
 import { graphql } from "@keystone-next/keystone";
 import { defaultSlug } from "./utils";
+import { Node } from "slate";
 
 export const Post = list({
   fields: {
@@ -46,6 +47,26 @@ export const Post = list({
       links: true,
       dividers: true,
     }),
+    snippet: virtual({
+      field: graphql.field({
+        type: graphql.String,
+        async resolve(item, args, context) {
+          const { content } = await context.query.Post.findOne({
+            where: { id: item.id.toString() },
+            query: "content { document }",
+          });
+          const serialise = (nodes: Node[]) => {
+            const shortNodes = nodes.slice(0, 2);
+            const stringText = shortNodes.map((n) => Node.string(n)).join("\n");
+            // if over 100 char, truncate with "..."
+            return (
+              stringText.slice(0, 100) + (stringText.length > 100 ? "..." : "")
+            );
+          };
+          return serialise(content.document);
+        },
+      }),
+    }),
     publishDate: timestamp(),
     author: relationship({
       ref: "User.posts",
@@ -80,8 +101,6 @@ export const Post = list({
               (authorArray[1] ? " & " : "") +
               authorArray.pop();
           return joinedNames;
-          //   console.log(author);
-          //   return author && author.name;
         },
       }),
     }),

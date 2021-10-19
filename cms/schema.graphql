@@ -456,6 +456,7 @@ type Post {
   slug: String
   status: String
   content: Post_content_Document
+  snippet: String
   publishDate: DateTime
   author(
     where: UserWhereInput! = {}
