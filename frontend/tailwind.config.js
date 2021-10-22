@@ -4,7 +4,7 @@ module.exports = {
   darkMode: "class", // or 'media' or 'class'
   theme: {
     fontFamily: {
-      title: ["Viksjo"],
+      title: ["Viksjo", "WorkSans", "sans-serif"],
       sans: ["WorkSans", "sans-serif"],
     },
     extend: {
