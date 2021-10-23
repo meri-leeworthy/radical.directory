@@ -24,14 +24,25 @@ export const Project = list({
       },
     }),
     description: document({
-      formatting: true,
-      layouts: [
-        [1, 1],
-        [1, 1, 1],
-        [2, 1],
-        [1, 2],
-        [1, 2, 1],
-      ],
+      formatting: {
+        inlineMarks: {
+          bold: true,
+          italic: true,
+          code: true,
+        },
+        listTypes: {
+          ordered: true,
+          unordered: true,
+        },
+        alignment: {},
+        headingLevels: [1, 2, 3],
+        blockTypes: {
+          blockquote: true,
+          code: true,
+        },
+        softBreaks: true,
+      },
+      layouts: [[1, 1]],
       links: true,
       dividers: true,
     }),
