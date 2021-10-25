@@ -24,6 +24,7 @@ export const Event = list({
       },
     }),
     description: monoDocument,
+    eventStart: timestamp({ validation: { isRequired: true } }),
     eventEnd: timestamp(),
     latitude: float(),
     longitude: float(),

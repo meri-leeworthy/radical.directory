@@ -35,7 +35,7 @@ export const monoDocument = document({
   relationships: {
     mention: {
       kind: "inline",
-      listKey: "Author",
+      listKey: "User",
       label: "Mention",
       selection: "id name",
     },
