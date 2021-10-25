@@ -1,7 +1,6 @@
 import { list } from "@keystone-next/keystone";
 import { text, relationship } from "@keystone-next/keystone/fields";
-import { document } from "@keystone-next/fields-document";
-import { defaultSlug } from "./utils";
+import { defaultSlug, monoDocument } from "./utils";
 
 export const Project = list({
   fields: {
@@ -23,30 +22,7 @@ export const Project = list({
         },
       },
     }),
-    description: document({
-      formatting: {
-        inlineMarks: {
-          bold: true,
-          italic: true,
-          code: true,
-        },
-        listTypes: {
-          ordered: true,
-          unordered: true,
-        },
-        alignment: {},
-        headingLevels: [1, 2, 3],
-        blockTypes: {
-          blockquote: true,
-          code: true,
-        },
-        softBreaks: true,
-      },
-      layouts: [[1, 1]],
-      links: true,
-      dividers: true,
-    }),
-    //todo: add relationships!
+    description: monoDocument,
     members: relationship({
       ref: "User.memberOf",
       many: true,

@@ -6,8 +6,7 @@ import {
   json,
   relationship,
 } from "@keystone-next/keystone/fields";
-import { document } from "@keystone-next/fields-document";
-import { defaultSlug } from "./utils";
+import { defaultSlug, monoDocument } from "./utils";
 
 export const Event = list({
   fields: {
@@ -24,29 +23,7 @@ export const Event = list({
         },
       },
     }),
-    description: document({
-      formatting: {
-        inlineMarks: {
-          bold: true,
-          italic: true,
-          code: true,
-        },
-        listTypes: {
-          ordered: true,
-          unordered: true,
-        },
-        alignment: {},
-        headingLevels: [1, 2, 3],
-        blockTypes: {
-          blockquote: true,
-          code: true,
-        },
-        softBreaks: true,
-      },
-      layouts: [[1, 1]],
-      links: true,
-      dividers: true,
-    }),
+    description: monoDocument,
     eventEnd: timestamp(),
     latitude: float(),
     longitude: float(),

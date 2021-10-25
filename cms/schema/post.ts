@@ -6,9 +6,8 @@ import {
   relationship,
   virtual,
 } from "@keystone-next/keystone/fields";
-import { document } from "@keystone-next/fields-document";
 import { graphql } from "@keystone-next/keystone";
-import { defaultSlug } from "./utils";
+import { defaultSlug, monoDocument } from "./utils";
 import { Node } from "slate";
 
 export const Post = list({
@@ -35,29 +34,7 @@ export const Post = list({
         displayMode: "segmented-control",
       },
     }),
-    content: document({
-      formatting: {
-        inlineMarks: {
-          bold: true,
-          italic: true,
-          code: true,
-        },
-        listTypes: {
-          ordered: true,
-          unordered: true,
-        },
-        alignment: {},
-        headingLevels: [1, 2, 3],
-        blockTypes: {
-          blockquote: true,
-          code: true,
-        },
-        softBreaks: true,
-      },
-      layouts: [[1, 1]],
-      links: true,
-      dividers: true,
-    }),
+    content: monoDocument,
     snippet: virtual({
       field: graphql.field({
         type: graphql.String,
