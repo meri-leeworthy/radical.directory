@@ -5,10 +5,12 @@
 @layer base {
   @font-face {
     font-family: "Viksjo";
-    src: url("https://rdprivate.radical.directory/fonts/ViksjoeWeb-Regular.woff2")
+    /* src: url("https://rdprivate.radical.directory/fonts/ViksjoeWeb-Regular.woff2")
         format("woff2"),
       url("https://rdprivate.radical.directory/fonts/ViksjoeWeb-Regular.woff")
-        format("woff");
+        format("woff"); */
+    src: url("../fonts/viksjo/ViksjoeWeb-Regular.woff2") format("woff2"),
+      url("../fonts/viksjo/ViksjoeWeb-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
