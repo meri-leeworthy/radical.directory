@@ -3,7 +3,7 @@ import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageDisabled
 } from "apollo-server-core";
 
 import { lists } from "./schema";
@@ -37,16 +37,16 @@ const { withAuth } = createAuth({
         create: {
           name: "Super User",
           canManageContent: true,
-          canManageUsers: true,
-        },
-      },
-    },
-  },
+          canManageUsers: true
+        }
+      }
+    }
+  }
 });
 
 const session = statelessSessions({
   maxAge: sessionMaxAge,
-  secret: sessionSecret,
+  secret: sessionSecret
 });
 
 export default withAuth(
@@ -57,10 +57,10 @@ export default withAuth(
         process.env.NODE_ENV === "production"
           ? process.env.DATABASE_URL || ""
           : "postgres://postgres:postgres@localhost:5432/rd-keystone",
-      useMigrations: true,
+      useMigrations: true
     },
     ui: {
-      isAccessAllowed: (context) => !!context.session?.data,
+      isAccessAllowed: (context) => !!context.session?.data
     },
     lists,
     session,
@@ -71,9 +71,9 @@ export default withAuth(
           // process.env.NODE_ENV === "production"
           //   ? ApolloServerPluginLandingPageDisabled()
           //   :
-          ApolloServerPluginLandingPageGraphQLPlayground(),
-        ],
-      },
-    },
+          ApolloServerPluginLandingPageGraphQLPlayground()
+        ]
+      }
+    }
   })
 );

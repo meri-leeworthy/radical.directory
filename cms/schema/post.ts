@@ -1,12 +1,11 @@
-import { list } from "@keystone-next/keystone";
+import { list, graphql } from "@keystone-next/keystone";
 import {
   text,
   select,
   timestamp,
   relationship,
-  virtual,
+  virtual
 } from "@keystone-next/keystone/fields";
-import { graphql } from "@keystone-next/keystone";
 import { defaultSlug, monoDocument } from "./utils";
 import { Node } from "slate";
 
@@ -22,17 +21,17 @@ export const Post = list({
             return defaultSlug({ context, inputData });
           }
           return resolvedData.slug;
-        },
-      },
+        }
+      }
     }),
     status: select({
       options: [
         { label: "Published", value: "published" },
-        { label: "Draft", value: "draft" },
+        { label: "Draft", value: "draft" }
       ],
       ui: {
-        displayMode: "segmented-control",
-      },
+        displayMode: "segmented-control"
+      }
     }),
     content: monoDocument,
     snippet: virtual({
@@ -41,7 +40,7 @@ export const Post = list({
         async resolve(item, args, context) {
           const { content } = await context.query.Post.findOne({
             where: { id: item.id.toString() },
-            query: "content { document }",
+            query: "content { document }"
           });
           const serialise = (nodes: Node[]) => {
             const shortNodes = nodes.slice(0, 2);
@@ -52,13 +51,13 @@ export const Post = list({
             );
           };
           return serialise(content.document);
-        },
-      }),
+        }
+      })
     }),
     publishDate: timestamp(),
     author: relationship({
       ref: "User.posts",
-      many: true,
+      many: true
       //   ui: {
       //     displayMode: "cards",
       //     cardFields: ["name", "email"],
@@ -73,7 +72,7 @@ export const Post = list({
         async resolve(item, args, context) {
           const { author } = await context.query.Post.findOne({
             where: { id: item.id.toString() },
-            query: "author { name }",
+            query: "author { name }"
           });
           const authorArray =
             author &&
@@ -89,8 +88,8 @@ export const Post = list({
               (authorArray[1] ? " & " : "") +
               authorArray.pop();
           return joinedNames;
-        },
-      }),
+        }
+      })
     }),
     tags: relationship({
       ref: "Tag.posts",
@@ -100,9 +99,9 @@ export const Post = list({
         inlineEdit: { fields: ["name"] },
         linkToItem: true,
         inlineConnect: true,
-        inlineCreate: { fields: ["name"] },
+        inlineCreate: { fields: ["name"] }
       },
-      many: true,
-    }),
-  },
+      many: true
+    })
+  }
 });
