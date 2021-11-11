@@ -35,12 +35,11 @@ const GET_PAGE = gql`
 const componentBlocks = {
   cloudinaryImage: ({ image }: any) => {
     const data = image?.data;
-    console.log(image);
     if (!image) return <div>No Image Selected</div>;
 
     //replace with Next Image if I can get image size from API
     return (
-      <div className="relative max-w-xl max-h-full min-w-full h-96">
+      <div className="relative max-w-xl max-h-full min-w-full">
         <img src={data?.image?.publicUrlTransformed} alt={data?.description} />
       </div>
     );
