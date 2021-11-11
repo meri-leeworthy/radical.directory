@@ -11,29 +11,51 @@ import {
 } from "@keystone-next/document-renderer";
 import { Back } from "components/Back";
 
+//fetch slugs of all posts
+const GET_POSTS = gql`
+  query {
+    posts {
+      slug
+    }
+  }
+`;
+
 // query for a single post by slug
 const GET_PAGE = gql`
   query ($slug: String) {
     post(where: { slug: $slug }) {
       title
       content {
-        document
+        document(hydrateRelationships: true)
       }
     }
   }
 `;
 
+const componentBlocks = {
+  cloudinaryImage: ({ image }: any) => {
+    const data = image?.data;
+    console.log(image);
+    if (!image) return <div>No Image Selected</div>;
+
+    //replace with Next Image if I can get image size from API
+    return (
+      <div className="relative max-w-xl max-h-full min-w-full h-96">
+        <img src={data?.image?.publicUrlTransformed} alt={data?.description} />
+      </div>
+    );
+  },
+};
+
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { data, error } = await client.query({
+    query: GET_POSTS,
+  });
+
   return {
-    paths: [
-      // static generate these post pages at build time
-      {
-        params: {
-          slug: "open-letter",
-        },
-      },
-    ],
-    // if the page wasn't pre-generated, force the user to wait for the server to generate it
+    paths: data.posts.map((post: { slug: string }) => ({
+      params: { slug: post.slug },
+    })),
     fallback: "blocking",
   };
 };
@@ -80,7 +102,10 @@ const Post: NextPage<Props> = ({ post }: Props) => {
         <div className="hidden xl:block p-4 h-2/5 flex-shrink-0"> </div>
 
         <h2>{post.title}</h2>
-        <DocumentRenderer document={post.content.document} />
+        <DocumentRenderer
+          document={post.content.document}
+          componentBlocks={componentBlocks}
+        />
 
         <Back />
         <Footer />
