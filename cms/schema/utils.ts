@@ -1,4 +1,6 @@
 import { document } from "@keystone-next/fields-document";
+import { componentBlocks } from "../components/document-components";
+import "dotenv/config";
 
 export function defaultSlug({ context, inputData }: any) {
   const date = new Date();
@@ -14,6 +16,9 @@ export function defaultSlug({ context, inputData }: any) {
 }
 
 export const monoDocument = document({
+  ui: {
+    views: require.resolve("../components/document-components"),
+  },
   formatting: {
     inlineMarks: {
       bold: true,
@@ -39,8 +44,14 @@ export const monoDocument = document({
       label: "Mention",
       selection: "id name",
     },
+    image: {
+      kind: "prop",
+      listKey: "Image",
+      selection: "id description image { publicUrlTransformed }",
+    },
   },
   layouts: [[1, 1]],
   links: true,
   dividers: true,
+  componentBlocks,
 });

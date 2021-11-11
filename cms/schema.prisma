@@ -68,10 +68,7 @@ model Tag {
 
 model Image {
   id          String @id @default(cuid())
-  filesize    Int?
-  filename    String @default("")
-  url         String @default("")
-  mimetype    String @default("")
+  image       Json?
   description String @default("")
 }
 
