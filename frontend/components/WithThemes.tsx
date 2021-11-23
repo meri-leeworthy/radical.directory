@@ -1,17 +1,13 @@
 import { useTheme } from "next-themes";
 import { FiSun, FiMoon } from "react-icons/fi";
-import Head from "next/head";
 
-type Props = {
-  title: string;
+export const WithThemes = ({
+  children,
+}: {
   children: JSX.Element | JSX.Element[];
-};
-
-export const Page = ({ title, children }: Props) => {
+}) => {
   const { systemTheme, theme, setTheme } = useTheme();
-
   const renderThemeButton = () => {
-    // if (!mounted) return null;
     const currentTheme = theme === "system" ? systemTheme : theme;
     if (currentTheme === "dark") {
       return (
@@ -36,22 +32,10 @@ export const Page = ({ title, children }: Props) => {
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-        <meta
-          name="description"
-          content="A platform for social justice media"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="flex flex-col items-center justify-start min-h-screen xl:flex-row xl:max-h-screen">
-        {children}
+      {children}
+      <div className="bottom-0 flex justify-center w-full px-4 pb-4 md:justify-end md:fixed">
+        {renderThemeButton()}
       </div>
     </>
   );
 };
-
-//this was the last child of the fragment - now moved to WithThemes
-// <div className="bottom-0 flex justify-center w-full px-4 pb-4 md:justify-end md:fixed">
-// {renderThemeButton()}
-// </div>
