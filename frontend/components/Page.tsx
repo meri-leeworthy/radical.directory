@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 import Head from "next/head";
 
@@ -10,11 +10,11 @@ type Props = {
 
 export const Page = ({ title, children }: Props) => {
   const { systemTheme, theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   const renderThemeButton = () => {
     // if (!mounted) return null;

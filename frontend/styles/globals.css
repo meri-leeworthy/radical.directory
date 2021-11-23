@@ -160,6 +160,30 @@
   abbr.logo-abbr {
     text-decoration: none;
   }
+
+  h1 {
+    @apply text-2xl sm:text-xs lg:text-3xl xl:text-4xl;
+  }
+
+  .form-card {
+    @apply flex flex-col items-center p-4 m-8 mt-20 text-black bg-gray-300 border border-white rounded-xl;
+  }
+
+  .form-card h1 {
+    @apply text-xl;
+  }
+
+  .form-card form {
+    @apply flex flex-col m-4 space-y-3;
+  }
+
+  .form-card form fieldset {
+    @apply flex justify-between space-x-2;
+  }
+
+  .form-card form fieldset input {
+    @apply dark:bg-gray-400 rounded px-2;
+  }
 }
 
 html,
