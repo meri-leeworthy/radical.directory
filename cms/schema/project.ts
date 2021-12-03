@@ -1,8 +1,9 @@
-import { list } from "@keystone-next/keystone";
-import { text, relationship } from "@keystone-next/keystone/fields";
+import { list } from "@keystone-6/core";
+import { text, relationship } from "@keystone-6/core/fields";
 import { defaultSlug, monoDocument } from "./utils";
+import { Lists } from ".keystone/types";
 
-export const Project = list({
+export const Project: Lists.Project = list({
   fields: {
     name: text({
       validation: {
@@ -18,7 +19,7 @@ export const Project = list({
           if (operation === "create" && !inputData.slug) {
             return defaultSlug({ context, inputData });
           }
-          return resolvedData.slug;
+          return resolvedData.slug || null;
         },
       },
     }),

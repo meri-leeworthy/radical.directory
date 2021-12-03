@@ -1,19 +1,29 @@
-import { document } from "@keystone-next/fields-document";
+import { document } from "@keystone-6/fields-document";
 import { componentBlocks } from "../components/document-components";
 import "dotenv/config";
+import cuid from "cuid";
 
 export function defaultSlug({ context, inputData }: any) {
-  const date = new Date();
+  // const date = new Date();
   return `${
     inputData?.title
       ?.trim()
       ?.toLowerCase()
       ?.replace(/[^\w ]+/g, "")
       ?.replace(/ +/g, "-") ?? ""
-  }-${date?.getFullYear() ?? ""}${date?.getMonth() + 1 ?? ""}${
-    date?.getDate() ?? ""
-  }`;
+  }-${cuid.slug()}`;
 }
+
+// formerly:
+// ${
+//   inputData?.title
+//     ?.trim()
+//     ?.toLowerCase()
+//     ?.replace(/[^\w ]+/g, "")
+//     ?.replace(/ +/g, "-") ?? ""
+// }-${date?.getFullYear() ?? ""}${date?.getMonth() + 1 ?? ""}${
+//   date?.getDate() ?? ""
+// }
 
 export const monoDocument = document({
   ui: {

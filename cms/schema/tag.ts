@@ -1,9 +1,10 @@
-import { list } from "@keystone-next/keystone";
-import { text, relationship } from "@keystone-next/keystone/fields";
-import { document } from "@keystone-next/fields-document";
+import { list } from "@keystone-6/core";
+import { text, relationship } from "@keystone-6/core/fields";
+import { document } from "@keystone-6/fields-document";
 import { defaultSlug } from "./utils";
+import { Lists } from ".keystone/types";
 
-export const Tag = list({
+export const Tag: Lists.Tag = list({
   // ui: {
   //   isHidden: true,
   // },
@@ -17,7 +18,7 @@ export const Tag = list({
           if (operation === "create" && !inputData.slug) {
             return defaultSlug({ context, inputData });
           }
-          return resolvedData.slug;
+          return resolvedData.slug || null;
         },
       },
     }),

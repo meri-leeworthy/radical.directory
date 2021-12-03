@@ -166,7 +166,7 @@
   }
 
   .form-card {
-    @apply flex flex-col items-center p-4 m-8 mt-20 text-black bg-gray-300 border border-white rounded-xl;
+    @apply flex flex-col items-center p-4 m-8 mt-20 border-black border-4;
   }
 
   .form-card h1 {
@@ -174,15 +174,16 @@
   }
 
   .form-card form {
-    @apply flex flex-col m-4 space-y-3;
+    @apply flex flex-col my-4 space-y-3;
   }
 
-  .form-card form fieldset {
-    @apply flex justify-between space-x-2;
+  .form-card form div {
+    @apply flex justify-between;
   }
 
-  .form-card form fieldset input {
-    @apply dark:bg-gray-400 rounded px-2;
+  .form-card form div input,
+  textarea {
+    @apply dark:bg-gray-400 rounded px-2 ml-2 border border-gray-300;
   }
 }
 

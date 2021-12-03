@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { LOGIN } from "lib/apollo/queries";
+import { App } from "components/template/App";
 
 const NEW_USER = gql`
   mutation NewUser($name: String, $email: String, $password: String) {
     createUser(data: { name: $name, email: $email, password: $password }) {
-      name
+      id
     }
   }
 `;
 
 const NewUser: NextPage = () => {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -27,27 +32,54 @@ const NewUser: NextPage = () => {
   };
 
   let [newUser, { data, loading, error }] = useMutation(NEW_USER);
+  let [login, { data: loginData, loading: loginLoading, error: loginError }] =
+    useMutation(LOGIN);
+
+  const runLogin = async () => {
+    console.log("logging in");
+    await login({
+      variables: {
+        email: form.email,
+        password: form.password,
+      },
+    });
+    console.log(loginData || loginError);
+  };
 
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(form);
-    newUser({
+    await newUser({
       variables: {
         name: form.name,
         email: form.email,
         password: form.password,
       },
     });
+    await runLogin();
+    console.log(loginData || loginError);
   };
-  if (data) return <>Submitted!</>;
+
+  console.log(`data ${!!data}, !loading ${!loading}, !loginData ${!loginData}`);
+
+  // if (data && !loading && !loginResult.data) {
+  //   runLogin();
+  // }
+
+  if (loginData) {
+    console.log(loginData.authenticateUserWithPassword.item?.id);
+    // router.push(`/user/${loginData.authenticateUserWithPassword.item.id}`);
+    router.push("/user/edit");
+  }
+
   if (error) return <>{`submission error! ${error.message}`}</>;
 
   return (
-    <div className="flex flex-col items-center w-screen">
+    <App title="Create New Account">
       <div className="form-card">
         <h1>Create New Account</h1>
         <form onSubmit={submitForm}>
-          <fieldset>
+          <div>
             <label htmlFor="name">Name</label>
             <input
               type="text"
@@ -55,8 +87,8 @@ const NewUser: NextPage = () => {
               value={form.name}
               onChange={changeHandler}
             />
-          </fieldset>
-          <fieldset>
+          </div>
+          <div>
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -64,8 +96,8 @@ const NewUser: NextPage = () => {
               value={form.email}
               onChange={changeHandler}
             />
-          </fieldset>
-          <fieldset>
+          </div>
+          <div>
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -73,16 +105,21 @@ const NewUser: NextPage = () => {
               value={form.password}
               onChange={changeHandler}
             />
-          </fieldset>
-          <div className="flex justify-center">
-            <button type="submit" className="px-2 border border-white rounded">
+          </div>
+          <div className="flex justify-center space-x-2">
+            <button type="submit" className="px-2 bg-white rounded shadow">
               Create Account
             </button>
+            <Link href="/login">
+              <a className="px-2 bg-white rounded shadow">Login</a>
+            </Link>
           </div>
           {loading && "submitting..."}
+          {error && `submission error! ${error}`}
+          {data && `successfully created account! redirecting...`}
         </form>
       </div>
-    </div>
+    </App>
   );
 };
 

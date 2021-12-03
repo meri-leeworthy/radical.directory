@@ -1,7 +1,8 @@
-import { config } from "@keystone-next/keystone";
-import { statelessSessions } from "@keystone-next/keystone/session";
-import { createAuth } from "@keystone-next/auth";
+import { config } from "@keystone-6/core";
+import { statelessSessions } from "@keystone-6/core/session";
+import { createAuth } from "@keystone-6/auth";
 import { lists } from "./schema";
+import { insertSeedData } from "./seed";
 
 let sessionSecret = process.env.SESSION_SECRET;
 
@@ -42,6 +43,10 @@ const { withAuth } = createAuth({
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
+  // secure: true,
+  // path: "/",
+  // domain: "localhost",
+  // sameSite: "none",
 });
 
 export default withAuth(
@@ -53,6 +58,11 @@ export default withAuth(
           ? process.env.DATABASE_URL || ""
           : "postgres://postgres:postgres@localhost:5432/rd-keystone",
       useMigrations: true,
+      async onConnect(context) {
+        if (process.argv.includes("--seed-data")) {
+          await insertSeedData(context);
+        }
+      },
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
@@ -61,8 +71,8 @@ export default withAuth(
     session,
     server: {
       cors: {
-        origin: "*",
-        // credentials: true,
+        origin: ["http://localhost:4000", "https://radical.directory"],
+        credentials: true,
       },
     },
     graphql: {

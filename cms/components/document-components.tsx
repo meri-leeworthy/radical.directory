@@ -3,7 +3,7 @@ import {
   component,
   fields,
   NotEditable,
-} from "@keystone-next/fields-document/component-blocks";
+} from "@keystone-6/fields-document/component-blocks";
 
 // naming the export componentBlocks is important because the Admin UI
 // expects to find the components like on the componentBlocks export

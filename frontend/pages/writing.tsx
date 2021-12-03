@@ -1,10 +1,10 @@
 import type { NextPage, GetStaticProps } from "next";
 import Link from "next/link";
 import { Footer } from "components/Footer";
-import { Page } from "components/Page";
+import { Landing } from "components/template/Landing";
 import { Back } from "components/Back";
 import { gql } from "@apollo/client";
-import client from "lib/apollo-client";
+import client from "lib/apollo/client";
 import { RDLogo } from "components/RDLogo";
 
 const GET_POSTS = gql`
@@ -49,11 +49,11 @@ type Props = {
 
 const Writing: NextPage<Props> = ({ posts }: Props) => {
   return (
-    <Page title="Writing">
+    <Landing title="Writing">
       <RDLogo />
 
       <main className="article">
-        <div className="hidden xl:block p-4 h-2/5 flex-shrink-0"> </div>
+        <div className="flex-shrink-0 hidden p-4 xl:block h-2/5"> </div>
         <h2>Writing</h2>
         {posts.map((post) => {
           return (
@@ -75,7 +75,7 @@ const Writing: NextPage<Props> = ({ posts }: Props) => {
 
         <Footer />
       </main>
-    </Page>
+    </Landing>
   );
 };
 

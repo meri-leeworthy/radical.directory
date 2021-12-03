@@ -7,7 +7,7 @@ type Props = {
   children: JSX.Element | JSX.Element[];
 };
 
-export const Page = ({ title, children }: Props) => {
+export const Landing = ({ title, children }: Props) => {
   const { systemTheme, theme, setTheme } = useTheme();
 
   const renderThemeButton = () => {
@@ -38,11 +38,6 @@ export const Page = ({ title, children }: Props) => {
     <>
       <Head>
         <title>{title}</title>
-        <meta
-          name="description"
-          content="A platform for social justice media"
-        />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col items-center justify-start min-h-screen xl:flex-row xl:max-h-screen">
         {children}

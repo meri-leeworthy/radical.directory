@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Footer } from "components/Footer";
-import { Page } from "components/Page";
+import { Landing } from "components/template/Landing";
 
 const manifesto = [
   "fuck colonialism.",
@@ -64,21 +64,21 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <Page title="Radical Directory">
-      <div className="min-h-screen w-full flex flex-col items-center justify-center xl:flex-row xl:max-h-screen">
-        <header className="flex-grow flex flex-col px-4 w-full sm:w-2/3 max-w-screen-md h-screen justify-center xl:max-w-screen-sm xl:flex-grow">
-          <h1 className="p-4 text-5xl md:text-6xl font-title border-4 text-center border-black self-start dark:border-gray-300 xl:self-center xl:fixed">
+    <Landing title="Radical Directory">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen xl:flex-row xl:max-h-screen">
+        <header className="flex flex-col justify-center flex-grow w-full h-screen max-w-screen-md px-4 sm:w-2/3 xl:max-w-screen-sm xl:flex-grow">
+          <h1 className="self-start p-4 text-5xl text-center border-4 border-black md:text-6xl font-title dark:border-gray-300 xl:self-center xl:fixed">
             Radical <br /> Directory
           </h1>
 
-          <h2 className="mt-20 text-3xl md:text-4xl font-sans font-bold text-right self-end xl:hidden">
+          <h2 className="self-end mt-20 font-sans text-3xl font-bold text-right md:text-4xl xl:hidden">
             A platform for <br /> social justice media
           </h2>
         </header>
 
-        <main className="px-4 flex flex-col items-center justify-center max-w-lg xl:max-h-screen xl:justify-start xl:flex-grow">
-          <div className="hidden xl:flex xl:flex-shrink-0 h-screen xl:justify-center">
-            <h2 className="mt-20 text-3xl md:text-4xl font-sans font-bold self-center text-center xl:mt-0">
+        <main className="flex flex-col items-center justify-center max-w-lg px-4 xl:max-h-screen xl:justify-start xl:flex-grow">
+          <div className="hidden h-screen xl:flex xl:flex-shrink-0 xl:justify-center">
+            <h2 className="self-center mt-20 font-sans text-3xl font-bold text-center md:text-4xl xl:mt-0">
               A platform for <br /> social justice media
             </h2>
           </div>
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
             broadcasters and media-makers, we want to create a new
             community-controlled platform that amplifies grassroots action.
           </p>
-          <b className="text-xl mt-6 font-bold tracking-wider text-center">
+          <b className="mt-6 text-xl font-bold tracking-wider text-center">
             {manifesto[statement]}
           </b>
           <p className="pg">
@@ -96,7 +96,7 @@ const Home: NextPage = () => {
             we&apos;re organising, the fights we&apos;re winning and the fights
             we need help with.
           </p>
-          <div className="flex items-stretch justify-center flex-wrap max-w-3xl flex-col md:flex-row mt-10">
+          <div className="flex flex-col flex-wrap items-stretch justify-center max-w-3xl mt-10 md:flex-row">
             <Link href="/post/open-letter">
               <a className="card">
                 <h2>💌 Open Letter &rarr;</h2>
@@ -137,7 +137,7 @@ const Home: NextPage = () => {
           <Footer />
         </main>
       </div>
-    </Page>
+    </Landing>
   );
 };
 

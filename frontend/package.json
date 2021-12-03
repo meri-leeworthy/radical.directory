@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
-    "@keystone-next/document-renderer": "^4.0.0",
+    "@keystone-next/document-renderer": "^9.0.0",
     "@tailwindcss/forms": "^0.3.4",
     "graphql": "^15.5.2",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "next": "11.1.0",
     "next-themes": "^0.0.15",
     "react": "17.0.2",
