@@ -4,8 +4,9 @@ import { NextPage } from "next";
 import { useDebounce } from "lib/utils";
 import Link from "next/link";
 import { App } from "components/template/App";
-import { authenticatedUser } from "lib/apollo/cache";
+import { authenticatedUserVar } from "lib/apollo/cache";
 import { GET_USER_PROFILE, UPDATE_USER } from "lib/apollo/queries";
+import { FiEdit3, FiCheck, FiMoreHorizontal } from "react-icons/fi";
 
 const EditProfile: NextPage = () => {
   let {
@@ -14,7 +15,7 @@ const EditProfile: NextPage = () => {
     error: initialError,
   } = useQuery(GET_USER_PROFILE, {
     variables: {
-      id: authenticatedUser().id,
+      id: authenticatedUserVar().id,
     },
   });
 
@@ -110,10 +111,16 @@ const EditProfile: NextPage = () => {
               />
             </div>
             <div className="flex justify-center space-x-2">
-              {(loading || form !== debouncedForm) && "..."}
-              {data && form === debouncedForm && "saved."}
+              {form !== debouncedForm ? (
+                <FiEdit3 />
+              ) : loading ? (
+                <FiMoreHorizontal />
+              ) : (
+                data && <FiCheck />
+              )}
+
               <Link href="/user/posts">
-                <a className="px-2 bg-white rounded shadow">My Posts</a>
+                <a className="button">My Posts</a>
               </Link>
             </div>
           </form>
