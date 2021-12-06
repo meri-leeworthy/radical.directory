@@ -12,7 +12,7 @@ export const WithThemes = ({
     if (currentTheme === "dark") {
       return (
         <button
-          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white"
+          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white lil-block-shadow dark:lil-block-shadow-dark"
           onClick={() => setTheme("light")}
         >
           <FiSun />
@@ -21,7 +21,7 @@ export const WithThemes = ({
     } else {
       return (
         <button
-          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white"
+          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white lil-block-shadow dark:lil-block-shadow-dark"
           onClick={() => setTheme("dark")}
         >
           <FiMoon />

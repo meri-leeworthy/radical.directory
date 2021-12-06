@@ -23,6 +23,15 @@ export const LOGOUT = gql`
   }
 `;
 
+export const GET_USER_NAME = gql`
+  query ($id: ID) {
+    user(where: { id: $id }) {
+      name
+      id
+    }
+  }
+`;
+
 export const GET_USER_PROFILE = gql`
   query ($id: ID) {
     user(where: { id: $id }) {
@@ -30,6 +39,7 @@ export const GET_USER_PROFILE = gql`
       surname
       email
       bio
+      id
     }
   }
 `;
@@ -48,6 +58,13 @@ export const UPDATE_USER = gql`
       name
       surname
       bio
+      id
     }
+  }
+`;
+
+export const AUTHENTICATED_USER = gql`
+  query {
+    authenticatedUser @client
   }
 `;

@@ -165,8 +165,24 @@
     @apply text-2xl sm:text-xs lg:text-3xl xl:text-4xl;
   }
 
+  .block-shadow {
+    box-shadow: 3px 3px 0px black;
+  }
+
+  .block-shadow-dark {
+    box-shadow: 3px 3px 0px white;
+  }
+
+  .lil-block-shadow {
+    box-shadow: 1px 1px 0px rgba(55, 65, 81, 1);
+  }
+
+  .lil-block-shadow-dark {
+    box-shadow: 1px 1px 0px white;
+  }
+
   .form-card {
-    @apply flex flex-col items-center p-4 m-8 mt-20 border-black border-4;
+    @apply flex flex-col items-center p-4 m-8 mt-20 border-black dark:border-gray-300 border block-shadow dark:block-shadow-dark;
   }
 
   .form-card h1 {
@@ -183,7 +199,11 @@
 
   .form-card form div input,
   textarea {
-    @apply dark:bg-gray-400 rounded px-2 ml-2 border border-gray-300;
+    @apply dark:bg-black px-2 ml-2 focus:outline-none border focus:border-gray-700 dark:focus:border-gray-300;
+  }
+
+  .button {
+    @apply px-2 bg-white border border-black dark:bg-black dark:border-white lil-block-shadow dark:lil-block-shadow-dark;
   }
 }
 

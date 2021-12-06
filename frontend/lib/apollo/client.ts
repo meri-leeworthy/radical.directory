@@ -2,8 +2,14 @@ import { ApolloClient, HttpLink, gql } from "@apollo/client";
 import { cache } from "./cache";
 
 export const typeDefs = gql`
+  type AuthenticatedUser {
+    id: String
+    name: String
+  }
+
   extend type Query {
     isLoggedIn: Boolean!
+    authenticatedUser: AuthenticatedUser
   }
 `;
 

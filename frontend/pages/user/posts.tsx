@@ -5,7 +5,7 @@ import { App } from "components/template/App";
 import { Back } from "components/Back";
 import { gql, useQuery } from "@apollo/client";
 import { RDLogo } from "components/RDLogo";
-import { authenticatedUser } from "lib/apollo/cache";
+import { authenticatedUserVar } from "lib/apollo/cache";
 
 const GET_USER_POSTS = gql`
   query ($id: ID!) {
@@ -56,7 +56,7 @@ const RenderPosts = ({ posts }: Posts) => {
 const UserPosts: NextPage = () => {
   const { data, loading, error } = useQuery(GET_USER_POSTS, {
     variables: {
-      id: authenticatedUser().id,
+      id: authenticatedUserVar().id,
     },
   });
 

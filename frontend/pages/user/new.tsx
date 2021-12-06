@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { LOGIN } from "lib/apollo/queries";
 import { App } from "components/template/App";
+import { authenticatedUserVar } from "lib/apollo/cache";
 
 const NEW_USER = gql`
   mutation NewUser($name: String, $email: String, $password: String) {
@@ -68,6 +69,14 @@ const NewUser: NextPage = () => {
 
   if (loginData) {
     console.log(loginData.authenticateUserWithPassword.item?.id);
+    localStorage.setItem(
+      "userId",
+      loginData.authenticateUserWithPassword.item.id as string
+    );
+    authenticatedUserVar({
+      name: loginData.authenticateUserWithPassword.item.name,
+      id: loginData.authenticateUserWithPassword.item.id,
+    });
     // router.push(`/user/${loginData.authenticateUserWithPassword.item.id}`);
     router.push("/user/edit");
   }
@@ -107,11 +116,11 @@ const NewUser: NextPage = () => {
             />
           </div>
           <div className="flex justify-center space-x-2">
-            <button type="submit" className="px-2 bg-white rounded shadow">
+            <button type="submit" className="button">
               Create Account
             </button>
             <Link href="/login">
-              <a className="px-2 bg-white rounded shadow">Login</a>
+              <a className="button">Login</a>
             </Link>
           </div>
           {loading && "submitting..."}

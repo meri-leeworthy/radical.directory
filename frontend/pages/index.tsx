@@ -67,7 +67,7 @@ const Home: NextPage = () => {
     <Landing title="Radical Directory">
       <div className="flex flex-col items-center justify-center w-full min-h-screen xl:flex-row xl:max-h-screen">
         <header className="flex flex-col justify-center flex-grow w-full h-screen max-w-screen-md px-4 sm:w-2/3 xl:max-w-screen-sm xl:flex-grow">
-          <h1 className="self-start p-4 text-5xl text-center border-4 border-black md:text-6xl font-title dark:border-gray-300 xl:self-center xl:fixed">
+          <h1 className="self-start p-4 text-5xl text-center border border-black rounded-t-full md:text-6xl font-title dark:border-gray-300 xl:self-center xl:fixed block-shadow dark:block-shadow-dark">
             Radical <br /> Directory
           </h1>
 

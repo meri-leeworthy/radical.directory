@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { LOGIN } from "lib/apollo/queries";
 import { App } from "components/template/App";
-import { authenticatedUser } from "lib/apollo/cache";
+import { authenticatedUserVar } from "lib/apollo/cache";
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -36,7 +36,11 @@ const Login: NextPage = () => {
     });
   };
   if (data?.authenticateUserWithPassword.item) {
-    authenticatedUser({
+    localStorage.setItem(
+      "userId",
+      data.authenticateUserWithPassword.item.id as string
+    );
+    authenticatedUserVar({
       name: data.authenticateUserWithPassword.item.name,
       id: data.authenticateUserWithPassword.item.id,
     });
@@ -74,11 +78,11 @@ const Login: NextPage = () => {
             />
           </div>
           <div className="flex justify-center space-x-2">
-            <button type="submit" className="px-2 bg-white rounded shadow">
+            <button type="submit" className="button">
               Login
             </button>
             <Link href="/newuser">
-              <a className="px-2 bg-white rounded shadow">New Account</a>
+              <a className="button">New Account</a>
             </Link>
           </div>
           {loading && "submitting..."}
