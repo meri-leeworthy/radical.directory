@@ -20,7 +20,12 @@ export const Header: React.FC<Props> = ({ name, isLoggedIn }: Props) => {
       </Link>
 
       <nav className="flex items-center space-x-4 flex-nowrap">
-        <div>Hello {name}</div>
+        <div>
+          Hello{" "}
+          <Link href="/user/edit">
+            <a>{name}</a>
+          </Link>
+        </div>
         {isLoggedIn ? (
           <Logout />
         ) : (

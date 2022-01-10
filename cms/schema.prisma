@@ -47,6 +47,7 @@ model Post {
   slug               String    @unique @default("")
   status             String?
   content            Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  document           Json?
   publishDate        DateTime?
   author             User[]    @relation("Post_author")
   tags               Tag[]     @relation("Post_tags")

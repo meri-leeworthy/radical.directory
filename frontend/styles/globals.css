@@ -149,7 +149,7 @@
     @apply bg-black dark:bg-gray-300;
   }
 
-  .article p.text-muted {
+  .text-muted {
     @apply text-gray-700 dark:text-gray-400;
   }
 
@@ -162,7 +162,15 @@
   }
 
   h1 {
-    @apply text-2xl sm:text-xs lg:text-3xl xl:text-4xl;
+    @apply text-2xl lg:text-3xl xl:text-4xl;
+  }
+
+  h2 {
+    @apply text-xl lg:text-2xl xl:text-3xl;
+  }
+
+  h3 {
+    @apply text-lg lg:text-xl xl:text-2xl;
   }
 
   .block-shadow {
@@ -182,28 +190,73 @@
   }
 
   .form-card {
-    @apply flex flex-col items-center p-4 m-8 mt-20 border-black dark:border-gray-300 border block-shadow dark:block-shadow-dark;
+    @apply flex flex-col items-center p-4 m-8 mt-4 sm:mt-20 border-black dark:border-gray-300 sm:border sm:block-shadow sm:dark:block-shadow-dark max-w-sm md:max-w-md w-full;
   }
 
   .form-card h1 {
-    @apply text-xl;
+    @apply text-2xl;
   }
 
   .form-card form {
-    @apply flex flex-col my-4 space-y-3;
+    @apply w-full flex flex-col;
   }
 
-  .form-card form div {
+  /* .form-card form div {
     @apply flex justify-between;
+  } */
+
+  .form-card label {
+    @apply text-sm text-muted mt-4 mb-1 ml-2;
   }
 
-  .form-card form div input,
+  .form-card form input,
   textarea {
-    @apply dark:bg-black px-2 ml-2 focus:outline-none border focus:border-gray-700 dark:focus:border-gray-300;
+    @apply dark:bg-black px-2 py-1 w-full text-xl focus:outline-none border focus:border-gray-700 dark:focus:border-gray-300;
   }
 
   .button {
     @apply px-2 bg-white border border-black dark:bg-black dark:border-white lil-block-shadow dark:lil-block-shadow-dark;
+  }
+
+  .tiptap-editor .ProseMirror {
+    @apply outline-none;
+  }
+
+  .tiptap-editor h4 {
+    @apply tracking-wide;
+  }
+
+  .tiptap-editor h5 {
+    @apply text-black dark:text-white uppercase text-sm tracking-wider;
+  }
+
+  .tiptap-editor h6 {
+    @apply text-black dark:text-white text-xs uppercase tracking-widest;
+  }
+
+  /* .tiptap-editor p {
+    @apply my-2 inline-block w-auto;
+    width: ;
+  }
+
+  .tiptap-editor ul {
+    @apply list-disc list-inside;
+  }
+
+  .tiptap-editor ul li {
+    @apply visible;
+  } */
+
+  .bubble-menu {
+    @apply bg-white p-1 border space-x-1 flex items-center dark:bg-black lil-block-shadow dark:lil-block-shadow-dark;
+  }
+
+  .floating-menu {
+    @apply p-1 space-x-1 flex items-center visible bg-white dark:bg-black;
+  }
+
+  .outer-floating-menu {
+    @apply border border-black dark:border-white lil-block-shadow dark:lil-block-shadow-dark;
   }
 }
 

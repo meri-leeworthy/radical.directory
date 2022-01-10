@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useDebounce<T, X>(
+export function useDebounce<T>(
   initialValue: T,
   time: number
 ): [T, T, React.Dispatch<T>] {

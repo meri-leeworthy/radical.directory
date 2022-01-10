@@ -7,6 +7,8 @@ import { App } from "components/template/App";
 import { authenticatedUserVar } from "lib/apollo/cache";
 import { GET_USER_PROFILE, UPDATE_USER } from "lib/apollo/queries";
 import { FiEdit3, FiCheck, FiMoreHorizontal } from "react-icons/fi";
+import { AutosaveIndicator } from "components/AutosaveIndicator";
+import AutoTextArea from "components/AutoTextArea";
 
 const EditProfile: NextPage = () => {
   let {
@@ -30,8 +32,10 @@ const EditProfile: NextPage = () => {
   );
 
   useEffect(() => {
-    if (initialData) setForm(initialData.user);
-  }, [initialData, setForm]);
+    if (initialData && form.email === "") {
+      setForm(initialData.user);
+    }
+  }, [initialData]);
 
   let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
 
@@ -47,7 +51,7 @@ const EditProfile: NextPage = () => {
         },
       });
     }
-  }, [debouncedForm, updateUser]);
+  }, [debouncedForm]);
 
   type FormKeys = keyof typeof form;
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,55 +74,49 @@ const EditProfile: NextPage = () => {
   return (
     <App title="Edit Profile">
       <div className="form-card">
-        <h1>Edit Profile</h1>
+        <div className="flex items-center justify-between w-full">
+          <div> </div>
+          <h1>Edit Profile</h1>
+          <AutosaveIndicator
+            editing={form !== debouncedForm}
+            loading={!!loading}
+            saved={!!data}
+          />
+        </div>
         {!error ? (
           <form>
-            <div>
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                value={form.name}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="surname">Surname</label>
-              <input
-                type="text"
-                id="surname"
-                value={form.surname}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={form.email}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="bio">About</label>
-              <textarea
-                id="bio"
-                value={form.bio}
-                onChange={textAreaChangeHandler}
-                // cols={25}
-                rows={2}
-              />
-            </div>
-            <div className="flex justify-center space-x-2">
-              {form !== debouncedForm ? (
-                <FiEdit3 />
-              ) : loading ? (
-                <FiMoreHorizontal />
-              ) : (
-                data && <FiCheck />
-              )}
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              value={form.name}
+              onChange={changeHandler}
+            />
 
+            <label htmlFor="surname">Surname</label>
+            <input
+              type="text"
+              id="surname"
+              value={form.surname}
+              onChange={changeHandler}
+            />
+
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={form.email}
+              onChange={changeHandler}
+            />
+
+            <label htmlFor="bio">About</label>
+            <AutoTextArea
+              id="bio"
+              value={form.bio}
+              onChange={textAreaChangeHandler}
+            />
+
+            <div className="flex justify-end w-full mt-4 space-x-2">
               <Link href="/user/posts">
                 <a className="button">My Posts</a>
               </Link>

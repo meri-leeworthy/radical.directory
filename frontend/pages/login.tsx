@@ -77,11 +77,11 @@ const Login: NextPage = () => {
               onChange={changeHandler}
             />
           </div>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center mt-4 space-x-2">
             <button type="submit" className="button">
               Login
             </button>
-            <Link href="/newuser">
+            <Link href="/user/new">
               <a className="button">New Account</a>
             </Link>
           </div>

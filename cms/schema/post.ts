@@ -5,6 +5,7 @@ import {
   timestamp,
   relationship,
   virtual,
+  json,
 } from "@keystone-6/core/fields";
 import { defaultSlug, monoDocument } from "./utils";
 import { Node } from "slate";
@@ -20,8 +21,11 @@ export const Post: Lists.Post = list({
         resolveInput: ({ operation, resolvedData, inputData, context }) => {
           if (operation === "create" && !inputData.slug) {
             return defaultSlug({ context, inputData });
+          } else if (!resolvedData.slug) {
+            return defaultSlug({ context, inputData });
+          } else {
+            return resolvedData.slug; //not sure if there is a better way to handle potentially undefined (according to TS) resolvedData
           }
-          return resolvedData.slug || null; //not sure if there is a better way to handle potentially undefined (according to TS) resolvedData
         },
       },
     }),
@@ -35,6 +39,7 @@ export const Post: Lists.Post = list({
       },
     }),
     content: monoDocument,
+    document: json(),
     snippet: virtual({
       field: graphql.field({
         type: graphql.String,

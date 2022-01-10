@@ -115,7 +115,7 @@ const NewUser: NextPage = () => {
               onChange={changeHandler}
             />
           </div>
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center mt-4 space-x-2">
             <button type="submit" className="button">
               Create Account
             </button>

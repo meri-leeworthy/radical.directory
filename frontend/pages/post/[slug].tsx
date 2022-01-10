@@ -1,36 +1,14 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
-import Link from "next/link";
 import { Footer } from "components/Footer";
 import { Landing } from "components/template/Landing";
 import { RDLogo } from "components/RDLogo";
-import { gql } from "@apollo/client";
 import client from "lib/apollo/client";
 import {
   DocumentRenderer,
   DocumentRendererProps,
 } from "@keystone-next/document-renderer";
 import { Back } from "components/Back";
-
-//fetch slugs of all posts
-const GET_POSTS = gql`
-  query {
-    posts {
-      slug
-    }
-  }
-`;
-
-// query for a single post by slug
-const GET_POST = gql`
-  query ($slug: String) {
-    post(where: { slug: $slug }) {
-      title
-      content {
-        document(hydrateRelationships: true)
-      }
-    }
-  }
-`;
+import { GET_POST_SLUGS, GET_POST } from "lib/apollo/queries";
 
 const componentBlocks = {
   cloudinaryImage: ({ image }: any) => {
@@ -48,7 +26,7 @@ const componentBlocks = {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data, error } = await client.query({
-    query: GET_POSTS,
+    query: GET_POST_SLUGS,
   });
 
   return {
