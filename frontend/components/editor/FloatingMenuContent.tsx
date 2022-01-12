@@ -2,6 +2,7 @@ import { Editor } from "@tiptap/react";
 import { MouseEventHandler, RefObject } from "react";
 import { FiChevronsDown, FiChevronsUp, FiList } from "react-icons/fi";
 import { FloatingMenu } from "./extensions/FloatingMenu";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 type Props = {
   editor: Editor;
@@ -70,21 +71,14 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
 
     const decidedHeading = decideHeading();
 
+    //turn off bullet list to allow turning into heading
+    editor.isActive("bulletList") &&
+      editor.chain().focus().toggleBulletList().run();
+
     editor.chain().focus().toggleHeading({ level: decidedHeading }).run();
   };
 
   const decrementHeading: MouseEventHandler<HTMLButtonElement> = () => {
-    // chevron-down:
-    //
-    // if !isActive("heading")
-    //    disabled
-    // if isActive("heading", {level:z})
-    //    if z = 6
-    //        set !heading
-    //    else if prev heading {level: y}
-    //        if y = z - 1
-    //            set !heading
-    //        else set level z + 1
     const decHLevel = (oldLevel: number) => {
       switch (oldLevel) {
         case 2:
@@ -107,7 +101,6 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
     };
 
     const decidedHeading = decideHeading();
-    console.log(headingLevel, decidedHeading);
 
     editor.chain().focus().toggleHeading({ level: decidedHeading }).run();
   };
@@ -116,34 +109,62 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
     <FloatingMenu
       editor={editor}
       editorBox={editorBox}
-      shouldShow={() => true} //({ editor, view, state, oldState }) => {
-      // show the floating within any paragraph
-      // return editor.isActive("paragraph"); }
-      // tippyOptions={{ }}
+      shouldShow={() => true}
       className="floating-menu"
     >
+      {/* (Increase) Heading */}
       {!(headingLevel === 2) && (
-        <button
-          onClick={(e) => incrementHeading(e)}
-          // className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-        >
-          <FiChevronsUp />
-        </button>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <button id="increment-heading" onClick={(e) => incrementHeading(e)}>
+              <FiChevronsUp />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content asChild sideOffset={5} side="top">
+            <div className="tooltip">
+              <label htmlFor="increment-heading">
+                {!!headingLevel && "Increase "}Heading
+              </label>
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
       )}
+      {/* Decrease or Remove Heading */}
       {!!headingLevel && (
-        <button
-          onClick={(e) => decrementHeading(e)}
-          // className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-        >
-          <FiChevronsDown />
-        </button>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <button id="decrement-heading" onClick={(e) => decrementHeading(e)}>
+              <FiChevronsDown />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content asChild sideOffset={5} side="top">
+            <div className="tooltip">
+              <label htmlFor="decrement-heading">
+                {headingLevel === 6 ? "Remove " : "Decrease "} Heading
+              </label>
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
       )}
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        // className={editor.isActive("bulletList") ? "is-active" : ""}
-      >
-        <FiList />
-      </button>
+      {/* Toggle Bullet List */}
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <button
+            id="bullet-list"
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={editor.isActive("bulletList") ? "is-active" : ""}
+          >
+            <FiList />
+          </button>
+        </Tooltip.Trigger>
+        <Tooltip.Content asChild sideOffset={5} side="top">
+          <div className="tooltip">
+            <label htmlFor="bullet-list">
+              {editor.isActive("bulletList") && "Remove "}Bullet List
+            </label>
+          </div>
+        </Tooltip.Content>
+      </Tooltip.Root>
     </FloatingMenu>
   );
 };

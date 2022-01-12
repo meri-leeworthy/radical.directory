@@ -8,10 +8,13 @@ type Props = {
 
 export const Header: React.FC<Props> = ({ name, isLoggedIn }: Props) => {
   return (
-    <header className="relative flex justify-around w-full">
+    <header className="fixed z-50 flex justify-around w-full bg-white dark:bg-black">
       <Link href="/">
-        <a className="p-2 -mt-2 border border-black dark:border-gray-300 block-shadow dark:block-shadow-dark">
-          <h1 className="text-3xl text-center no-underline md:text-4xl font-title">
+        <a
+          className="p-2 -mt-2 border border-black dark:border-gray-300 bshadow hover:underline decoration-2 underline-offset-[6px]"
+          tabIndex={0}
+        >
+          <h1 className="text-3xl text-center md:text-4xl font-title">
             <abbr title="Radical Directory" className="logo-abbr">
               R.D
             </abbr>
@@ -23,7 +26,7 @@ export const Header: React.FC<Props> = ({ name, isLoggedIn }: Props) => {
         <div>
           Hello{" "}
           <Link href="/user/edit">
-            <a>{name}</a>
+            <a className="hover:underline decoration-2">{name}</a>
           </Link>
         </div>
         {isLoggedIn ? (

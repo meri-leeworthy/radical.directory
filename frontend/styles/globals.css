@@ -173,24 +173,38 @@
     @apply text-lg lg:text-xl xl:text-2xl;
   }
 
-  .block-shadow {
+  .bshadow {
     box-shadow: 3px 3px 0px black;
+    @apply border border-black dark:border-white;
   }
 
-  .block-shadow-dark {
+  .dark .bshadow {
     box-shadow: 3px 3px 0px white;
   }
 
-  .lil-block-shadow {
+  .sm-bshadow {
     box-shadow: 1px 1px 0px rgba(55, 65, 81, 1);
+    @apply border border-black dark:border-white;
   }
 
-  .lil-block-shadow-dark {
+  .sm-bshadow-hover-pink {
+    @apply hover:border-pink-400 dark:hover:border-pink-400 dark:hover:text-pink-400;
+  }
+
+  .sm-bshadow-hover-pink:hover {
+    box-shadow: 1px 1px 0px rgba(244, 114, 182, 1);
+  }
+
+  .dark .sm-bshadow {
     box-shadow: 1px 1px 0px white;
   }
 
+  .dark .sm-bshadow-hover-pink:hover {
+    box-shadow: 1px 1px 0px rgba(244, 114, 182, 1);
+  }
+
   .form-card {
-    @apply flex flex-col items-center p-4 m-8 mt-4 sm:mt-20 border-black dark:border-gray-300 sm:border sm:block-shadow sm:dark:block-shadow-dark max-w-sm md:max-w-md w-full;
+    @apply flex flex-col items-center p-4 m-8 mt-4 sm:mt-20 sm:bshadow max-w-sm md:max-w-md w-full;
   }
 
   .form-card h1 {
@@ -215,7 +229,7 @@
   }
 
   .button {
-    @apply px-2 bg-white border border-black dark:bg-black dark:border-white lil-block-shadow dark:lil-block-shadow-dark;
+    @apply px-2 bg-white dark:bg-black sm-bshadow sm-bshadow-hover-pink;
   }
 
   .tiptap-editor .ProseMirror {
@@ -227,11 +241,31 @@
   }
 
   .tiptap-editor h5 {
-    @apply text-black dark:text-white uppercase text-sm tracking-wider;
+    @apply text-black dark:text-white font-bold uppercase text-sm tracking-wider;
   }
 
   .tiptap-editor h6 {
     @apply text-black dark:text-white text-xs uppercase tracking-widest;
+  }
+
+  .tiptap-editor p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    pointer-events: none;
+    height: 0;
+    @apply text-slate-300 dark:text-slate-700;
+  }
+
+  .tiptap-editor:focus-within p.is-editor-empty:first-child::before {
+    content: "";
+  }
+
+  .editor-title {
+    @apply w-full mr-2 pl-0 overflow-hidden text-4xl border-none dark:bg-black focus:outline-none;
+  }
+
+  .editor-title::placeholder {
+    @apply text-slate-300;
   }
 
   /* .tiptap-editor p {
@@ -248,15 +282,42 @@
   } */
 
   .bubble-menu {
-    @apply bg-white p-1 border space-x-1 flex items-center dark:bg-black lil-block-shadow dark:lil-block-shadow-dark;
+    @apply bg-white  border flex items-center dark:bg-black sm-bshadow;
   }
 
   .floating-menu {
-    @apply p-1 space-x-1 flex items-center visible bg-white dark:bg-black;
+    @apply flex items-center visible bg-white dark:bg-black;
   }
 
   .outer-floating-menu {
-    @apply border border-black dark:border-white lil-block-shadow dark:lil-block-shadow-dark;
+    @apply border border-black dark:border-white sm-bshadow;
+  }
+
+  .floating-menu button,
+  .bubble-menu button {
+    @apply p-1;
+  }
+
+  .floating-menu button {
+    @apply rounded-full mr-1;
+  }
+
+  .outer-floating-menu button {
+    @apply rounded-none mr-0;
+  }
+
+  .floating-menu button:hover,
+  .bubble-menu button:hover {
+    @apply bg-slate-300 dark:bg-slate-700;
+  }
+
+  .floating-menu .is-active,
+  .bubble-menu .is-active {
+    @apply bg-slate-200 dark:bg-slate-800;
+  }
+
+  .tooltip {
+    @apply sm-bshadow text-xs px-1 text-slate-700 dark:text-slate-300 bg-white dark:bg-black z-20;
   }
 }
 

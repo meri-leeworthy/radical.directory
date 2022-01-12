@@ -173,12 +173,6 @@ export class FloatingMenuView {
       ? editorBox.scrollWidth + editorBox.offsetLeft
       : 0;
 
-    const cursorPosition = posToDOMRect(view, from, from); //from, to
-    const sidePosition = {
-      ...cursorPosition,
-      left: leftOffset,
-    };
-
     // console.log(empty);
 
     this.element.className = isEmptyTextBlock
@@ -188,8 +182,17 @@ export class FloatingMenuView {
     // console.log("from", from, "to", to);
 
     this.tippy?.setProps({
-      getReferenceClientRect: () =>
-        isEmptyTextBlock && empty ? cursorPosition : sidePosition,
+      getReferenceClientRect: () => {
+        const cursorPosition = posToDOMRect(view, from, from); //from, to
+        const sidePosition = {
+          ...cursorPosition,
+          left: leftOffset,
+          width: 0,
+        };
+        console.log("sidePosition", sidePosition);
+        if (isEmptyTextBlock && empty) return cursorPosition;
+        else return sidePosition;
+      },
     });
 
     this.show();

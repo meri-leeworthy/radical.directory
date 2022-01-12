@@ -12,8 +12,10 @@ import Italic from "@tiptap/extension-italic";
 import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import History from "@tiptap/extension-history";
+import Placeholder from "@tiptap/extension-placeholder";
 import BubbleMenu from "components/editor/BubbleMenuContent";
 import FloatingMenu from "components/editor/FloatingMenuContent";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
 type Props = {
   setDoc: Dispatch<Post>;
@@ -26,6 +28,7 @@ const Editor: React.FC<Props> = ({ setDoc, doc, editorBox }: Props) => {
     extensions: [
       Document,
       History,
+      Placeholder,
 
       //nodes
       Paragraph,
@@ -38,12 +41,9 @@ const Editor: React.FC<Props> = ({ setDoc, doc, editorBox }: Props) => {
       Bold,
       Italic,
     ],
-    content: doc.document,
+    content: doc,
     onUpdate: ({ editor }) => {
-      const newDoc = {
-        ...doc,
-        document: editor.getJSON(),
-      };
+      const newDoc = editor.getJSON();
       setDoc(newDoc);
     },
   });
@@ -52,8 +52,12 @@ const Editor: React.FC<Props> = ({ setDoc, doc, editorBox }: Props) => {
     <>
       <BubbleMenu editor={editor} />
       <FloatingMenu editor={editor} editorBox={editorBox} />
+      <VisuallyHidden.Root>
+        <label htmlFor="content">Content</label>
+      </VisuallyHidden.Root>
       <EditorContent
         editor={editor}
+        id="Content"
         className="w-full prose tiptap-editor dark:prose-invert"
       />
     </>
