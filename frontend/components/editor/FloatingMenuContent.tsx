@@ -3,6 +3,7 @@ import { MouseEventHandler, RefObject } from "react";
 import { FiChevronsDown, FiChevronsUp, FiList } from "react-icons/fi";
 import { FloatingMenu } from "./extensions/FloatingMenu";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { Fragment } from "prosemirror-model";
 
 type Props = {
   editor: Editor;
@@ -11,60 +12,95 @@ type Props = {
 declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
 
 const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
+  const incHLevel = (oldLevel: number) => {
+    switch (oldLevel) {
+      case 3:
+        return 2;
+      case 4:
+        return 3;
+      case 5:
+        return 4;
+      case 6:
+        return 5;
+      default:
+        return 2;
+    }
+  };
+
+  // const sameLevel = (old: number) => {
+  //   switch (old) {
+  //     case 3:
+  //       return 3;
+  //     case 4:
+  //       return 4;
+  //     case 5:
+  //       return 5;
+  //     case 6:
+  //       return 6;
+  //     default:
+  //       return 2;
+  //   }
+  // };
+
+  const decHLevel = (oldLevel: number) => {
+    switch (oldLevel) {
+      case 2:
+        return 3;
+      case 3:
+        return 4;
+      case 4:
+        return 5;
+      case 5:
+        return 6;
+      default:
+        return 6;
+    }
+  };
+
   // allowed heading levels: [2, 3, 4, 5, 6]
   const headingLevel: Level = editor.getAttributes("heading").level || 0;
+
+  type Schema = typeof editor.schema;
+
   const findPrevHeading = () => {
     const initSelection = editor.state.selection;
-    const thisHeadingPos =
-      initSelection.$anchor.pos - initSelection.$anchor.parentOffset;
-    const { content }: any = editor.state.doc.content;
-
+    const { content }: Fragment<Schema> = editor.state.doc.content;
     let prevHeading = 0;
     let tally = 0;
-    content.every((node: any) => {
-      tally += node.content.size;
-      if (tally > thisHeadingPos) return false;
-      if (node.type.name === "heading") prevHeading = node.attrs.level;
-      return true;
-    });
+
+    console.log("content", content);
+
+    //where in the document, by character number, does this heading start
+    const thisHeadingPos =
+      initSelection.$anchor.pos - initSelection.$anchor.parentOffset;
+
+    // content.every((node: any) => {
+    //   //
+    //   tally += node.content.size;
+    //   if (tally > thisHeadingPos) return false;
+    //   if (node.type.name === "heading") prevHeading = node.attrs.level;
+    //   return true;
+    // });
+
+    content.forEach((node) => console.log(node));
+
+    // for (let node in content) {
+    //   console.log("node", node);
+    //   // tally += node.content.size;
+    //   // if (tally > thisHeadingPos) break;
+    //   // if (node.type.name === "heading") prevHeading = node.attrs.level;
+    // }
+
+    console.log("prevHeading", prevHeading);
+
     return prevHeading;
   };
 
   const prevHeading = findPrevHeading();
 
   const incrementHeading: MouseEventHandler<HTMLButtonElement> = () => {
-    const incHLevel = (oldLevel: number) => {
-      switch (oldLevel) {
-        case 3:
-          return 2;
-        case 4:
-          return 3;
-        case 5:
-          return 4;
-        case 6:
-          return 5;
-        default:
-          return 2;
-      }
-    };
-
-    const sameLevel = (old: number) => {
-      switch (old) {
-        case 3:
-          return 3;
-        case 4:
-          return 4;
-        case 5:
-          return 5;
-        case 6:
-          return 6;
-        default:
-          return 2;
-      }
-    };
-
     const decideHeading = () => {
-      if (!headingLevel) return prevHeading ? sameLevel(prevHeading) : 2;
+      if (!headingLevel) return prevHeading ? decHLevel(prevHeading) : 2;
       else if (headingLevel === 2) return 2;
       else return incHLevel(headingLevel);
     };
@@ -79,21 +115,6 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
   };
 
   const decrementHeading: MouseEventHandler<HTMLButtonElement> = () => {
-    const decHLevel = (oldLevel: number) => {
-      switch (oldLevel) {
-        case 2:
-          return 3;
-        case 3:
-          return 4;
-        case 4:
-          return 5;
-        case 5:
-          return 6;
-        default:
-          return 6;
-      }
-    };
-
     const decideHeading = () => {
       if (!headingLevel || headingLevel === 6) return 6;
       if (prevHeading && prevHeading === headingLevel - 1) return headingLevel;
@@ -140,7 +161,11 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
           <Tooltip.Content asChild sideOffset={5} side="top">
             <div className="tooltip">
               <label htmlFor="decrement-heading">
-                {headingLevel === 6 ? "Remove " : "Decrease "} Heading
+                {headingLevel === 6 ||
+                (prevHeading && prevHeading === headingLevel - 1)
+                  ? "Remove "
+                  : "Decrease "}{" "}
+                Heading
               </label>
             </div>
           </Tooltip.Content>
