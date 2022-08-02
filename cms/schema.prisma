@@ -7,9 +7,8 @@ datasource postgresql {
 }
 
 generator client {
-  provider   = "prisma-client-js"
-  output     = "node_modules/.prisma/client"
-  engineType = "binary"
+  provider = "prisma-client-js"
+  output   = "node_modules/.prisma/client"
 }
 
 model User {
@@ -17,7 +16,7 @@ model User {
   name        String    @default("")
   email       String    @unique @default("")
   password    String
-  posts       Post[]    @relation("Post_author_User_posts")
+  posts       Post[]    @relation("Post_author")
   surname     String?
   avatar      String?
   pronouns    String?
@@ -26,10 +25,10 @@ model User {
   website     String?
   role        Role?     @relation("User_role", fields: [roleId], references: [id])
   roleId      String?   @map("role")
-  memberOf    Project[] @relation("Project_members_User_memberOf")
-  eventSubs   Event[]   @relation("Event_subscribers_User_eventSubs")
-  projectSubs Project[] @relation("Project_subscribers_User_projectSubs")
-  tagSubs     Tag[]     @relation("Tag_subscribers_User_tagSubs")
+  memberOf    Project[] @relation("Project_members")
+  eventSubs   Event[]   @relation("Event_subscribers")
+  projectSubs Project[] @relation("Project_subscribers")
+  tagSubs     Tag[]     @relation("Tag_subscribers")
 
   @@index([roleId])
 }
@@ -48,22 +47,23 @@ model Post {
   slug               String    @unique @default("")
   status             String?
   content            Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  document           Json?
   publishDate        DateTime?
-  author             User[]    @relation("Post_author_User_posts")
-  tags               Tag[]     @relation("Post_tags_Tag_posts")
-  from_Project_posts Project[] @relation("Project_posts_many")
-  from_Event_posts   Event[]   @relation("Event_posts_many")
+  author             User[]    @relation("Post_author")
+  tags               Tag[]     @relation("Post_tags")
+  from_Project_posts Project[] @relation("Project_posts")
+  from_Event_posts   Event[]   @relation("Event_posts")
 }
 
 model Tag {
   id          String    @id @default(cuid())
   name        String    @default("")
   slug        String    @unique @default("")
-  posts       Post[]    @relation("Post_tags_Tag_posts")
-  projects    Project[] @relation("Project_tags_Tag_projects")
+  posts       Post[]    @relation("Post_tags")
+  projects    Project[] @relation("Project_tags")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  subscribers User[]    @relation("Tag_subscribers_User_tagSubs")
-  events      Event[]   @relation("Event_tags_Tag_events")
+  subscribers User[]    @relation("Tag_subscribers")
+  events      Event[]   @relation("Event_tags")
 }
 
 model Image {
@@ -78,13 +78,13 @@ model Project {
   acronym     String?
   slug        String    @unique @default("")
   description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  members     User[]    @relation("Project_members_User_memberOf")
-  subscribers User[]    @relation("Project_subscribers_User_projectSubs")
-  parents     Project[] @relation("Project_children_Project_parents")
-  children    Project[] @relation("Project_children_Project_parents")
-  tags        Tag[]     @relation("Project_tags_Tag_projects")
-  events      Event[]   @relation("Event_projects_Project_events")
-  posts       Post[]    @relation("Project_posts_many")
+  members     User[]    @relation("Project_members")
+  subscribers User[]    @relation("Project_subscribers")
+  parents     Project[] @relation("Project_children")
+  children    Project[] @relation("Project_children")
+  tags        Tag[]     @relation("Project_tags")
+  events      Event[]   @relation("Event_projects")
+  posts       Post[]    @relation("Project_posts")
 }
 
 model Event {
@@ -98,8 +98,8 @@ model Event {
   longitude   Float?
   location    Json?
   url         String    @default("")
-  projects    Project[] @relation("Event_projects_Project_events")
-  posts       Post[]    @relation("Event_posts_many")
-  subscribers User[]    @relation("Event_subscribers_User_eventSubs")
-  tags        Tag[]     @relation("Event_tags_Tag_events")
+  projects    Project[] @relation("Event_projects")
+  posts       Post[]    @relation("Event_posts")
+  subscribers User[]    @relation("Event_subscribers")
+  tags        Tag[]     @relation("Event_tags")
 }

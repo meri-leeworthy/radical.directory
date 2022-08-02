@@ -1,36 +1,14 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
-import Link from "next/link";
 import { Footer } from "components/Footer";
-import { Page } from "components/Page";
+import { Landing } from "components/template/Landing";
 import { RDLogo } from "components/RDLogo";
-import { gql } from "@apollo/client";
-import client from "lib/apollo-client";
+import client from "lib/apollo/client";
 import {
   DocumentRenderer,
   DocumentRendererProps,
 } from "@keystone-next/document-renderer";
 import { Back } from "components/Back";
-
-//fetch slugs of all posts
-const GET_POSTS = gql`
-  query {
-    posts {
-      slug
-    }
-  }
-`;
-
-// query for a single post by slug
-const GET_PAGE = gql`
-  query ($slug: String) {
-    post(where: { slug: $slug }) {
-      title
-      content {
-        document(hydrateRelationships: true)
-      }
-    }
-  }
-`;
+import { GET_POST_SLUGS, GET_POST } from "lib/apollo/queries";
 
 const componentBlocks = {
   cloudinaryImage: ({ image }: any) => {
@@ -48,7 +26,7 @@ const componentBlocks = {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data, error } = await client.query({
-    query: GET_POSTS,
+    query: GET_POST_SLUGS,
   });
 
   return {
@@ -63,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // params.slug gets the dynamic route
   try {
     const { data, error } = await client.query({
-      query: GET_PAGE,
+      query: GET_POST,
       variables: {
         // plug the route into the query
         slug: params?.slug,
@@ -94,11 +72,11 @@ type Props = {
 
 const Post: NextPage<Props> = ({ post }: Props) => {
   return (
-    <Page title={post.title}>
+    <Landing title={post.title}>
       <RDLogo />
 
       <main className="article">
-        <div className="hidden xl:block p-4 h-2/5 flex-shrink-0"> </div>
+        <div className="flex-shrink-0 hidden p-4 xl:block h-2/5"> </div>
 
         <h2>{post.title}</h2>
         <DocumentRenderer
@@ -109,7 +87,7 @@ const Post: NextPage<Props> = ({ post }: Props) => {
         <Back />
         <Footer />
       </main>
-    </Page>
+    </Landing>
   );
 };
 

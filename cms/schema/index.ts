@@ -1,14 +1,15 @@
-import { list } from "@keystone-next/keystone";
-import { text, integer } from "@keystone-next/keystone/fields";
-import { cloudinaryImage } from "@keystone-next/cloudinary";
+import { list } from "@keystone-6/core";
+import { text, integer } from "@keystone-6/core/fields";
+import { cloudinaryImage } from "@keystone-6/cloudinary";
 import { User, Role } from "./user";
 import { Post } from "./post";
 import { Event } from "./event";
 import { Project } from "./project";
 import { Tag } from "./tag";
+import { Lists } from ".keystone/types";
 
 // database schema is defined here
-export const lists = {
+export const lists: Lists = {
   User,
   Role,
   Post,

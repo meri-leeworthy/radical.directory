@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 import Head from "next/head";
 
@@ -8,13 +7,8 @@ type Props = {
   children: JSX.Element | JSX.Element[];
 };
 
-export const Page = ({ title, children }: Props) => {
+export const Landing = ({ title, children }: Props) => {
   const { systemTheme, theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const renderThemeButton = () => {
     // if (!mounted) return null;
@@ -22,7 +16,7 @@ export const Page = ({ title, children }: Props) => {
     if (currentTheme === "dark") {
       return (
         <button
-          className="mt-4 border p-2 border-gray-400 dark:border-white rounded-full text-xl"
+          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white"
           onClick={() => setTheme("light")}
         >
           <FiSun />
@@ -31,7 +25,7 @@ export const Page = ({ title, children }: Props) => {
     } else {
       return (
         <button
-          className="mt-4 border p-2 border-gray-400 dark:border-white rounded-full text-xl"
+          className="p-2 mt-4 text-xl border border-gray-400 rounded-full dark:border-white"
           onClick={() => setTheme("dark")}
         >
           <FiMoon />
@@ -44,18 +38,15 @@ export const Page = ({ title, children }: Props) => {
     <>
       <Head>
         <title>{title}</title>
-        <meta
-          name="description"
-          content="A platform for social justice media"
-        />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen flex flex-col items-center justify-start xl:flex-row xl:max-h-screen">
+      <div className="flex flex-col items-center justify-start min-h-screen xl:flex-row xl:max-h-screen">
         {children}
-      </div>
-      <div className="flex justify-center md:justify-end pb-4 px-4 md:fixed w-full bottom-0">
-        {renderThemeButton()}
       </div>
     </>
   );
 };
+
+//this was the last child of the fragment - now moved to WithThemes
+// <div className="bottom-0 flex justify-center w-full px-4 pb-4 md:justify-end md:fixed">
+// {renderThemeButton()}
+// </div>

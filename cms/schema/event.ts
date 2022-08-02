@@ -1,14 +1,15 @@
-import { list } from "@keystone-next/keystone";
+import { list } from "@keystone-6/core";
 import {
   text,
   timestamp,
   float,
   json,
   relationship,
-} from "@keystone-next/keystone/fields";
+} from "@keystone-6/core/fields";
 import { defaultSlug, monoDocument } from "./utils";
+import { Lists } from ".keystone/types";
 
-export const Event = list({
+export const Event: Lists.Event = list({
   fields: {
     name: text(),
     slug: text({
@@ -19,7 +20,7 @@ export const Event = list({
           if (operation === "create" && !inputData.slug) {
             return defaultSlug({ context, inputData });
           }
-          return resolvedData.slug;
+          return resolvedData.slug || null;
         },
       },
     }),

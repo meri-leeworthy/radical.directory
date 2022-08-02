@@ -16,7 +16,13 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <meta
+            name="description"
+            content="A platform for social justice media"
+          />
+          {/* <link rel="icon" href="/favicon.ico" /> */}
+        </Head>
         <body className="dark:bg-black dark:text-gray-300">
           <Main />
           <NextScript />
