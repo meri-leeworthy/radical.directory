@@ -5,6 +5,8 @@ import React, {
   TextareaHTMLAttributes,
 } from "react";
 
+//TODO: Textarea height defaults to 2 rows on first render, even if text overflows
+
 const AutoTextArea = (props: TextareaHTMLAttributes<HTMLTextAreaElement>) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");

@@ -5,8 +5,7 @@ import { useDebounce } from "lib/utils";
 import Link from "next/link";
 import { App } from "components/template/App";
 // import { authenticatedUserVar } from "lib/apollo/cache";
-import { GET_USER_PROFILE, UPDATE_USER } from "lib/apollo/queries";
-import { FiEdit3, FiCheck, FiMoreHorizontal } from "react-icons/fi";
+// import { GET_USER_PROFILE, UPDATE_USER } from "lib/apollo/queries";
 import { AutosaveIndicator } from "components/AutosaveIndicator";
 import AutoTextArea from "components/AutoTextArea";
 
@@ -38,11 +37,20 @@ const EditProfile: NextPage = () => {
     500
   );
 
-  // useEffect(() => {
-  //   if (initialData && form.email === "") {
-  //     setForm(initialData.user);
-  //   }
-  // }, [initialData]);
+  useEffect(() => {
+    let initialData = {
+      user: {
+        name: "Meri",
+        surname: "Leeworthy",
+        email: "em@i.l",
+        bio: "This form doesn't actually save to a server. It did once, but the server was running for months for no reason and it got too expensive. It says 'saved', but it's a lie.",
+      },
+    };
+
+    if (initialData && form.email === "") {
+      setForm(initialData.user);
+    }
+  }, [form.email, setForm]);
 
   // let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
 
