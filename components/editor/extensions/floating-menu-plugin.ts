@@ -189,7 +189,7 @@ export class FloatingMenuView {
           left: leftOffset,
           width: 0,
         };
-        console.log("sidePosition", sidePosition);
+        // console.log("sidePosition", sidePosition);
         if (isEmptyTextBlock && empty) return cursorPosition;
         else return sidePosition;
       },

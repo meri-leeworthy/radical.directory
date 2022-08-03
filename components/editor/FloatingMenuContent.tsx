@@ -75,14 +75,15 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
     const thisHeadingPos =
       initSelection.$anchor.pos - initSelection.$anchor.parentOffset;
 
-    // content.every((node: any) => {
-    //   //
-    //   tally += node.content.size;
-    //   if (tally > thisHeadingPos) return false;
-    //   if (node.type.name === "heading") prevHeading = node.attrs.level;
-    //   return true;
-    // });
+    content.every((node: any) => {
+      //
+      tally += node.content.size;
+      if (tally > thisHeadingPos) return false;
+      if (node.type.name === "heading") prevHeading = node.attrs.level;
+      return true;
+    });
 
+    // @ts-ignore
     // content.forEach((node) => console.log(node));
 
     // for (let node in content) {
@@ -118,12 +119,14 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
   const decrementHeading: MouseEventHandler<HTMLButtonElement> = () => {
     const decideHeading = () => {
       if (!headingLevel || headingLevel === 6) return 6;
-      if (prevHeading && prevHeading === headingLevel - 1) return headingLevel;
+      if ((prevHeading && prevHeading === headingLevel - 1) || !prevHeading)
+        return headingLevel;
       else return decHLevel(headingLevel);
     };
 
     const decidedHeading = decideHeading();
 
+    //to remove heading, call toggleHeading with the same heading level as the block already has
     editor.chain().focus().toggleHeading({ level: decidedHeading }).run();
   };
 
@@ -163,7 +166,8 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
             <div className="tooltip">
               <label htmlFor="decrement-heading">
                 {headingLevel === 6 ||
-                (prevHeading && prevHeading === headingLevel - 1)
+                (prevHeading && prevHeading === headingLevel - 1) ||
+                !prevHeading
                   ? "Remove "
                   : "Decrease "}{" "}
                 Heading
