@@ -3,48 +3,38 @@ import Link from "next/link";
 import { Footer } from "components/Footer";
 import { Landing } from "components/template/Landing";
 import { Back } from "components/Back";
-import { gql } from "@apollo/client";
-import client from "lib/apollo/client";
 import { RDLogo } from "components/RDLogo";
+import { readFileSync } from "fs";
+import path from "path";
+import { postFilePaths, POSTS_PATH } from "lib/mdxUtils";
+import matter from "gray-matter";
 
-const GET_POSTS = gql`
-  query {
-    posts {
-      slug
-      title
-      authorString
-      snippet
-    }
-  }
-`;
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const { data, error } = await client.query({
-      query: GET_POSTS,
-    });
-    // error -> 404 (rather than just breaking)
-    if (!data || error) return { notFound: true };
-    return {
-      props: {
-        // return modified data
-        posts: data.posts,
-      },
-      revalidate: 10,
-    };
-  } catch {
-    // different kind of error? -> 404
-    return { notFound: true };
-  }
-};
+export interface Post {
+  content?: string;
+  data: {
+    title: string;
+    author: string;
+  };
+  slug: string;
+}
 
 type Props = {
-  posts: {
-    title: string;
-    slug: string;
-    authorString: string;
-    snippet: string;
-  }[];
+  posts: Post[];
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = postFilePaths.map((filePath) => {
+    const source = readFileSync(path.join(POSTS_PATH, filePath));
+    const { content, data } = matter(source);
+    const slug = filePath.slice(0, -4);
+    return {
+      content,
+      data,
+      slug,
+    };
+  });
+
+  return { props: { posts } };
 };
 
 const Writing: NextPage<Props> = ({ posts }: Props) => {
@@ -60,9 +50,12 @@ const Writing: NextPage<Props> = ({ posts }: Props) => {
             <div key={post.slug}>
               <Link href={"/post/" + post.slug}>
                 <a className="a-unstyled">
-                  <h3>{post.title}</h3>
-                  <p className="text-muted">{post.snippet}</p>
-                  <p className="text-muted author-line">{post.authorString}</p>
+                  <h3>{post.data.title}</h3>
+                  <p className="text-muted">
+                    {post.content?.slice(0, 200) +
+                      (post.content && post.content.length > 200 ? "..." : "")}
+                  </p>
+                  <p className="text-muted author-line">{post.data.author}</p>
 
                   <hr />
                 </a>
