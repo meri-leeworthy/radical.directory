@@ -64,6 +64,7 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
 
   const findPrevHeading = () => {
     const initSelection = editor.state.selection;
+    // @ts-ignore: content needs type annotations
     const { content }: Fragment<Schema> = editor.state.doc.content;
     let prevHeading = 0;
     let tally = 0;
@@ -82,7 +83,7 @@ const StyledFloatingMenu = ({ editor, editorBox }: Props) => {
     //   return true;
     // });
 
-    content.forEach((node) => console.log(node));
+    // content.forEach((node) => console.log(node));
 
     // for (let node in content) {
     //   console.log("node", node);
