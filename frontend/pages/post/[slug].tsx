@@ -34,7 +34,7 @@ type Props = {
   post: Post & { source: MDXRemoteSerializeResult };
 };
 
-const Post: NextPage<Props> = ({ post }: Props) => {
+const PostPage: NextPage<Props> = ({ post }: Props) => {
   const components = {};
 
   return (
@@ -54,4 +54,4 @@ const Post: NextPage<Props> = ({ post }: Props) => {
   );
 };
 
-export default Post;
+export default PostPage;
