@@ -1,25 +1,32 @@
 import React, { useEffect } from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
+// import { gql, useMutation, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useDebounce } from "lib/utils";
 import Link from "next/link";
 import { App } from "components/template/App";
-import { authenticatedUserVar } from "lib/apollo/cache";
+// import { authenticatedUserVar } from "lib/apollo/cache";
 import { GET_USER_PROFILE, UPDATE_USER } from "lib/apollo/queries";
 import { FiEdit3, FiCheck, FiMoreHorizontal } from "react-icons/fi";
 import { AutosaveIndicator } from "components/AutosaveIndicator";
 import AutoTextArea from "components/AutoTextArea";
 
 const EditProfile: NextPage = () => {
-  let {
-    data: initialData,
-    loading: initialLoading,
-    error: initialError,
-  } = useQuery(GET_USER_PROFILE, {
-    variables: {
-      id: authenticatedUserVar().id,
-    },
-  });
+  //Placeholder code so the page renders
+  const error = false;
+  const loading = false;
+  const initialError = false;
+  const initialLoading = false;
+  const data = true;
+
+  // let {
+  //   data: initialData,
+  //   loading: initialLoading,
+  //   error: initialError,
+  // } = useQuery(GET_USER_PROFILE, {
+  //   variables: {
+  //     id: authenticatedUserVar().id,
+  //   },
+  // });
 
   const [debouncedForm, form, setForm] = useDebounce(
     {
@@ -31,27 +38,27 @@ const EditProfile: NextPage = () => {
     500
   );
 
-  useEffect(() => {
-    if (initialData && form.email === "") {
-      setForm(initialData.user);
-    }
-  }, [initialData]);
+  // useEffect(() => {
+  //   if (initialData && form.email === "") {
+  //     setForm(initialData.user);
+  //   }
+  // }, [initialData]);
 
-  let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
+  // let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
 
   //whenever debouncedForm changes (i.e. 500ms after user stops typing) send update mutation
-  useEffect(() => {
-    if (debouncedForm?.email) {
-      updateUser({
-        variables: {
-          name: debouncedForm.name,
-          surname: debouncedForm.surname,
-          email: debouncedForm.email,
-          bio: debouncedForm.bio,
-        },
-      });
-    }
-  }, [debouncedForm]);
+  // useEffect(() => {
+  //   if (debouncedForm?.email) {
+  //     updateUser({
+  //       variables: {
+  //         name: debouncedForm.name,
+  //         surname: debouncedForm.surname,
+  //         email: debouncedForm.email,
+  //         bio: debouncedForm.bio,
+  //       },
+  //     });
+  //   }
+  // }, [debouncedForm]);
 
   type FormKeys = keyof typeof form;
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +130,7 @@ const EditProfile: NextPage = () => {
             </div>
           </form>
         ) : (
-          <ErrorView message={error.message} />
+          <ErrorView message={"error.message"} />
         )}
       </div>
     </App>

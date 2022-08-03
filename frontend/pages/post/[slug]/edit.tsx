@@ -1,7 +1,7 @@
 import { App } from "components/template/App";
 import { useRouter } from "next/router";
-import { GET_POST, UPDATE_POST } from "lib/apollo/queries";
-import { useMutation, useQuery } from "@apollo/client";
+// import { GET_POST, UPDATE_POST } from "lib/apollo/queries";
+// import { useMutation, useQuery } from "@apollo/client";
 import Editor from "components/editor/Editor";
 import { useDebounce } from "lib/utils";
 import { useEffect, useRef } from "react";
@@ -12,13 +12,17 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 export type Post = { type?: string; content?: {}[] };
 
 const EditPost = () => {
+  //placeholder code to make the page render
+  const loading = false;
+  const isSaved = true;
+
   const router = useRouter();
   const { slug } = router.query;
-  const { data: initialData } = useQuery(GET_POST, {
-    variables: {
-      slug,
-    },
-  });
+  // const { data: initialData } = useQuery(GET_POST, {
+  //   variables: {
+  //     slug,
+  //   },
+  // });
 
   const [debouncedMeta, meta, setMeta] = useDebounce(
     { title: "", slug: "" },
@@ -29,37 +33,37 @@ const EditPost = () => {
     500
   );
 
-  useEffect(() => {
-    if (initialData && meta.slug === "") {
-      setDoc(initialData.post.document);
-      setMeta({ title: initialData.post.title, slug: initialData.post.slug });
-    }
-  }, [initialData]);
+  // useEffect(() => {
+  //   if (initialData && meta.slug === "") {
+  //     setDoc(initialData.post.document);
+  //     setMeta({ title: initialData.post.title, slug: initialData.post.slug });
+  //   }
+  // }, [initialData]);
 
-  let [updateDoc, { data, loading, error }] = useMutation(UPDATE_POST);
+  // let [updateDoc, { data, loading, error }] = useMutation(UPDATE_POST);
 
   //whenever debouncedForm changes (i.e. 500ms after user stops typing) send update mutation
-  useEffect(() => {
-    if (
-      debouncedMeta.slug &&
-      meta.title &&
-      debouncedMeta.title === meta.title
-    ) {
-      updateDoc({
-        variables: {
-          title: debouncedMeta.title,
-          document: debouncedDoc,
-          slug,
-        },
-      });
-    }
-  }, [debouncedDoc, debouncedMeta]);
+  // useEffect(() => {
+  //   if (
+  //     debouncedMeta.slug &&
+  //     meta.title &&
+  //     debouncedMeta.title === meta.title
+  //   ) {
+  //     updateDoc({
+  //       variables: {
+  //         title: debouncedMeta.title,
+  //         document: debouncedDoc,
+  //         slug,
+  //       },
+  //     });
+  //   }
+  // }, [debouncedDoc, debouncedMeta]);
 
   const editorBox = useRef<HTMLDivElement>(null);
 
-  const isSaved =
-    data?.updatePost?.title == meta.title &&
-    doc.content?.length === data?.updatePost.document.content.length;
+  // const isSaved =
+  //   data?.updatePost?.title == meta.title &&
+  //   doc.content?.length === data?.updatePost.document.content.length;
 
   return (
     <App title="Edit Post">

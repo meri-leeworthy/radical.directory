@@ -3,10 +3,10 @@ import Link from "next/link";
 import { Footer } from "components/Footer";
 import { App } from "components/template/App";
 import { Back } from "components/Back";
-import { useQuery } from "@apollo/client";
-import { authenticatedUserVar } from "lib/apollo/cache";
+// import { useQuery } from "@apollo/client";
+// import { authenticatedUserVar } from "lib/apollo/cache";
 import dayjs from "dayjs";
-import { GET_USER_POSTS } from "lib/apollo/queries";
+// import { GET_USER_POSTS } from "lib/apollo/queries";
 
 type Posts = {
   posts: {
@@ -56,11 +56,26 @@ const RenderPosts = ({ posts }: Posts) => {
 };
 
 const UserPosts: NextPage = () => {
-  const { data, loading, error } = useQuery(GET_USER_POSTS, {
-    variables: {
-      id: authenticatedUserVar().id,
+  const data = {
+    user: {
+      posts: [
+        {
+          title: "abcd",
+          slug: "efgh",
+          authorString: "ijkl",
+          snippet: "mnop",
+          publishDate: "qrst",
+        },
+      ],
     },
-  });
+  };
+  const error = false;
+
+  // const { data, loading, error } = useQuery(GET_USER_POSTS, {
+  //   variables: {
+  //     id: authenticatedUserVar().id,
+  //   },
+  // });
 
   if (!data || error) {
     console.log("no data");

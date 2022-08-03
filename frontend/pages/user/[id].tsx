@@ -1,62 +1,62 @@
 import React, { useEffect } from "react";
-import { gql, useMutation } from "@apollo/client";
+// import { gql, useMutation } from "@apollo/client";
 import { NextPage, GetServerSideProps } from "next";
-import client from "lib/apollo/client";
+// import client from "lib/apollo/client";
 import { useDebounce } from "lib/utils";
 import Link from "next/link";
 import { App } from "components/template/App";
 
-const GET_USER = gql`
-  query ($id: ID) {
-    user(where: { id: $id }) {
-      name
-      surname
-      email
-      bio
-    }
-  }
-`;
+// const GET_USER = gql`
+//   query ($id: ID) {
+//     user(where: { id: $id }) {
+//       name
+//       surname
+//       email
+//       bio
+//     }
+//   }
+// `;
 
-const UPDATE_USER = gql`
-  mutation UpdateUser(
-    $name: String
-    $email: String
-    $surname: String
-    $bio: String
-  ) {
-    updateUser(
-      where: { email: $email }
-      data: { name: $name, surname: $surname, bio: $bio }
-    ) {
-      name
-    }
-  }
-`;
+// const UPDATE_USER = gql`
+//   mutation UpdateUser(
+//     $name: String
+//     $email: String
+//     $surname: String
+//     $bio: String
+//   ) {
+//     updateUser(
+//       where: { email: $email }
+//       data: { name: $name, surname: $surname, bio: $bio }
+//     ) {
+//       name
+//     }
+//   }
+// `;
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  console.log(params);
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   console.log(params);
 
-  try {
-    const { data, error } = await client.query({
-      query: GET_USER,
-      variables: {
-        // plug the route into the query
-        id: params?.id,
-      },
-    });
-    // error -> 404 (rather than just breaking)
-    if (!data || error) return { notFound: true };
-    // success! return the data
-    return {
-      props: {
-        user: data.user,
-      },
-    };
-  } catch {
-    // different kind of error? -> 404
-    return { notFound: true };
-  }
-};
+//   try {
+//     const { data, error } = await client.query({
+//       query: GET_USER,
+//       variables: {
+//         // plug the route into the query
+//         id: params?.id,
+//       },
+//     });
+//     // error -> 404 (rather than just breaking)
+//     if (!data || error) return { notFound: true };
+//     // success! return the data
+//     return {
+//       props: {
+//         user: data.user,
+//       },
+//     };
+//   } catch {
+//     // different kind of error? -> 404
+//     return { notFound: true };
+//   }
+// };
 
 type Props = {
   user: {
@@ -80,18 +80,24 @@ const EditProfile: NextPage<Props> = ({ user }: Props) => {
 
   type FormKeys = keyof typeof form;
 
-  let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
+  // let [updateUser, { data, loading, error }] = useMutation(UPDATE_USER);
 
-  useEffect(() => {
-    updateUser({
-      variables: {
-        name: debouncedForm.name,
-        surname: debouncedForm.surname,
-        email: debouncedForm.email,
-        bio: debouncedForm.bio,
-      },
-    });
-  }, [debouncedForm, updateUser]);
+  //Placeholder code so the page renders
+  const error = false;
+  const loading = false;
+  const data = true;
+  const submitForm = () => null;
+
+  // useEffect(() => {
+  //   updateUser({
+  //     variables: {
+  //       name: debouncedForm.name,
+  //       surname: debouncedForm.surname,
+  //       email: debouncedForm.email,
+  //       bio: debouncedForm.bio,
+  //     },
+  //   });
+  // }, [debouncedForm, updateUser]);
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const targetId = event.currentTarget.id as typeof event.currentTarget.id &
@@ -107,17 +113,17 @@ const EditProfile: NextPage<Props> = ({ user }: Props) => {
     setForm({ ...form, bio: event.target.value });
   };
 
-  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    updateUser({
-      variables: {
-        name: form.name,
-        surname: form.surname,
-        email: form.email,
-        bio: form.bio,
-      },
-    });
-  };
+  // const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   updateUser({
+  //     variables: {
+  //       name: form.name,
+  //       surname: form.surname,
+  //       email: form.email,
+  //       bio: form.bio,
+  //     },
+  //   });
+  // };
 
   return (
     <App title="Edit Profile">
@@ -168,7 +174,7 @@ const EditProfile: NextPage<Props> = ({ user }: Props) => {
             </div>
           </form>
         ) : (
-          <ErrorView message={error.message} />
+          <ErrorView message={"error.message"} />
         )}
       </div>
     </App>
