@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { AutosaveIndicator } from "components/AutosaveIndicator";
 import AutoTextArea from "components/AutoTextArea";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { stringify } from "gray-matter";
 
 export type Post = { type?: string; content?: {}[] };
 
@@ -46,7 +45,7 @@ const EditPost = () => {
               content: [
                 {
                   type: "text",
-                  text: "It's built using a 'Headless WYSIWYG Rich Text Editor Framework' called TipTap, which itself builds on top of the ProseMirror library. On top of the core JSON document model provided by ProseMirror, TipTap provides a modular range of functions for common document manipulations such as adding marks (bold, italics) and changing block types (headings, bullet lists), but the components are unstyled - this is what makes it 'headless'.",
+                  text: "It's built using a 'Headless WYSIWYG Rich Text Editor Framework' called TipTap, which wraps abstractions around the more 'low-level' ProseMirror library for JSON-based rich text manipulation. On top of the core JSON document model provided by ProseMirror, TipTap provides a modular range of functions for common document manipulations such as adding marks (bold, italics) and changing block types (headings, bullet lists), but the components are unstyled - this is what makes it 'headless'.",
                 },
               ],
             },
@@ -55,7 +54,7 @@ const EditPost = () => {
               content: [
                 {
                   type: "text",
-                  text: "My editor is inspired by the document editor on Medium.com: uber-minimal (so you can focus on writing) but with all the options you need in the context you need them. Well, maybe not all the options. In this case I only implemented ",
+                  text: "My editor is inspired by the document editor on Medium.com: super-minimal (so you can focus on writing) but with all the options you need in the context you need them. Well, maybe not all the options. In this case I only implemented ",
                 },
                 { type: "text", marks: [{ type: "bold" }], text: "bold" },
                 { type: "text", text: ", " },
@@ -110,7 +109,7 @@ const EditPost = () => {
               content: [
                 {
                   type: "text",
-                  text: "It does that by giving users only the option to increment or decrement the heading, with the meaning of that button changing based on the context of that text block within the document tree. It's a little buggy, but the core of the idea is there.",
+                  text: "It does that by giving users only the option to increment or decrement the heading, with the meaning of that button changing based on the context of that text block within the document tree.",
                 },
               ],
             },
@@ -253,41 +252,6 @@ const EditPost = () => {
               </button>
               {showJSON ? <div>{JSON.stringify(doc)}</div> : ""}
             </div>
-            <form className="relative bottom-0 p-2 mt-16 border border-b-0 shrink-0 bshadow">
-              {/* On reflection, I feel like people should actually never have to think 
-              about slugs - this is something for computers to figure out. Maybe better to 
-              keep this here though in case it can be a special control just for admins */}
-              <Tooltip.Root>
-                <Tooltip.Trigger asChild>
-                  <div className="flex items-center">
-                    <label
-                      htmlFor="slug"
-                      className="block w-10 text-sm text-slate-800 dark:text-slate-200"
-                    >
-                      Slug:
-                    </label>
-                    <input
-                      type="text"
-                      aria-describedby="slug-explainer"
-                      id="slug"
-                      className="px-1 bg-white border border-slate-500 dark:bg-black text-slate-600 dark:text-slate-400 focus:text-black focus:dark:text-white focus:border-black focus:dark:border-white focus:outline-none"
-                      value={meta.slug}
-                      onChange={(e) =>
-                        setMeta({ ...meta, slug: e.target.value })
-                      }
-                    ></input>
-                  </div>
-                </Tooltip.Trigger>
-                <Tooltip.Content asChild sideOffset={10} side="top">
-                  <div className="tooltip" id="slug-explainer">
-                    <p>
-                      A slug is the part of the URL that is specific to this
-                      page. Sometimes called &apos;permalink&apos;.
-                    </p>
-                  </div>
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </form>
           </>
         )}
       </div>
@@ -296,3 +260,43 @@ const EditPost = () => {
 };
 
 export default EditPost;
+
+{
+  /* <form className="relative bottom-0 p-2 mt-16 border border-b-0 shrink-0 bshadow">
+{/* On reflection, I feel like people should actually never have to think 
+about slugs - this is something for computers to figure out. Maybe better to 
+keep this here though in case it can be a special control just for admins */
+}
+{
+  /* <Tooltip.Root>
+  <Tooltip.Trigger asChild>
+    <div className="flex items-center">
+      <label
+        htmlFor="slug"
+        className="block w-10 text-sm text-slate-800 dark:text-slate-200"
+      >
+        Slug:
+      </label>
+      <input
+        type="text"
+        aria-describedby="slug-explainer"
+        id="slug"
+        className="px-1 bg-white border border-slate-500 dark:bg-black text-slate-600 dark:text-slate-400 focus:text-black focus:dark:text-white focus:border-black focus:dark:border-white focus:outline-none"
+        value={meta.slug}
+        onChange={(e) =>
+          setMeta({ ...meta, slug: e.target.value })
+        }
+      ></input>
+    </div>
+  </Tooltip.Trigger>
+  <Tooltip.Content asChild sideOffset={10} side="top">
+    <div className="tooltip" id="slug-explainer">
+      <p>
+        A slug is the part of the URL that is specific to this
+        page. Sometimes called &apos;permalink&apos;.
+      </p>
+    </div>
+  </Tooltip.Content>
+</Tooltip.Root>
+</form>  */
+}
