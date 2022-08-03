@@ -1,0 +1,137 @@
+---
+title: Colonisation and the Digital World
+author: Tori and Willow
+---
+
+Our collective live and work from the lands of the Wurundjeri-woi wurrung and
+Boon wurrung peoples of the Kulin nations. We acknowledge the Elders of the
+Kulin nations, and pay our deepest respect to the land, waters and air that
+Wurundjeri-woi wurrung and Boon wurrung people have cared for and maintained
+since time immemorial.
+
+Our collective acknowledge that the city of Melbourne was built on the
+dispossession, theft and violence carried out by the colonising forces, and
+legislated by the federal government of Australia. Wurundjeri-woi wurrung and
+Boon wurrung sovereignty has never been extinguished and remains true today.
+
+Radical Directory is entering into an online world, a place with long histories
+and traditions of anti-colonial resistance. We think it's important to learn
+about these histories. First Nations people have harnessed some of the most
+radical potential of the digital world from the early days of the internet. We
+look to the radical Indigenous organisers behind People's Global Action, who
+catalysed the anti-globalisation movement of the late 1990s using online forums.
+We also look to sites
+like [KooriWeb](http://www.kooriweb.org/) and [IndigenousX](https://indigenousx.com.au/),
+which bring First Nations histories, stories and activism to ever wider
+audiences. Today First Nations organisers standing up for Country from
+Wet'suwe'ten to Djap Wurrung are heard across the planet using digital
+platforms.
+
+Radical Directory exists on the internet, but the internet is a physical thing,
+made up of electricity, metals, plastics and the people who service it. The
+procurement of these materials is tied up in a colonising system of resource
+extraction here and in other parts of the world. We see the relationship between
+the digital world and colonisation as tightly bound. Government surveillance and
+appropriation of data was faced first and foremost by Aboriginal and Torres
+Strait Islander people who came up against violent surveillance by British
+colonisers. Today First Nations people are heavily scrutinised by a government
+that continues to dispossess people of their land, using statistics to justify
+policies of intervention. Being in control of how data is acquired and acted
+upon is part
+of [the struggle for data sovereignty](https://aiatsis.gov.au/publication/116530),
+which we see as aligned with the goals of Radical Directory.
+
+Finally, our collective would like to pay respect to the generations of
+Aboriginal and Torres Strait Islander activists, protectors and families who
+have stood up for their Country and their community since invasion began. First
+Nations organisers are at the forefront of every struggle today, whether that be
+for climate justice, land justice, prison abolition, health access, housing, and
+more. We agree that sovereignty is at the heart of every battle on stolen land.
+As a collective we value all that we have learned from First Nations organisers
+about how to be allies, or accomplices, and how to work in solidarity in the
+struggle to decolonise the society we live in. We believe that decolonisation is
+an
+action, [not a metaphor](https://unsettlingamerica.wordpress.com/2015/12/25/deconstructing-knowledge-decolonization-is-not-a-metaphor/),
+and that everyone has a role to play in this movement towards justice.
+
+### Links to learn from
+
+**Sites & blogs**
+
+- Gary Foley's Koori History Website: <http://www.kooriweb.org/>
+- IndigenousX: <https://indigenousx.com.au/>
+- NITV Article, Do you know what Aboriginal land you're on
+  today? <https://www.sbs.com.au/nitv/do-you-know-what-aboriginal-land-you-re-on-today/0b3d7e7b-74ae-4916-82ea-bd456b84b5a4>
+- Celeste Liddle's blog (more recent writing on Eureka Street, ABC, SBS and
+  others): [https://blackfeministranter.blogspot.com](https://blackfeministranter.blogspot.com/)
+- KHT Voices, a curated digital platform for the voice of First Nations people
+  during and after
+  COVID-19:<https://koorieheritagetrust.com.au/whats-on/kht-online/kht-voices/>
+- Unsettling America, Decolonization in Theory & Practice
+  blog:[https://unsettlingamerica.wordpress.com](https://unsettlingamerica.wordpress.com/)
+- Unist'ot'en camp, Healing People and Healing Land: <https://unistoten.camp/>
+
+**Podcasts**
+
+- Wurundjeri-wilam Woiwurrung language specialist Mandy Nicholson talking about
+  the layers of Wurundjeri
+  country: <https://www.abc.net.au/radionational/programs/awaye/features/word-up/mandy-nicholson/12971978>
+- Learning from truth with Aunty Joyce
+  Summers:<https://bond.edu.au/blog/sound-learning-truth-aunty-joyce-summers>
+- Speaking Out with Euleyai/Kamillaroi Professor of Law Larissa
+  Behrendt: <https://www.abc.net.au/radio/programs/speakingout/episodes/>
+- Frontier War Stories with Gamilaraay & Kooma radio host Boe
+  Spearim:[https://boespearim.podbean.com](https://boespearim.podbean.com/)
+- Awaye! Conversation with Palyku author Ambelin Kwaymullina on what it means to
+  live on stolen
+  land:<https://www.abc.net.au/radionational/programs/awaye/living-on-stolen-land-is-a-poetic-manifesto/12511794>
+- Breaking History Podcast on settler-colonialism from a global
+  perspective:[https://soundcloud.com/user-526344395/episode-28-settler-colonialism-in world-history](https://soundcloud.com/user-526344395/episode-28-settler-colonialism-in-world-history)
+- A Correction: A Podcast conversation with Gerald Horne on settler-colonialism
+  in Turtle Island (aka North America) and the
+  Caribbean:<https://www.acorrectionpodcast.com/phonyeconomy/9x53c8hjaa33m2mwc3e3z5hgxwdays>
+- For the Wild Conversation with Potawatomi environmental justice advocate Kyle
+  Powys White on the link between colonisation and climate
+  change: <https://forthewild.world/listen/kyle-whyte-on-the-colonial-genesis-of-climate-change-154>
+- Revolutionary Left Radio Conversation with Lakota wínkte Marxist on Settler
+  Colonialism and Decolonization: A Communist
+  Perspective:<https://revolutionaryleftradio.libsyn.com/settler-colonialism-and-decolonization-a-communist-perspective>
+- Revolutionary Left Radio Conversation with members of Indigenous Anarchist
+  Federation on Settler Colonialism and Decolonization: An Anarchist
+  Perspective:<https://revolutionaryleftradio.libsyn.com/settler-colonialism-and-decolonization-an-anarchist-perspective>
+
+**Documentary**
+
+- First Australians series by Arrernte and Kalkadoon director Rachel
+  Perkins: <https://www.sbs.com.au/ondemand/program/first-australians>
+- Blue Water Empire series on the colonisation of the Torres
+  Strait:<https://bunyaproductions.com.au/blue-water-empire/watch/>
+- Treaty, a series on what Treaty means to Aboriginal people in so-called
+  Victoria: <https://www.sbs.com.au/ondemand/program/treaty>
+- Ningla A-Na (1972) on the establishment of the Aboriginal Tent Embassy
+  (complete version on
+  Kanopy):<https://aso.gov.au/titles/documentaries/ningla-a-na/clip1/>
+- Fight for Country (1998) Mirrar people and their supporters resisting the
+  Jabiluka uranium mine: <https://www.youtube.com/watch?v=JMNoqBY4GCY>
+- Ringablin: Breaking the Drought (2014) on the healing of so-called Australia's
+  greatest
+  river:<https://www.roninfilms.com.au/feature/11373/ringbalin-breaking-drought.html>
+- Two Laws (1981) on the co-existence of colonial law and Indigenous
+  law: <https://aso.gov.au/titles/documentaries/two-laws/clip1/>
+- After the Apology (2017) on the movement initiated by grandmothers to tackle
+  the removal of children from their
+  families: <https://www.sbs.com.au/ondemand/movie/after-the-apology/1333274179947>
+
+**Video lectures**
+
+- Kanaka Maoli Professor J. Kēhaulani Kauanui on Decolonization in a
+  Settler-Colonial Context: <https://www.youtube.com/watch?v=1EmPrs6AuAQ>
+- Infrastructural Inequalities: Critiquing the Carceral State, Organising
+  Abolitionist Futures with Tabitha Lean, Debbie Kilroy, Behrouz Boochani, Omid
+  Tofighian & Amanda Porter: <https://www.youtube.com/watch?v=vpSTFW5aWC8>
+- Ngāti Tīpa, Ngāti Maniapoto and Te Aupouri Professor Dr Tahu Kukutai on
+  Understanding Indigenous Data
+  Sovereignty: <https://www.youtube.com/watch?v=BWX8qS0mTAg>
+- Abolition on Indigenous Land: alternative futures and criminology's role, with
+  Natalie Ironfield, Tabitha Lean, Latoya Aroha Rule, Alison Whittaker and
+  Amanda Porter: <https://www.youtube.com/watch?v=peA6_WdIbtE>

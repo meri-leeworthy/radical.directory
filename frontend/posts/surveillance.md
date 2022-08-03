@@ -1,0 +1,144 @@
+---
+title: Surveillance
+author: Tori
+---
+
+Transparency is an antidote to the fear caused by uncertainty.
+
+When we don't know how police are surveilling us, only that they are, and with
+vast resources behind them, we allow their culture of stealth and superiority to
+settle over our daily lives.
+
+At the end of the day, we are all just humans logging on to servers, and
+patterns of police behaviour can be traced as well as our own. With this
+knowledge under our belt we can push back against the fog of anxiety and
+disempowerment, knowing exactly how and on which platforms our identities are
+being documented.
+
+Adapting to the presence of state eyes is not new. It is the compromise we
+choose to make in order to connect with the world around us. The vast majority
+of people are used to making these ostensibly coercive decisions, very few
+having the real freedom to choose whether or not they engage with popular
+culture, communication tools included.
+
+It has become clear over the past few years that we are still infants of this
+era, with even Mark Zuckerberg stumbling at the prospect of navigating the nexus
+of panopticon-savvy democratic policy, the money hungry giants of the data
+mining industry, and the digital illiteracy of generations of people who quite
+understandably cannot yet grasp that logging on to Facebook is like clocking in
+to a 24/7 consumer survey-cum-police interview.
+
+So, the question therefore remains: how exactly do the police use social media
+against people?
+
+I say against specifically because we must remember always that the boys in
+blue, no matter what they tell us, are an organisation designed to defend the
+interests of capital and the proponents of colonialism and white supremacy.
+Regardless of rhetoric they will always seek to maintain their use of force,
+whether physical, psychological, social or institutional. Until they turn
+against the powers that employ them, the police will never be working 'for' the
+people.
+
+What follows is an exploration in demystifying how the police employ
+surveillance techniques on social media. This, like everything, will be a
+constantly growing document.
+
+### **Clearview AI**
+
+The Australian Federal Police, Victoria Police, South Australia Police and
+Queensland Police Service all currently have contracts with Clearview AI, a US
+based tech company founded by Australian entrepreneur Hoan Ton-That.
+
+While there are many household names in the field of facial recognition, such as
+Google's FaceNet or Amazon's Rekognition, Clearview set a new precedent with
+their practice of 'web-scraping'. Like the verb implies, the company extracts
+images, some several billion thus far, from publicly available platforms like
+Facebook and Youtube which they then run through
+programs ["to make a biometric template for each face and match those templates to the online sources of the images."](https://theconversation.com/australian-police-are-using-the-clearview-ai-facial-recognition-system-with-no-accountability-132667)
+
+This means that in practice, an image can be uploaded into the application, and
+then cross referenced with a Facebook-sized database of faces, to then return
+results of any matches and the information associated with these matching
+photos, like the name and details of the Facebook user that this photo 'belongs'
+to.
+
+Source:<https://www.theguardian.com/australia-news/2020/jun/19/victoria-police-distances-itself-from-controversial-facial-recognition-firm-clearview-ai>
+
+The role that facial recognition software plays in reproducing the racism
+already entrenched in police practice is
+well [documented](https://www.aclu.org/news/privacy-technology/how-is-face-recognition-surveillance-technology-racist/).
+The current wave of Black resistance has catalysed the long petitioned
+withdrawal of Amazon, Google and IBM's facial recognition software from police
+organisations across the US.
+
+The track record of facial recognition software returning shocking inaccuracy in
+correctly matching white faces compared to non-white faces and male faces
+compared to female faces compounds with the overrepresentation of BIPOC people
+in police databases due to racial profiling, with the end result that there have
+been recurring cases of people of colour, particularly Black and brown people,
+being misidentified through facial recognition
+and [wrongfully arrested](https://www.theverge.com/2020/6/24/21301759/facial-recognition-detroit-police-wrongful-arrest-robert-williams-artificial-intelligence) and
+charged.
+
+Despite all this, Ton-That maintains that he is contributing to making the world
+a safer place, and half of this colony's police forces are liberally using this
+software to sift through surveillance footage and video content published
+publicly online, extracting images and finding potential matches to charge.
+
+### **Facebook's Law Enforcement Portal: How Social Media is Used to Arrest**
+
+Go to <https://www.facebook.com/records/login/>
+
+Welcome to Facebook's Law Enforcement Portal (FLEP).
+
+Since its growth to hegemonic levels of popularity worldwide, the police have
+turned to Facebook as a space to draw information and evidence from, through the
+use of warrant and subpoena. The logic flows; Facebook is a business place in
+which citizens of a state have conversations, collect information and organise
+events. If any of the aforementioned activities is potentially incriminating,
+then it is the equivalent of the police requesting a copy of a venue's CCTV.
+
+The subpoena previously took the shape of
+a [form](https://info.publicintelligence.net/Facebook2010.pdf), but has since
+been streamlined into the Portal, for ease of use. Since 2016, Facebook has
+received 125,800 Legal Process Requests and 15,000 Emergency Requests. While a
+Legal Process Request requires the relevant police organisation to present a
+warrant, Emergency requests do not. Facebook defines an emergency as situations
+where the
+matter ["involves imminent risk of physical injury or death"](https://transparency.facebook.com/government-data-requests).
+
+### **Social Network Analysis**
+
+Social Network Analysis, SNA, is not to be confused with *social media
+analysis*. SNA is a data collation method used in fields from consumer-choice
+analysis to disease control. In the context of the police, it is used to build
+maps of social relations through data collected through prior arrests and
+associated information.
+
+Police use SNA programs to build relationship maps, assisting where detectives
+otherwise use their 'skills', intuition and cognitive
+bias. [SNA works](https://www.policechiefmagazine.org/power-social-network-analysis/) by
+data being entered as nodes (i.e. people, organisations) and edges (the
+relationship that links them). The use of this process creates maps called
+'sociograms' that allow police to notice hidden or subtle connections and make
+arrests, pre-emptive or otherwise.
+
+While the use of SNA in policing does not automatically include the use of
+social media analysis, the power of these two instruments combining is explicit.
+Most explanations of when police use SNA are the big three, namely drug crime,
+gang violence and terrorism. However the scope of what is
+being [defined as terrorism](https://www.redblacknotes.com/2020/08/20/facebook-announce-crackdown-against-anarchists/) by
+different states has long been inching into territory of broad traditions of
+civil disobedience.
+
+Terrorism withstanding, the overshadowing perception of who is criminalised in
+the drug trade and who is included in analysis of gang violence themselves stand
+as deeply politicised institutions upholding certain forms of capitalism (that
+themselves uphold colonial white supremacy) while others are demonised and
+categorised as prison labour.
+
+Understanding how social media is used in the context of SNA is therefore also a
+question of understanding how racial capitalism is enforced in the age of social
+media.
+
+Source: [https://www.rand.org/content/dam/rand/pubs/research_reports/RR2300/RR2301/RAND_RR2301](https://www.rand.org/content/dam/rand/pubs/research_reports/RR2300/RR2301/RAND_RR2301.pdf) [(White supremacy overshadowing domestic terrorism in the US)](https://www.csis.org/analysis/escalating-terrorism-problem-united-states)
