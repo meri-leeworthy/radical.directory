@@ -54,6 +54,16 @@ const EditPost = () => {
               content: [
                 {
                   type: "text",
+                  marks: [{ type: "italic" }],
+                  text: "Please note: when I first built the editor, documents were auto-saved to a database, and the icon on the top right indicated that. To save costs, the server is now down, and the editor has been changed so it still looks and feels the same but doesn’t save.",
+                },
+              ],
+            },
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
                   text: "My editor is inspired by the document editor on Medium.com: super-minimal (so you can focus on writing) but with all the options you need in the context you need them. Well, maybe not all the options. In this case I only implemented ",
                 },
                 { type: "text", marks: [{ type: "bold" }], text: "bold" },
