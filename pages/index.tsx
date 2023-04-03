@@ -55,7 +55,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setStatement((statement) =>
+      setStatement(statement =>
         // statement + 1 < manifesto.length ? statement + 1 : 0
         Math.floor(Math.random() * manifesto.length)
       );
@@ -104,8 +104,10 @@ const Home: NextPage = () => {
               </a>
             </Link>
 
-            <a href="https://discord.gg/fRURFnac4H" className="card">
-              <h2>👾 Join Our Discord &rarr;</h2>
+            <a
+              href="https://matrix.to/#/#r.d:radical.directory"
+              className="card">
+              <h2>🎋 Join Our Matrix Room &rarr;</h2>
               <p>
                 Give feedback and ideas. Get first updates. Join our open
                 meetings. Organise with us.
