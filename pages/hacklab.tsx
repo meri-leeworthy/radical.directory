@@ -10,7 +10,7 @@ export default function HackLab() {
 
   return (
     <div className="flex justify-center p-20">
-      <div className="flex-1 w-full max-w-sm p-4 border">
+      <div className="flex flex-col flex-1 w-full max-w-sm gap-2 p-4 border">
         <h1>sign up to the hacklab 🌸</h1>
         <p>next hacklab is at Catalyst Social Centre, 144 Sydney Rd Coburg</p>
         <p>6-9pm, 20th June 2023</p>
@@ -37,7 +37,7 @@ export default function HackLab() {
           <input
             type="text"
             id="name"
-            className="border"
+            className="px-2 bg-white border dark:bg-black"
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -45,7 +45,7 @@ export default function HackLab() {
           <input
             type="text"
             id="email"
-            className="border"
+            className="px-2 bg-white border dark:bg-black"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
@@ -53,11 +53,13 @@ export default function HackLab() {
           <input
             type="text"
             id="accessibility"
-            className="border"
+            className="px-2 bg-white border dark:bg-black"
             value={accessibility}
             onChange={e => setAccessibility(e.target.value)}
           />
-          <button type="submit">submit</button>
+          <button type="submit" className="self-center px-2 m-4 border">
+            submit
+          </button>
         </form>
         {loading && <p>loading...</p>}
         {submitted && <p>submitted! c u there 💗</p>}
