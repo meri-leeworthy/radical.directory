@@ -1,4 +1,3 @@
-import { set } from "lodash";
 import { useState } from "react";
 
 export default function HackLab() {
@@ -69,14 +68,3 @@ export default function HackLab() {
     </div>
   );
 }
-
-//form with fields for name, email, accessibility requirements, and a submit button
-
-//on submit, send a message to the matrix room #hacklab:matrix.org
-
-//the message should be a json object with the following fields:
-//name: string
-//email: string
-//accessibility: string
-//timestamp: string
-//ip: string
