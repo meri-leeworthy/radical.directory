@@ -13,7 +13,7 @@ export default function HackLab() {
       <div className="flex flex-col flex-1 w-full max-w-sm gap-2 p-4 border">
         <h1>sign up to the hacklab 🌸</h1>
         <p>next hacklab is at Catalyst Social Centre, 144 Sydney Rd Coburg</p>
-        <p>6-9pm, 20th June 2023</p>
+        <p>6-9pm, 18th July 2023</p>
         <form
           onSubmit={async e => {
             e.preventDefault();
@@ -23,7 +23,7 @@ export default function HackLab() {
               await fetch("/api/PostMatrixMessage", {
                 method: "POST",
                 body: JSON.stringify({
-                  message: `New signup! \n \n name: ${name} \n email: ${email} \n accessibility: ${accessibility}`,
+                  message: `New signup for July! \n \n name: ${name} \n email: ${email} \n accessibility: ${accessibility}`,
                 }),
               });
             } catch (e) {
