@@ -1,15 +1,14 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"
 
 export const Back = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <button
       type="button"
       onClick={() => router.back()}
-      className="self-center sm:self-start text-2xl font-bold mt-6"
-    >
+      className="self-center mt-6 text-2xl font-bold sm:self-start">
       &larr; Back
     </button>
-  );
-};
+  )
+}
