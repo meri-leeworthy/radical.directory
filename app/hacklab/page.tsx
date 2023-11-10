@@ -1,12 +1,14 @@
-import { useState } from "react";
+"use client"
+
+import { useState } from "react"
 
 export default function HackLab() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [accessibility, setAccessibility] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [accessibility, setAccessibility] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState(false)
 
   return (
     <div className="flex justify-center p-20">
@@ -16,21 +18,21 @@ export default function HackLab() {
         <p>6-9pm, 18th July 2023</p>
         <form
           onSubmit={async e => {
-            e.preventDefault();
-            console.log("submitting");
-            setLoading(true);
+            e.preventDefault()
+            console.log("submitting")
+            setLoading(true)
             try {
               await fetch("/api/PostMatrixMessage", {
                 method: "POST",
                 body: JSON.stringify({
                   message: `New signup for July! \n \n name: ${name} \n email: ${email} \n accessibility: ${accessibility}`,
                 }),
-              });
+              })
             } catch (e) {
-              setError(true);
+              setError(true)
             }
-            setLoading(false);
-            setSubmitted(true);
+            setLoading(false)
+            setSubmitted(true)
           }}
           className="flex flex-col">
           <label htmlFor="name">name</label>
@@ -68,5 +70,5 @@ export default function HackLab() {
         )}
       </div>
     </div>
-  );
+  )
 }

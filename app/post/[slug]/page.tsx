@@ -1,3 +1,5 @@
+"use client"
+
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next"
 import { Footer } from "components/Footer"
 import { Landing } from "components/template/Landing"
@@ -11,24 +13,24 @@ import path from "path"
 import matter from "gray-matter"
 import { Post } from "../../writing/page"
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: postFilePaths.map(filePath => ({
-      params: { slug: filePath.slice(0, -4) },
-    })),
-    fallback: false,
-  }
-}
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: postFilePaths.map(filePath => ({
+//       params: { slug: filePath.slice(0, -4) },
+//     })),
+//     fallback: false,
+//   }
+// }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = (params?.slug as string) || ""
-  const source = readFileSync(path.join(POSTS_PATH, slug + ".mdx"))
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const slug = (params?.slug as string) || ""
+//   const source = readFileSync(path.join(POSTS_PATH, slug + ".mdx"))
 
-  const { content, data } = matter(source)
-  const mdxSource = await serialize(content)
+//   const { content, data } = matter(source)
+//   const mdxSource = await serialize(content)
 
-  return { props: { post: { data, slug, source: mdxSource } } }
-}
+//   return { props: { post: { data, slug, source: mdxSource } } }
+// }
 
 type Props = {
   post: Post & { source: MDXRemoteSerializeResult }
