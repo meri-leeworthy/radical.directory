@@ -1,58 +1,58 @@
-import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { LOGIN } from "lib/apollo/queries";
-import { App } from "components/template/App";
-import { authenticatedUserVar } from "lib/apollo/cache";
+import { useState } from "react"
+// import { useMutation } from "@apollo/client";
+import { NextPage } from "next"
+import Link from "next/link"
+import { useRouter } from "next/router"
+// import { LOGIN } from "lib/apollo/queries";
+import { App } from "components/template/App"
+import { authenticatedUserVar } from "lib/apollo/cache"
 
 const Login: NextPage = () => {
-  const router = useRouter();
+  const router = useRouter()
   const [form, setForm] = useState({
     email: "",
     password: "",
-  });
-  type FormKeys = keyof typeof form;
+  })
+  type FormKeys = keyof typeof form
 
   const changeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const targetId = event.currentTarget.id as typeof event.currentTarget.id &
-      FormKeys;
-    const newForm = { ...form };
-    newForm[targetId] = event.currentTarget.value;
-    setForm(newForm);
-  };
-
-  let [login, { data, loading, error }] = useMutation(LOGIN);
-
-  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(form);
-    login({
-      variables: {
-        email: form.email,
-        password: form.password,
-      },
-    });
-  };
-  if (data?.authenticateUserWithPassword.item) {
-    localStorage.setItem(
-      "userId",
-      data.authenticateUserWithPassword.item.id as string
-    );
-    authenticatedUserVar({
-      name: data.authenticateUserWithPassword.item.name,
-      id: data.authenticateUserWithPassword.item.id,
-    });
-    // router.push(`/user/${data.authenticateUserWithPassword.item.id}`);
-    router.push("/user/edit");
+      FormKeys
+    const newForm = { ...form }
+    newForm[targetId] = event.currentTarget.value
+    setForm(newForm)
   }
 
-  if (error) return <>{`submission error! ${error.message}`}</>;
-  if (data?.authenticateUserWithPassword.message)
-    return (
-      <>{`email or password were incorrect. ${data.authenticateUserWithPassword.message}`}</>
-    );
+  // let [login, { data, loading, error }] = useMutation(LOGIN);
+
+  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log(form)
+    // login({
+    //   variables: {
+    //     email: form.email,
+    //     password: form.password,
+    //   },
+    // });
+  }
+  // if (data?.authenticateUserWithPassword.item) {
+  //   localStorage.setItem(
+  //     "userId",
+  //     data.authenticateUserWithPassword.item.id as string
+  //   );
+  //   authenticatedUserVar({
+  //     name: data.authenticateUserWithPassword.item.name,
+  //     id: data.authenticateUserWithPassword.item.id,
+  //   });
+  //   // router.push(`/user/${data.authenticateUserWithPassword.item.id}`);
+  //   router.push("/user/edit");
+  // }
+
+  // if (error) return <>{`submission error! ${error.message}`}</>;
+  // if (data?.authenticateUserWithPassword.message)
+  //   return (
+  //     <>{`email or password were incorrect. ${data.authenticateUserWithPassword.message}`}</>
+  //   );
 
   return (
     <App title="Login">
@@ -85,11 +85,11 @@ const Login: NextPage = () => {
               <a className="button">New Account</a>
             </Link>
           </div>
-          {loading && "submitting..."}
+          {/* {loading && "submitting..."} */}
         </form>
       </div>
     </App>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
