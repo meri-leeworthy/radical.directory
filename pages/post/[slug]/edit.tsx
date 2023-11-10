@@ -1,23 +1,23 @@
-import { App } from "components/template/App";
-import { useRouter } from "next/router";
+import { App } from "components/template/App"
+import { useRouter } from "next/router"
 // import { GET_POST, UPDATE_POST } from "lib/apollo/queries";
 // import { useMutation, useQuery } from "@apollo/client";
-import Editor from "components/editor/Editor";
-import { useDebounce } from "lib/utils";
-import { useEffect, useRef, useState } from "react";
-import { AutosaveIndicator } from "components/AutosaveIndicator";
-import AutoTextArea from "components/AutoTextArea";
-import * as Tooltip from "@radix-ui/react-tooltip";
+// import Editor from "components/editor/Editor";
+import { useDebounce } from "lib/utils"
+import { useEffect, useRef, useState } from "react"
+import { AutosaveIndicator } from "components/AutosaveIndicator"
+import AutoTextArea from "components/AutoTextArea"
+import * as Tooltip from "@radix-ui/react-tooltip"
 
-export type Post = { type?: string; content?: {}[] };
+export type Post = { type?: string; content?: {}[] }
 
 const EditPost = () => {
   //placeholder code to make the page render
-  const loading = false;
-  const isSaved = true;
+  const loading = false
+  const isSaved = true
 
-  const router = useRouter();
-  const { slug } = router.query;
+  const router = useRouter()
+  const { slug } = router.query
 
   // const { data: initialData } = useQuery(GET_POST, {
   //   variables: {
@@ -28,11 +28,11 @@ const EditPost = () => {
   const [debouncedMeta, meta, setMeta] = useDebounce(
     { title: "", slug: "" },
     500
-  );
+  )
   const [debouncedDoc, doc, setDoc] = useDebounce<Post>(
     { type: "doc", content: [] },
     500
-  );
+  )
 
   useEffect(() => {
     const initialData = {
@@ -186,15 +186,15 @@ const EditPost = () => {
         title: "This is a rich text editor.",
         slug,
       },
-    };
+    }
     if (initialData && meta.slug === "") {
-      setDoc(initialData.post.document);
+      setDoc(initialData.post.document)
       setMeta({
         title: initialData.post.title,
         slug: initialData.post.slug as string,
-      });
+      })
     }
-  }, [slug, meta.slug, setMeta, setDoc]);
+  }, [slug, meta.slug, setMeta, setDoc])
 
   // let [updateDoc, { data, loading, error }] = useMutation(UPDATE_POST);
 
@@ -215,20 +215,19 @@ const EditPost = () => {
   //   }
   // }, [debouncedDoc, debouncedMeta]);
 
-  const editorBox = useRef<HTMLDivElement>(null);
+  const editorBox = useRef<HTMLDivElement>(null)
 
   // const isSaved =
   //   data?.updatePost?.title == meta.title &&
   //   doc.content?.length === data?.updatePost.document.content.length;
 
-  let [showJSON, setShowJSON] = useState(false);
+  let [showJSON, setShowJSON] = useState(false)
 
   return (
     <App title="Edit Post">
       <div
         className="flex flex-col w-full max-w-xl min-h-full pt-40"
-        ref={editorBox}
-      >
+        ref={editorBox}>
         {doc.content?.length && (
           <>
             <div className="z-0 grow">
@@ -238,9 +237,7 @@ const EditPost = () => {
                     id="title"
                     rows={1}
                     value={meta.title}
-                    onChange={(e) =>
-                      setMeta({ ...meta, title: e.target.value })
-                    }
+                    onChange={e => setMeta({ ...meta, title: e.target.value })}
                     placeholder="My cool article"
                     className="editor-title"
                     aria-label="Title"
@@ -256,8 +253,8 @@ const EditPost = () => {
                 />
               </div>
               <hr className="mt-2 text-transparent border-t border-gray-300 border-dashed dark:border-gray-700 " />
-              <Editor setDoc={setDoc} doc={doc} editorBox={editorBox} />
-              <button onClick={(e) => setShowJSON(!showJSON)}>
+              {/* <Editor setDoc={setDoc} doc={doc} editorBox={editorBox} /> */}
+              <button onClick={e => setShowJSON(!showJSON)}>
                 {showJSON ? "Hide" : "Show"} JSON
               </button>
               {showJSON ? <div>{JSON.stringify(doc)}</div> : ""}
@@ -266,10 +263,10 @@ const EditPost = () => {
         )}
       </div>
     </App>
-  );
-};
+  )
+}
 
-export default EditPost;
+export default EditPost
 
 {
   /* <form className="relative bottom-0 p-2 mt-16 border border-b-0 shrink-0 bshadow">

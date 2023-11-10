@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 // import { LOGIN } from "lib/apollo/queries";
 import { App } from "components/template/App"
-import { authenticatedUserVar } from "lib/apollo/cache"
+// import { authenticatedUserVar } from "lib/apollo/cache"
 
 const Login: NextPage = () => {
   const router = useRouter()
