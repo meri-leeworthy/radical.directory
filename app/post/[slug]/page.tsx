@@ -1,17 +1,17 @@
-"use client"
+// "use client"
 
-import type { NextPage, GetStaticProps, GetStaticPaths } from "next"
-import { Footer } from "components/Footer"
-import { Landing } from "components/template/Landing"
-import { RDLogo } from "components/RDLogo"
-import { Back } from "components/Back"
-import { postFilePaths, POSTS_PATH } from "lib/mdxUtils"
-import { serialize } from "next-mdx-remote/serialize"
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
-import { readFileSync } from "fs"
-import path from "path"
-import matter from "gray-matter"
-import { Post } from "../../writing/page"
+// import type { NextPage, GetStaticProps, GetStaticPaths } from "next"
+// import { Footer } from "components/Footer"
+// import { Landing } from "components/template/Landing"
+// import { RDLogo } from "components/RDLogo"
+// import { Back } from "components/Back"
+// import { postFilePaths, POSTS_PATH } from "lib/mdxUtils"
+// import { serialize } from "next-mdx-remote/serialize"
+// import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
+// import { readFileSync } from "fs"
+// import path from "path"
+// import matter from "gray-matter"
+// import { Post } from "../../writing/page"
 
 // export const getStaticPaths: GetStaticPaths = async () => {
 //   return {
@@ -30,30 +30,30 @@ import { Post } from "../../writing/page"
 //   const mdxSource = await serialize(content)
 
 //   return { props: { post: { data, slug, source: mdxSource } } }
+// // }
+
+// type Props = {
+//   post: Post & { source: MDXRemoteSerializeResult }
 // }
 
-type Props = {
-  post: Post & { source: MDXRemoteSerializeResult }
-}
+// const PostPage: NextPage<Props> = ({ post }: Props) => {
+//   const components = {}
 
-const PostPage: NextPage<Props> = ({ post }: Props) => {
-  const components = {}
+//   return (
+//     <Landing title={post.data.title}>
+//       <RDLogo />
 
-  return (
-    <Landing title={post.data.title}>
-      <RDLogo />
+//       <main className="article">
+//         <div className="flex-shrink-0 hidden p-4 xl:block h-2/5"> </div>
 
-      <main className="article">
-        <div className="flex-shrink-0 hidden p-4 xl:block h-2/5"> </div>
+//         <h2>{post.data.title}</h2>
+//         <MDXRemote {...post.source} components={components} />
 
-        <h2>{post.data.title}</h2>
-        <MDXRemote {...post.source} components={components} />
+//         <Back />
+//         <Footer />
+//       </main>
+//     </Landing>
+//   )
+// }
 
-        <Back />
-        <Footer />
-      </main>
-    </Landing>
-  )
-}
-
-export default PostPage
+// export default PostPage
