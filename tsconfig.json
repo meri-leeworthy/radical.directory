@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/writing.tsx.dead", "app/slugpost.ts.dead", "app/PostMatrixMessage.ts.dead"  ],
   "exclude": [
     "pages_old",
     "node_modules"
