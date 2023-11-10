@@ -24,20 +24,20 @@ type Props = {
   posts: Post[]
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = postFilePaths.map(filePath => {
-    const source = readFileSync(path.join(POSTS_PATH, filePath))
-    const { content, data } = matter(source)
-    const slug = filePath.slice(0, -4)
-    return {
-      content,
-      data,
-      slug,
-    }
-  })
+// export const getStaticProps: GetStaticProps = async () => {
+//   const posts = postFilePaths.map(filePath => {
+//     const source = readFileSync(path.join(POSTS_PATH, filePath))
+//     const { content, data } = matter(source)
+//     const slug = filePath.slice(0, -4)
+//     return {
+//       content,
+//       data,
+//       slug,
+//     }
+//   })
 
-  return { props: { posts } }
-}
+//   return { props: { posts } }
+// }
 
 const Writing: NextPage<Props> = ({ posts }: Props) => {
   return (
