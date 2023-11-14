@@ -1,4 +1,4 @@
-const { RD_ACCESS_TOKEN } = process.env
+const { RD_MERI_ACCESS_TOKEN } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -11,7 +11,7 @@ const BASE_URL = "https://matrix.radical.directory"
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 
 async function getSpaceChildIds() {
-  const client = new Client(BASE_URL, RD_ACCESS_TOKEN!)
+  const client = new Client(BASE_URL, RD_MERI_ACCESS_TOKEN!)
   const space = new Room(SPACE_ID, client)
   const state = await space.getState()
   const sortedState = Room.sortEvents(state)
@@ -28,7 +28,7 @@ function getIdLocalPart(id: string) {
 export default async function Orgs() {
   const roomIds = await getSpaceChildIds()
   const rooms = roomIds.map(
-    roomId => new Room(roomId, new Client(BASE_URL, RD_ACCESS_TOKEN!))
+    roomId => new Room(roomId, new Client(BASE_URL, RD_MERI_ACCESS_TOKEN!))
   )
   await Promise.all(rooms.map(async room => await room.getName()))
 
