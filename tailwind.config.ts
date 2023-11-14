@@ -16,6 +16,7 @@ const config: Config = {
     fontFamily: {
       title: ["Viksjo", "WorkSans", "sans-serif"],
       sans: ["WorkSans", "sans-serif"],
+      body: ["Fluxisch", "sans-serif"],
     },
     extend: {
       screens: {

@@ -2,7 +2,7 @@ const { OPEN_LETTER_PASSWORD } = process.env
 
 export const dynamic = "force-dynamic"
 
-import { Client, Room, login } from "simple-matrix-sdk"
+import { Client, Room } from "simple-matrix-sdk"
 import { Form } from "./form"
 import { Back } from "components/Back"
 import Link from "next/link"
@@ -12,14 +12,18 @@ const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
 
 async function sendSignatory(name: string, work: string) {
   "use server"
-  const accessToken = await login(BASE_URL, "openletter", OPEN_LETTER_PASSWORD!)
+  const accessToken = await Client.login(
+    BASE_URL,
+    "openletter",
+    OPEN_LETTER_PASSWORD!
+  )
   const client = new Client(BASE_URL, accessToken)
   const room = new Room(ROOM_ID, client)
   const content = {
     body: `name: ${name}\nwork: ${work}`,
     msgtype: "m.text",
   }
-  await room.sendRoomMessage(content)
+  await room.sendMessage(content)
 }
 
 export default async function SignLetter() {

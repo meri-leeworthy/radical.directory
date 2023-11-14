@@ -2,21 +2,25 @@ const { OPEN_LETTER_PASSWORD } = process.env
 
 export const dynamic = "force-dynamic"
 
-import { Client, Room, login } from "simple-matrix-sdk"
+import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
 
 async function getRoomMessagesIterator() {
-  const accessToken = await login(BASE_URL, "openletter", OPEN_LETTER_PASSWORD!)
+  const accessToken = await Client.login(
+    BASE_URL,
+    "openletter",
+    OPEN_LETTER_PASSWORD!
+  )
   const client = new Client(BASE_URL, accessToken)
   const room = new Room(ROOM_ID, client)
-  const messagesIterator = room.getRoomMessagesAsyncGenerator()()
+  const messagesIterator = room.getMessagesAsyncGenerator()()
   return messagesIterator
 }
 
-async function getMessagesChunk(messagesIterator: AsyncGenerator) {
+export async function getMessagesChunk(messagesIterator: AsyncGenerator) {
   const { value } = await messagesIterator.next()
   return value.chunk
 }

@@ -25,9 +25,9 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.2.0",
     "s3-client": "^4.4.2",
+    "simple-matrix-sdk": "file:../simple-matrix-sdk",
     "slate": "^0.66.2",
-    "slate-react": "^0.66.2",
-    "simple-matrix-sdk": "^0.1.2"
+    "slate-react": "^0.66.2"
   },
   "devDependencies": {
     "@types/node": "20.9.0",

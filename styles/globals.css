@@ -91,6 +91,30 @@
     font-style: italic;
     font-display: swap;
   }
+
+  @font-face {
+    font-family: "Fluxisch";
+    src: url("../fonts/fluxisch/FluxischElse-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Fluxisch";
+    src: url("../fonts/fluxisch/FluxischElse-Light.woff") format("woff");
+    font-weight: light;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Fluxisch";
+    src: url("../fonts/fluxisch/FluxischElse-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 }
 
 @layer components {
@@ -331,6 +355,8 @@ body {
   margin: 0;
   font-family: WorkSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: #ECE2D0;
+  border-color: #1D170C;
 }
 
 a {
