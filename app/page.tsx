@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic"
 import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
 import { Org } from "./orgs/Org"
+import { Suspense } from "react"
 
 const BASE_URL = "https://matrix.radical.directory"
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
@@ -35,13 +36,17 @@ export default async function Orgs() {
     console.log("room name", room.useName())
   })
 
+  // const asyncComponent: JSX.Element = await (async (org: Room) => await Org({ room: org }))
+
   return (
     <>
       <ul>
         {rooms.map((org, i) => (
           <li key={i}>
             <Link href={`/orgs/${getIdLocalPart(roomIds[i])}`}>
-              <Org room={org} />
+              <Suspense fallback={<>loading...</>}>
+                <Org room={org} />
+              </Suspense>
             </Link>
           </li>
         ))}

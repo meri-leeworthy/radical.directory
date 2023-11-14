@@ -20,6 +20,7 @@ function parseContactKVs(
   const contactMetaMsgs = messages
     .filter(message => message.content?.body?.includes("CONTACT\n"))
     .map(message => message.content?.body)
+  const initialObject: Record<string, string | undefined> = {}
   return contactMetaMsgs
     .map(message =>
       message
@@ -28,23 +29,26 @@ function parseContactKVs(
         .flatMap((line: string) => line.split(": ", 2))
     )
     .reduce((object, tuple) => {
+      if (!tuple) return object
       const [key, value] = tuple
       object[key.toLowerCase()] = value
       return object
-    }, {})
+    }, initialObject)
 }
 
 function parseFaqKVs(messages: Event[]): Record<string, string | undefined> {
   const faqMetaMsgs = messages
     .filter(message => message.content?.body?.includes("FAQ: "))
     .map(message => message.content?.body)
+  const initialObject: Record<string, string | undefined> = {}
   return faqMetaMsgs
-    .map(message => message.split("FAQ: ").slice(1, 2)[0].split("\n"))
+    .map(message => message?.split("FAQ: ").slice(1, 2)[0].split("\n"))
     .reduce((object, tuple) => {
+      if (!tuple) return object
       const [key, ...values] = tuple
       object[key] = values.join("\n")
       return object
-    }, {})
+    }, initialObject)
 }
 
 export default async function OrgSlugPage({
@@ -74,7 +78,7 @@ export default async function OrgSlugPage({
   console.log(faqKVs)
 
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
-  console.log("topic", topic?.content.topic)
+  console.log("topic", topic?.content?.topic)
 
   return (
     <>
