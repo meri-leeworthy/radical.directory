@@ -23,7 +23,7 @@ function parseContactKVs(
   return contactMetaMsgs
     .map(message =>
       message
-        .split("\n")
+        ?.split("\n")
         .slice(1)
         .flatMap((line: string) => line.split(": ", 2))
     )
