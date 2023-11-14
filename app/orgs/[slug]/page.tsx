@@ -3,8 +3,11 @@ const { RD_MERI_ACCESS_TOKEN } = process.env
 export const dynamic = "force-dynamic"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
-import { getMessagesChunk } from "app/open-letter-healthcare-palestine/page"
-import Link from "next/link"
+
+async function getMessagesChunk(messagesIterator: AsyncGenerator) {
+  const { value } = await messagesIterator.next()
+  return value.chunk
+}
 
 async function getRoomMessagesIterator(room: Room) {
   const messagesIterator = room.getMessagesAsyncGenerator()()

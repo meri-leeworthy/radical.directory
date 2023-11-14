@@ -20,7 +20,7 @@ async function getRoomMessagesIterator() {
   return messagesIterator
 }
 
-export async function getMessagesChunk(messagesIterator: AsyncGenerator) {
+async function getMessagesChunk(messagesIterator: AsyncGenerator) {
   const { value } = await messagesIterator.next()
   return value.chunk
 }
