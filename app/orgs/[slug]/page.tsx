@@ -18,8 +18,8 @@ function parseContactKVs(
   messages: Event[]
 ): Record<string, string | undefined> {
   const contactMetaMsgs = messages
-    .filter(message => message.content.body.includes("CONTACT\n"))
-    .map(message => message.content.body)
+    .filter(message => message.content?.body?.includes("CONTACT\n"))
+    .map(message => message.content?.body)
   return contactMetaMsgs
     .map(message =>
       message
@@ -36,8 +36,8 @@ function parseContactKVs(
 
 function parseFaqKVs(messages: Event[]): Record<string, string | undefined> {
   const faqMetaMsgs = messages
-    .filter(message => message.content.body.includes("FAQ: "))
-    .map(message => message.content.body)
+    .filter(message => message.content?.body?.includes("FAQ: "))
+    .map(message => message.content?.body)
   return faqMetaMsgs
     .map(message => message.split("FAQ: ").slice(1, 2)[0].split("\n"))
     .reduce((object, tuple) => {
