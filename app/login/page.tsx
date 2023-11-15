@@ -1,6 +1,6 @@
 "use client"
 
-const { MATRIX_BASE_URL } = process.env
+const MATRIX_BASE_URL = "https://matrix.radical.directory"
 
 import React, { useState } from "react"
 import { Client } from "simple-matrix-sdk"
@@ -12,6 +12,7 @@ const LoginPage = () => {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
+      console.log("Matrix base url", MATRIX_BASE_URL)
       const accessToken = await Client.login(
         MATRIX_BASE_URL!,
         username,
