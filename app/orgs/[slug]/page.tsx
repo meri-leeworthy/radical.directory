@@ -1,4 +1,4 @@
-const { RD_MERI_ACCESS_TOKEN } = process.env
+const { RD_MERI_ACCESS_TOKEN, MATRIX_BASE_URL } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -22,7 +22,7 @@ export default async function OrgSlugPage({
 
   const room = new Room(
     roomId,
-    new Client("https://matrix.radical.directory", RD_MERI_ACCESS_TOKEN!)
+    new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!)
   )
 
   console.log(await room.getName())
