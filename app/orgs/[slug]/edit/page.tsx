@@ -13,6 +13,7 @@ import {
 import { Contact } from "../Contact"
 import { useClient } from "lib/useClient"
 import { useEffect, useState } from "react"
+import { IconEdit } from "@tabler/icons-react"
 
 export default function OrgSlugDashboardPage({
   params,
@@ -109,6 +110,7 @@ function HydratedOrgDashboard({
 function EditButton({ children }: { children: React.ReactNode }) {
   return (
     <button className="ml-1 mt-1 self-end px-1 text-sm border border-[#1D170C99] text-[#1D170CCC]">
+      <IconEdit size={16} />
       {children}
     </button>
   )
