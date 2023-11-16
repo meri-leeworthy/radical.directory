@@ -1,6 +1,6 @@
 "use client"
 
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
 import {
@@ -77,30 +77,39 @@ function HydratedOrgDashboard({
   })
 
   return (
-    <>
-      <h2 className="font-body">{room.useName()?.name}</h2>
-      <button>Edit name</button>
+    <main className="flex flex-col w-full">
+      <h2 className="flex justify-between font-body">
+        {name}
+        <EditButton>Edit name</EditButton>
+      </h2>
 
       <p className="py-4 font-body">{description ?? "loading..."}</p>
 
-      <button>Edit description</button>
+      <EditButton>Edit description</EditButton>
 
       <Contact contactKVs={contactKVs} />
 
-      <button>Edit links</button>
+      <EditButton>Edit links</EditButton>
 
       <h3 className="pt-4 font-body">Frequently Asked Questions</h3>
       <ul>
         {Object.entries(faqKVs).map(([question, answer]) => (
           <li key={question}>
-            <h4 className="py-2 pt-6 text-lg font-bold font-body">
-              {question}
+            <h4 className="flex justify-between py-2 pt-6 text-lg font-bold font-body">
+              {question} <EditButton>Edit</EditButton>
             </h4>
             <p className="pl-4 font-thin font-body">{answer}</p>
-            <button>Edit</button>
           </li>
         ))}
       </ul>
-    </>
+    </main>
+  )
+}
+
+function EditButton({ children }: { children: React.ReactNode }) {
+  return (
+    <button className="ml-1 mt-1 self-end px-1 text-sm border border-[#1D170C99] text-[#1D170CCC]">
+      {children}
+    </button>
   )
 }

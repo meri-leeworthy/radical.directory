@@ -41,7 +41,7 @@ export default async function OrgSlugPage({
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 
   return (
-    <>
+    <main>
       <h2 className="font-body">{room.useName()?.name}</h2>
 
       <p className="py-4 font-body">{topic?.content?.topic}</p>
@@ -58,6 +58,6 @@ export default async function OrgSlugPage({
           </li>
         ))}
       </ul>
-    </>
+    </main>
   )
 }
