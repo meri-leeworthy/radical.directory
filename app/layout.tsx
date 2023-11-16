@@ -1,5 +1,6 @@
 import Link from "next/link"
 import "../styles/globals.css"
+import Username from "./Username"
 
 export const metadata = {
   title: "Radical Directory",
@@ -14,11 +15,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {" "}
         <main className="max-w-xl p-4 pb-8">
-          <h1 className="pb-4 mb-4 text-lg border-b border-[#1D170C]">
-            <Link href="/">Radical Directory</Link>
-          </h1>
+          <header className="pb-4 mb-4 border-b border-[#1D170C] flex justify-between">
+            <h1 className="text-lg">
+              <Link href="/">Radical Directory</Link>
+            </h1>
+            <Username />
+          </header>
           {children}
         </main>
       </body>

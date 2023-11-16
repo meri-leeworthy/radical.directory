@@ -7,14 +7,16 @@ import Link from "next/link"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
+const OPEN_LETTER_USERNAME = "openletter"
+const OPEN_LETTER_USERID = "@openletter:radical.directory"
 
 async function getRoomMessagesIterator() {
   const accessToken = await Client.login(
     BASE_URL,
-    "openletter",
+    OPEN_LETTER_USERNAME,
     OPEN_LETTER_PASSWORD!
   )
-  const client = new Client(BASE_URL, accessToken)
+  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID)
   const room = new Room(ROOM_ID, client)
   const messagesIterator = room.getMessagesAsyncGenerator()()
   return messagesIterator

@@ -12,6 +12,8 @@ import {
 } from "lib/serverUtils"
 import { Contact } from "./Contact"
 
+const MERI_USERID = "@meri:radical.directory"
+
 export default async function OrgSlugPage({
   params,
 }: {
@@ -22,7 +24,7 @@ export default async function OrgSlugPage({
 
   const room = new Room(
     roomId,
-    new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!)
+    new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, MERI_USERID)
   )
 
   console.log(await room.getName())

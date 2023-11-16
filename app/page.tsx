@@ -8,9 +8,14 @@ import { Org } from "./orgs/Org"
 import { Suspense } from "react"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
+const MERI_USERID = "@meri:radical.directory"
 
 async function getSpaceChildIds() {
-  const client = new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!)
+  const client = new Client(
+    MATRIX_BASE_URL!,
+    RD_MERI_ACCESS_TOKEN!,
+    MERI_USERID
+  )
   const space = new Room(SPACE_ID, client)
   const state = await space.getState()
   const sortedState = Room.sortEvents(state)
@@ -28,7 +33,10 @@ export default async function Orgs() {
   const roomIds = await getSpaceChildIds()
   const rooms = roomIds.map(
     roomId =>
-      new Room(roomId, new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!))
+      new Room(
+        roomId,
+        new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, MERI_USERID)
+      )
   )
   await Promise.all(rooms.map(async room => await room.getName()))
 
