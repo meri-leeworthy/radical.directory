@@ -4,7 +4,7 @@ export function Contact({
   contactKVs: Record<string, string | undefined>
 }) {
   return (
-    <ul className="py-4 text-sm font-body columns-2 opacity-60">
+    <ul className="text-sm font-body columns-2 opacity-60">
       {contactKVs.email && (
         <li>
           <a href={`mailto: ${contactKVs.email}`}>

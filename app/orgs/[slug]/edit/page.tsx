@@ -35,6 +35,13 @@ function HydratedOrgDashboard({
   roomId: string
   client: Client
 }) {
+  const sections = {
+    title: "title",
+    description: "description",
+    contact: "contact",
+    faq: "faq",
+  } as const
+
   const [name, setName] = useState<string | null>(null)
   const [description, setDescription] = useState<string | null>(null)
   const [contactKVs, setContactKVs] = useState<
@@ -81,23 +88,28 @@ function HydratedOrgDashboard({
     <main className="flex flex-col w-full">
       <h2 className="flex justify-between font-body">
         {name}
-        <EditButton>Edit name</EditButton>
+        <EditButton alt="Edit name" />
       </h2>
 
-      <p className="py-4 font-body">{description ?? "loading..."}</p>
+      <div className="flex py-4">
+        <p className="font-body">{description ?? "loading..."}</p>
+        <EditButton alt="Edit description" />
+      </div>
 
-      <EditButton>Edit description</EditButton>
+      <div className="flex justify-between py-4">
+        <Contact contactKVs={contactKVs} />
+        <EditButton alt="Edit links" />
+      </div>
 
-      <Contact contactKVs={contactKVs} />
-
-      <EditButton>Edit links</EditButton>
-
-      <h3 className="pt-4 font-body">Frequently Asked Questions</h3>
+      <h3 className="flex justify-between pt-4 font-body">
+        Frequently Asked Questions{" "}
+        <EditButton alt="edit frequently asked questions" />
+      </h3>
       <ul>
         {Object.entries(faqKVs).map(([question, answer]) => (
           <li key={question}>
             <h4 className="flex justify-between py-2 pt-6 text-lg font-bold font-body">
-              {question} <EditButton>Edit</EditButton>
+              {question}
             </h4>
             <p className="pl-4 font-thin font-body">{answer}</p>
           </li>
@@ -107,11 +119,13 @@ function HydratedOrgDashboard({
   )
 }
 
-function EditButton({ children }: { children: React.ReactNode }) {
+function EditButton({ alt }: { alt: string }) {
   return (
-    <button className="ml-1 mt-1 self-end px-1 text-sm border border-[#1D170C99] text-[#1D170CCC]">
+    <button
+      className="ml-1 mt-1 self-start p-1 text-sm bg-[#1D170C11] rounded-full text-[#1D170C99]"
+      aria-label={alt}>
       <IconEdit size={16} />
-      {children}
+      {/* {children} */}
     </button>
   )
 }
