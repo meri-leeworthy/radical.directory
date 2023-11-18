@@ -9,6 +9,7 @@ import Link from "next/link"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
+const OPEN_LETTER_USERID = "@openletter:radical.directory"
 
 async function sendSignatory(name: string, work: string) {
   "use server"
@@ -17,7 +18,7 @@ async function sendSignatory(name: string, work: string) {
     "openletter",
     OPEN_LETTER_PASSWORD!
   )
-  const client = new Client(BASE_URL, accessToken)
+  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID)
   const room = new Room(ROOM_ID, client)
   const content = {
     body: `name: ${name}\nwork: ${work}`,

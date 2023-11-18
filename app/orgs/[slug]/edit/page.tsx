@@ -13,15 +13,10 @@ import {
 import { Contact } from "../Contact"
 import { useClient } from "lib/useClient"
 import { useEffect, useState } from "react"
-import { EditButton, DoneButton } from "./EditButton"
-
-const sections = {
-  title: "title",
-  description: "description",
-  contact: "contact",
-  faq: "faq",
-} as const
-type SectionType = keyof typeof sections | null
+import { EditButton } from "./EditButton"
+import { EditableDescription } from "./EditableDescription"
+import { EditableTitle } from "./EditableTitle"
+import { SectionType } from "./SectionType"
 
 export default function OrgSlugDashboardPage({
   params,
@@ -114,75 +109,4 @@ function HydratedOrgDashboard({
       </ul>
     </main>
   )
-}
-
-function EditableTitle({
-  editSection,
-  setEditSection,
-  name,
-  setName,
-}: {
-  editSection: SectionType
-  setEditSection: (section: SectionType) => void
-  name?: string
-  setName: (name: string) => void
-}) {
-  if (editSection === sections.title)
-    return (
-      <div className="flex justify-between">
-        <input
-          autoFocus
-          className="self-start w-full text-lg font-bold font-body bg-transparent border border-[#1D170C33] px-2 rounded-md"
-          value={name}
-          id="title"
-          aria-label="group-name"
-          onChange={e => setName(e.target.value)}
-        />
-        <DoneButton onClick={() => setEditSection(null)} />
-      </div>
-    )
-  else
-    return (
-      <h2 className="flex justify-between font-body">
-        {name ?? "loading..."}
-        <EditButton alt="Edit name" onClick={() => setEditSection("title")} />
-      </h2>
-    )
-}
-
-function EditableDescription({
-  editSection,
-  setEditSection,
-  description,
-  setDescription,
-}: {
-  editSection: SectionType
-  setEditSection: (section: SectionType) => void
-  description?: string
-  setDescription: (name: string) => void
-}) {
-  if (editSection === sections.description)
-    return (
-      <div className="flex justify-between">
-        <textarea
-          autoFocus
-          className="self-start w-full text-base h-64 font-body bg-transparent border border-[#1D170C33] px-2 rounded-md"
-          value={description}
-          id="description"
-          aria-label="group-description"
-          onChange={e => setDescription(e.target.value)}
-        />
-        <DoneButton onClick={() => setEditSection(null)} />
-      </div>
-    )
-  else
-    return (
-      <div className="flex py-4">
-        <p className="font-body">{description ?? "loading..."}</p>
-        <EditButton
-          alt="Edit description"
-          onClick={() => setEditSection("description")}
-        />
-      </div>
-    )
 }

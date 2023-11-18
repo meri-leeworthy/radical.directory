@@ -1,59 +1,114 @@
+import {
+  IconBrandFacebook,
+  IconBrandLinktree,
+  IconNews,
+  IconBrandInstagram,
+  IconBrandTwitter,
+  IconMail,
+  IconWorld,
+} from "@tabler/icons-react"
+
+const contactTypes = {
+  email: "email",
+  website: "website",
+  twitter: "twitter",
+  instagram: "instagram",
+  facebook: "facebook",
+  newsletter: "newsletter",
+  linktree: "linktree",
+} as const
+export type ContactType = keyof typeof contactTypes
+
 export function Contact({
   contactKVs,
 }: {
-  contactKVs: Record<string, string | undefined>
+  contactKVs: Record<ContactType, string | undefined>
 }) {
   return (
     <ul className="text-sm font-body columns-2 opacity-60">
-      {contactKVs.email && (
-        <li>
-          <a href={`mailto: ${contactKVs.email}`}>
-            {contactKVs.email ?? "loading..."}
-          </a>
-        </li>
-      )}
-      {contactKVs.website && (
-        <li>
-          <a href={contactKVs.website}>{contactKVs.website ?? "loading..."}</a>
-        </li>
-      )}
-      {contactKVs.twitter && (
-        <li>
-          TW:{" "}
-          <a href={`https://twitter.com/${contactKVs.twitter.split("@")[1]}`}>
-            {contactKVs.twitter ?? "loading..."}
-          </a>
-        </li>
-      )}
-      {contactKVs.instagram && (
-        <li>
-          IG:{" "}
-          <a
-            href={`https://instagram.com/${
-              contactKVs.instagram.split("@")[1]
-            }`}>
-            {contactKVs.instagram ?? "loading..."}
-          </a>
-        </li>
-      )}
-      {contactKVs.facebook && (
-        <li>
-          FB:{" "}
-          <a href={`https://facebook.com/${contactKVs.facebook.split("/")[1]}`}>
-            {contactKVs.facebook ?? "loading..."}
-          </a>
-        </li>
-      )}
-      {contactKVs.newsletter && (
-        <li>
-          <a href={contactKVs.newsletter}>Newsletter</a>
-        </li>
-      )}
-      {contactKVs.linktree && (
-        <li>
-          <a href={contactKVs.linktree}>Linktree</a>
-        </li>
-      )}
+      {Object.entries(contactKVs).map(([contactType, contactValue]) => (
+        <ContactItem
+          key={contactType}
+          contactType={contactType as ContactType}
+          contactValue={contactValue}
+        />
+      ))}
     </ul>
   )
+}
+
+export function ContactItem({
+  contactType,
+  contactValue,
+}: {
+  contactType: ContactType
+  contactValue: string | undefined
+}) {
+  return (
+    <li className="flex items-center gap-1">
+      {getIcon(contactType)}{" "}
+      <a href={getHrefFormat(contactType, contactValue)}>
+        {getLabel(contactType, contactValue)}
+      </a>
+    </li>
+  )
+}
+
+export function getIcon(contactType: ContactType) {
+  switch (contactType) {
+    case "email":
+      return <IconMail size={16} />
+    case "website":
+      return <IconWorld size={16} />
+    case "twitter":
+      return <IconBrandTwitter size={16} />
+    case "instagram":
+      return <IconBrandInstagram size={16} />
+    case "facebook":
+      return <IconBrandFacebook size={16} />
+    case "newsletter":
+      return <IconNews size={16} />
+    case "linktree":
+      return <IconBrandLinktree size={16} />
+  }
+}
+
+export function getHrefFormat(contactType: ContactType, contactValue?: string) {
+  if (!contactValue) return ""
+  switch (contactType) {
+    case "email":
+      return `mailto:${contactValue}`
+    case "website":
+      return contactValue
+    case "twitter":
+      return `https://twitter.com/${contactValue.split("@")[1]}`
+    case "instagram":
+      return `https://instagram.com/${contactValue.split("@")[1]}`
+    case "facebook":
+      return `https://facebook.com/${contactValue.split("/")[1]}`
+    case "newsletter":
+      return contactValue
+    case "linktree":
+      return contactValue
+  }
+}
+
+export function getLabel(contactType: ContactType, contactValue?: string) {
+  if (!contactValue) return "loading..."
+  switch (contactType) {
+    case "email":
+      return contactValue
+    case "website":
+      return contactValue
+    case "twitter":
+      return contactValue.split("@")[1]
+    case "instagram":
+      return contactValue.split("@")[1]
+    case "facebook":
+      return contactValue.split("/")[1]
+    case "newsletter":
+      return "Newsletter"
+    case "linktree":
+      return "Linktree"
+  }
 }
