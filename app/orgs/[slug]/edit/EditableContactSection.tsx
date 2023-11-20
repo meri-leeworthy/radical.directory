@@ -15,11 +15,13 @@ export function EditableContactSection({
   setEditSection,
   contactKVs,
   setContactKVs,
+  updateContact,
 }: {
   editSection: SectionType
   setEditSection: (section: SectionType) => void
   contactKVs: Record<string, string | undefined>
   setContactKVs: (contactKVs: Record<string, string | undefined>) => void
+  updateContact: (contactType: ContactType, contactValue: string) => void
 }) {
   function setContactKV(contactType: ContactType, contactValue?: string) {
     console.log("setting contact kv", contactType, contactValue)
@@ -30,7 +32,17 @@ export function EditableContactSection({
     return (
       <div className="flex justify-between py-4">
         <EditableContact {...{ contactKVs, setContactKV }} />
-        <DoneButton onClick={() => setEditSection(null)} />
+        <DoneButton
+          onClick={() => {
+            setEditSection(null)
+            for (const [contactType, contactValue] of Object.entries(
+              contactKVs
+            )) {
+              if (!contactValue) continue
+              updateContact(contactType as ContactType, contactValue)
+            }
+          }}
+        />
       </div>
     )
   else

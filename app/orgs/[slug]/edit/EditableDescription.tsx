@@ -6,11 +6,13 @@ export function EditableDescription({
   setEditSection,
   description,
   setDescription,
+  updateDescription,
 }: {
   editSection: SectionType
   setEditSection: (section: SectionType) => void
   description?: string
   setDescription: (name: string) => void
+  updateDescription: (name: string) => void
 }) {
   if (editSection === sections.description)
     return (
@@ -23,7 +25,13 @@ export function EditableDescription({
           aria-label="group-description"
           onChange={e => setDescription(e.target.value)}
         />
-        <DoneButton onClick={() => setEditSection(null)} />
+        <DoneButton
+          onClick={() => {
+            setEditSection(null)
+            if (!description) throw new Error("description is empty")
+            updateDescription(description)
+          }}
+        />
       </div>
     )
   else

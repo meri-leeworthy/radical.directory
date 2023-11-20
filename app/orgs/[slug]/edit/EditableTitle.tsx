@@ -6,11 +6,13 @@ export function EditableTitle({
   setEditSection,
   name,
   setName,
+  updateTitle,
 }: {
   editSection: SectionType
   setEditSection: (section: SectionType) => void
   name?: string
   setName: (name: string) => void
+  updateTitle: (name: string) => void
 }) {
   if (editSection === sections.title)
     return (
@@ -23,7 +25,13 @@ export function EditableTitle({
           aria-label="group-name"
           onChange={e => setName(e.target.value)}
         />
-        <DoneButton onClick={() => setEditSection(null)} />
+        <DoneButton
+          onClick={() => {
+            setEditSection(null)
+            if (!name) throw new Error("name is empty")
+            updateTitle(name)
+          }}
+        />
       </div>
     )
   else

@@ -17,6 +17,7 @@ import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"
 import { EditableContactSection } from "./EditableContactSection"
+import { ContactType } from "../Contact"
 
 export default function OrgSlugDashboardPage({
   params,
@@ -82,15 +83,56 @@ function HydratedOrgDashboard({
     })
   }, [])
 
+  // mutate room name
+  function updateTitle(name: string) {
+    room.setName(name)
+  }
+
+  // mutate room topic
+  function updateDescription(description: string) {
+    room.setTopic(description)
+  }
+
+  // change to custom event type
+  function updateContact(contactType: ContactType, contactValue: string) {
+    // const content = {
+    //   body: `${contactType}: ${contactValue}`,
+    //   msgtype: "m.text",
+    //   "m.relates_to": {
+    //     "m.in_reply_to": {
+    //       event_id: "",
+    //     },
+    //   },
+    // }
+    // room.sendEvent("m.room.message", content)
+  }
+
+  // instead of FAQ, we have linked post custom event type
+  function updateFaq() {}
+
   return (
     <main className="flex flex-col w-full">
-      <EditableTitle {...{ editSection, setEditSection, name, setName }} />
+      <EditableTitle
+        {...{ editSection, setEditSection, name, setName, updateTitle }}
+      />
       <EditableDescription
-        {...{ editSection, setEditSection, description, setDescription }}
+        {...{
+          editSection,
+          setEditSection,
+          description,
+          setDescription,
+          updateDescription,
+        }}
       />
 
       <EditableContactSection
-        {...{ editSection, setEditSection, contactKVs, setContactKVs }}
+        {...{
+          editSection,
+          setEditSection,
+          contactKVs,
+          setContactKVs,
+          updateContact,
+        }}
       />
 
       <h3 className="flex justify-between pt-4 font-body">
