@@ -1,4 +1,7 @@
 "use client"
+
+import { IconCheck, IconEdit, IconTrash } from "@tabler/icons-react"
+
 export function CircleIconButton({
   children,
   alt,
@@ -15,5 +18,35 @@ export function CircleIconButton({
       onClick={onClick}>
       {children}
     </button>
+  )
+}
+
+export function EditButton({
+  alt,
+  onClick,
+}: {
+  alt: string
+  onClick?: () => void
+}) {
+  return (
+    <CircleIconButton alt={alt} onClick={onClick}>
+      <IconEdit size={16} />
+    </CircleIconButton>
+  )
+}
+
+export function DoneButton({ onClick }: { onClick?: () => void }) {
+  return (
+    <CircleIconButton alt="Done editing" onClick={onClick}>
+      <IconCheck size={16} />
+    </CircleIconButton>
+  )
+}
+
+export function DeleteButton({ onClick }: { onClick?: () => void }) {
+  return (
+    <CircleIconButton alt="Delete" onClick={onClick}>
+      <IconTrash size={16} />
+    </CircleIconButton>
   )
 }

@@ -10,13 +10,13 @@ import {
   parseFaqKVs,
   replaceEditedMessages,
 } from "lib/serverUtils"
-import { Contact } from "../Contact"
 import { useClient } from "lib/useClient"
 import { useEffect, useState } from "react"
-import { EditButton } from "./EditButton"
+import { EditButton } from "./CircleIconButton"
 import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"
+import { EditableContactSection } from "./EditableContactSection"
 
 export default function OrgSlugDashboardPage({
   params,
@@ -64,22 +64,23 @@ function HydratedOrgDashboard({
         setName(value.name)
       }
     })
-  }, [])
 
-  getRoomMessagesIterator(room).then(messagesIterator => {
-    getMessagesChunk(messagesIterator).then(messagesChunk => {
-      const messages = messagesChunk.filter(
-        (message: Event) => message.type === "m.room.message"
-      )
-      const replacedMessages = replaceEditedMessages(messages)
-      setContactKVs(parseContactKVs(replacedMessages))
-      setFaqKVs(parseFaqKVs(replacedMessages))
-      setDescription(
-        messagesChunk.find((message: Event) => message.type === "m.room.topic")
-          .content.topic
-      )
+    getRoomMessagesIterator(room).then(messagesIterator => {
+      getMessagesChunk(messagesIterator).then(messagesChunk => {
+        const messages = messagesChunk.filter(
+          (message: Event) => message.type === "m.room.message"
+        )
+        const replacedMessages = replaceEditedMessages(messages)
+        setContactKVs(parseContactKVs(replacedMessages))
+        setFaqKVs(parseFaqKVs(replacedMessages))
+        setDescription(
+          messagesChunk.find(
+            (message: Event) => message.type === "m.room.topic"
+          ).content.topic
+        )
+      })
     })
-  })
+  }, [])
 
   return (
     <main className="flex flex-col w-full">
@@ -88,10 +89,9 @@ function HydratedOrgDashboard({
         {...{ editSection, setEditSection, description, setDescription }}
       />
 
-      <div className="flex justify-between py-4">
-        <Contact contactKVs={contactKVs} />
-        <EditButton alt="Edit links" />
-      </div>
+      <EditableContactSection
+        {...{ editSection, setEditSection, contactKVs, setContactKVs }}
+      />
 
       <h3 className="flex justify-between pt-4 font-body">
         Frequently Asked Questions{" "}

@@ -27,11 +27,12 @@ export function Contact({
   return (
     <ul className="text-sm font-body columns-2 opacity-60">
       {Object.entries(contactKVs).map(([contactType, contactValue]) => (
-        <ContactItem
-          key={contactType}
-          contactType={contactType as ContactType}
-          contactValue={contactValue}
-        />
+        <li key={contactType}>
+          <ContactItem
+            contactType={contactType as ContactType}
+            contactValue={contactValue}
+          />
+        </li>
       ))}
     </ul>
   )
@@ -45,12 +46,12 @@ export function ContactItem({
   contactValue: string | undefined
 }) {
   return (
-    <li className="flex items-center gap-1">
+    <div className="flex items-center gap-1">
       {getIcon(contactType)}{" "}
       <a href={getHrefFormat(contactType, contactValue)}>
         {getLabel(contactType, contactValue)}
       </a>
-    </li>
+    </div>
   )
 }
 
