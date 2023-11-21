@@ -36,7 +36,7 @@ export default async function OrgSlugPage({
   )
   const replacedMessages = replaceEditedMessages(messages)
   const contactKVs = parseContactKVs(replacedMessages)
-  console.log(contactKVs)
+  // console.log(contactKVs)
   const faqKVs = parseFaqKVs(replacedMessages)
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 

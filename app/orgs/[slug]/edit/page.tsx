@@ -54,7 +54,7 @@ function HydratedOrgDashboard({
   const room = new Room(roomId, client)
 
   useEffect(() => {
-    console.log("running useEffect to fetch name")
+    // console.log("running useEffect to fetch name")
     room.getName().then(value => {
       if (
         !value ||
@@ -64,7 +64,7 @@ function HydratedOrgDashboard({
       )
         return
 
-      console.log(value.name)
+      // console.log(value.name)
       if (name !== value.name) {
         setName(value.name)
       }
@@ -129,18 +129,18 @@ function HydratedOrgDashboard({
       type: contactType,
       value: contactValue,
     }
-    console.log(
-      "updateContact called with initialKVs.current:",
-      initialKVs.current
-    )
-    console.log("updateContact called with contactType:", contactType)
-    console.log("updateContact called with contactValue:", contactValue)
+    // console.log(
+    //   "updateContact called with initialKVs.current:",
+    //   initialKVs.current
+    // )
+    // console.log("updateContact called with contactType:", contactType)
+    // console.log("updateContact called with contactValue:", contactValue)
     if (
       !(contactType in initialKVs.current) ||
       contactValue !== initialKVs.current[contactType]
     ) {
-      console.log("actually sending request with contactValue:", contactValue)
-      console.log("contactKVs[contactType]:", contactKVs[contactType])
+      // console.log("actually sending request with contactValue:", contactValue)
+      // console.log("contactKVs[contactType]:", contactKVs[contactType])
       room
         .sendStateEvent(
           "directory.radical.contact.meta.unstable",
@@ -148,7 +148,7 @@ function HydratedOrgDashboard({
           contactType
         )
         .then(res => {
-          console.log("after sending contact state event:", res)
+          // console.log("after sending contact state event:", res)
           initialKVs.current[contactType] = contactValue
         })
     }

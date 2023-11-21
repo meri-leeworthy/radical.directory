@@ -24,7 +24,7 @@ export function EditableContactSection({
   updateContact: (contactType: ContactType, contactValue: string) => void
 }) {
   function setContactKV(contactType: ContactType, contactValue?: string) {
-    console.log("setting contact kv", contactType, contactValue)
+    // console.log("setting contact kv", contactType, contactValue)
     setContactKVs({ ...contactKVs, [contactType]: contactValue })
   }
   function removeContactKV(contactType: ContactType) {
@@ -39,15 +39,15 @@ export function EditableContactSection({
         <DoneButton
           label="Done"
           onClick={() => {
-            console.log("updating contact")
+            // console.log("updating contact")
             for (const [contactType, _] of Object.entries(contactTypes)) {
               const contactValue = contactKVs[contactType]
               // if (!contactValue) continue
-              console.log(
-                "calling updateContact with",
-                contactType,
-                contactValue
-              )
+              // console.log(
+              //   "calling updateContact with",
+              //   contactType,
+              //   contactValue
+              // )
               updateContact(contactType as ContactType, contactValue || "")
             }
             setEditSection(null)
