@@ -11,13 +11,17 @@ import {
   replaceEditedMessages,
 } from "lib/serverUtils"
 import { useClient } from "lib/useClient"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { EditButton } from "./CircleIconButton"
 import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"
 import { EditableContactSection } from "./EditableContactSection"
-import { ContactType } from "../Contact"
+import {
+  contactTypes,
+  ContactType,
+  DirectoryRadicalContactMetaUnstable,
+} from "lib/types"
 
 export default function OrgSlugDashboardPage({
   params,
@@ -46,7 +50,7 @@ function HydratedOrgDashboard({
     Record<string, string | undefined>
   >({})
   const [faqKVs, setFaqKVs] = useState<Record<string, string | undefined>>({})
-
+  const initialKVs = useRef<Partial<Record<ContactType, string>>>({})
   const room = new Room(roomId, client)
 
   useEffect(() => {
@@ -66,13 +70,39 @@ function HydratedOrgDashboard({
       }
     })
 
+    const promises = Object.entries(contactTypes).map(([contactType]) =>
+      room
+        .getStateEvent("directory.radical.contact.meta.unstable", contactType)
+        .catch(() => undefined)
+    )
+
+    Promise.all(promises).then(values => {
+      const contactKVs: Record<string, string | undefined> = {}
+      for (const [i, value] of values.entries()) {
+        if (!value || typeof value !== "object") continue
+        const contactType = Object.keys(contactTypes)[i]
+        if (
+          !("type" in value) ||
+          typeof value.type !== "string" ||
+          !("value" in value) ||
+          typeof value.value !== "string" ||
+          value.value === ""
+        )
+          continue
+        contactKVs[contactType] = value.value
+      }
+      initialKVs.current = contactKVs
+      setContactKVs(contactKVs)
+    })
+
     getRoomMessagesIterator(room).then(messagesIterator => {
       getMessagesChunk(messagesIterator).then(messagesChunk => {
         const messages = messagesChunk.filter(
           (message: Event) => message.type === "m.room.message"
         )
         const replacedMessages = replaceEditedMessages(messages)
-        setContactKVs(parseContactKVs(replacedMessages))
+        // initialKVs.current = parseContactKVs(replacedMessages)
+        // setContactKVs(initialKVs.current)
         setFaqKVs(parseFaqKVs(replacedMessages))
         setDescription(
           messagesChunk.find(
@@ -93,18 +123,35 @@ function HydratedOrgDashboard({
     room.setTopic(description)
   }
 
-  // change to custom event type
+  // mutate contact state events
   function updateContact(contactType: ContactType, contactValue: string) {
-    // const content = {
-    //   body: `${contactType}: ${contactValue}`,
-    //   msgtype: "m.text",
-    //   "m.relates_to": {
-    //     "m.in_reply_to": {
-    //       event_id: "",
-    //     },
-    //   },
-    // }
-    // room.sendEvent("m.room.message", content)
+    const content: DirectoryRadicalContactMetaUnstable = {
+      type: contactType,
+      value: contactValue,
+    }
+    console.log(
+      "updateContact called with initialKVs.current:",
+      initialKVs.current
+    )
+    console.log("updateContact called with contactType:", contactType)
+    console.log("updateContact called with contactValue:", contactValue)
+    if (
+      !(contactType in initialKVs.current) ||
+      contactValue !== initialKVs.current[contactType]
+    ) {
+      console.log("actually sending request with contactValue:", contactValue)
+      console.log("contactKVs[contactType]:", contactKVs[contactType])
+      room
+        .sendStateEvent(
+          "directory.radical.contact.meta.unstable",
+          content,
+          contactType
+        )
+        .then(res => {
+          console.log("after sending contact state event:", res)
+          initialKVs.current[contactType] = contactValue
+        })
+    }
   }
 
   // instead of FAQ, we have linked post custom event type

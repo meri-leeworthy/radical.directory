@@ -37,7 +37,9 @@ export function EditableDescription({
   else
     return (
       <div className="flex py-4">
-        <p className="font-body">{description ?? "loading..."}</p>
+        <p className="font-body whitespace-pre-line">
+          {description ?? "loading..."}
+        </p>
         <EditButton
           alt="Edit description"
           onClick={() => setEditSection("description")}

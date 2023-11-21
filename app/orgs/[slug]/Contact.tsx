@@ -7,17 +7,7 @@ import {
   IconMail,
   IconWorld,
 } from "@tabler/icons-react"
-
-const contactTypes = {
-  email: "email",
-  website: "website",
-  twitter: "twitter",
-  instagram: "instagram",
-  facebook: "facebook",
-  newsletter: "newsletter",
-  linktree: "linktree",
-} as const
-export type ContactType = keyof typeof contactTypes
+import { ContactType } from "lib/types"
 
 export function Contact({
   contactKVs,

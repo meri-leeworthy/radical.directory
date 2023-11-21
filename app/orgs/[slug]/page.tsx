@@ -44,7 +44,9 @@ export default async function OrgSlugPage({
     <main>
       <h2 className="font-body">{room.useName()?.name}</h2>
 
-      <p className="py-4 font-body">{topic?.content?.topic}</p>
+      <p className="py-4 font-body whitespace-pre-line">
+        {topic?.content?.topic}
+      </p>
       <Contact contactKVs={contactKVs} />
 
       <h3 className="pt-4 font-body">Frequently Asked Questions</h3>
