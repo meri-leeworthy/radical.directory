@@ -155,6 +155,7 @@ function EditableContactItem({
       <li className="flex items-center gap-1">
         {getIcon(contactType)} <label>{contactType}</label>
         <input
+          autoFocus
           value={currentContactValue}
           onChange={e => {
             setCurrentContactValue(e.target.value)

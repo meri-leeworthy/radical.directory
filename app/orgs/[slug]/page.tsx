@@ -11,6 +11,7 @@ import {
   replaceEditedMessages,
 } from "lib/serverUtils"
 import { Contact } from "./Contact"
+import { fetchContactKVs } from "./fetchContactKVs"
 
 const MERI_USERID = "@meri:radical.directory"
 
@@ -35,8 +36,11 @@ export default async function OrgSlugPage({
     message => message.type === "m.room.message"
   )
   const replacedMessages = replaceEditedMessages(messages)
-  const contactKVs = parseContactKVs(replacedMessages)
-  // console.log(contactKVs)
+  // const oldContactKVs = parseContactKVs(replacedMessages)
+  // console.log("oldContactKVs", oldContactKVs)
+
+  const contactKVs = await fetchContactKVs(room)
+
   const faqKVs = parseFaqKVs(replacedMessages)
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 
