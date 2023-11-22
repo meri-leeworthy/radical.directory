@@ -6,6 +6,7 @@ import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
 import { Org } from "./orgs/Org"
 import { Suspense } from "react"
+import LoginLogout from "./orgs/LoginLogout"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 const MERI_USERID = "@meri:radical.directory"
@@ -19,9 +20,10 @@ async function getSpaceChildIds() {
   const space = new Room(SPACE_ID, client)
   const state = await space.getState()
   const sortedState = Room.sortEvents(state)
-  const spaceChildIds = sortedState["m.space.child"].map(
-    event => event.state_key
+  const filteredChildren = sortedState["m.space.child"].filter(
+    event => event.content && "content" in event && "via" in event.content
   )
+  const spaceChildIds = filteredChildren.map(event => event.state_key)
   return spaceChildIds
 }
 
@@ -59,10 +61,10 @@ export default async function Orgs() {
           </li>
         ))}
       </ul>
-      <section className="opacity-60 font-body">
-        <h1 className="my-8 mt-24 text-base">more coming soon...</h1>
-        <p>
-          we are working on a directory of grassroots organisations in Naarm
+      <section className="opacity-60 font-body mt-24">
+        <p>don&apos;t panic, organise!</p>
+        <p className="my-4">
+          <LoginLogout />
         </p>
         <p>
           chat with us on <a href="https://matrix.org">Matrix</a>:{" "}

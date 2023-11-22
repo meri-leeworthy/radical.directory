@@ -12,7 +12,7 @@ import {
 } from "lib/serverUtils"
 import { useClient } from "lib/useClient"
 import { useEffect, useRef, useState } from "react"
-import { EditButton } from "./CircleIconButton"
+import { EditButton } from "./IconButton"
 import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"

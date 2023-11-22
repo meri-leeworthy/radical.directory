@@ -1,4 +1,4 @@
-import { EditButton, DoneButton } from "./CircleIconButton"
+import { EditButton, DoneButton } from "./IconButton"
 import { SectionType, sections } from "./SectionType"
 
 export function EditableDescription({

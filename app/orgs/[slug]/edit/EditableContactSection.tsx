@@ -2,12 +2,7 @@
 import { useEffect, useState } from "react"
 import { Contact, ContactItem, getIcon, getLabel } from "../Contact"
 import { ContactType, contactTypes } from "lib/types"
-import {
-  AddButton,
-  DeleteButton,
-  DoneButton,
-  EditButton,
-} from "./CircleIconButton"
+import { AddButton, DeleteButton, DoneButton, EditButton } from "./IconButton"
 import { SectionType, sections } from "./SectionType"
 
 export function EditableContactSection({
