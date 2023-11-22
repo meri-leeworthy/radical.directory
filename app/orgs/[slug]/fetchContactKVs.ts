@@ -1,10 +1,10 @@
 import { Room } from "simple-matrix-sdk"
-import { contactTypes } from "lib/types"
+import { contactTypes, directoryRadicalMetaContactUnstable } from "lib/types"
 
 export async function fetchContactKVs(room: Room) {
   const promises = Object.entries(contactTypes).map(([contactType]) =>
     room
-      .getStateEvent("directory.radical.contact.meta.unstable", contactType)
+      .getStateEvent(directoryRadicalMetaContactUnstable, contactType)
       .catch(() => undefined)
   )
 

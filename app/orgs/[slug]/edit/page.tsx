@@ -17,7 +17,11 @@ import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"
 import { EditableContactSection } from "./EditableContactSection"
-import { ContactType, DirectoryRadicalContactMetaUnstable } from "lib/types"
+import {
+  ContactType,
+  DirectoryRadicalContactMetaUnstable,
+  directoryRadicalMetaContactUnstable,
+} from "lib/types"
 import { fetchContactKVs } from "../fetchContactKVs"
 
 //TODO: add a loading state for when we're mutating data
@@ -84,6 +88,9 @@ function HydratedOrgDashboard({
         const replacedMessages = replaceEditedMessages(messages)
         // initialKVs.current = parseContactKVs(replacedMessages)
         // setContactKVs(initialKVs.current)
+
+        console.log("replacedMessages", replacedMessages)
+
         setFaqKVs(parseFaqKVs(replacedMessages))
         setDescription(
           messagesChunk.find(
@@ -124,7 +131,7 @@ function HydratedOrgDashboard({
       // console.log("contactKVs[contactType]:", contactKVs[contactType])
       room
         .sendStateEvent(
-          "directory.radical.contact.meta.unstable",
+          directoryRadicalMetaContactUnstable,
           content,
           contactType
         )

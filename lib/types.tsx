@@ -15,3 +15,8 @@ export type DirectoryRadicalContactMetaUnstable = {
   type: ContactType
   value: string
 }
+
+export const directoryRadicalMetaContactUnstable =
+  "directory.radical.meta.contact.unstable"
+
+export const directoryRadicalPostUnstable = "directory.radical.post.unstable"
