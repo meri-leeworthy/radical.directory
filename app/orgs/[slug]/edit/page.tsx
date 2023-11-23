@@ -23,6 +23,7 @@ import {
   directoryRadicalMetaContactUnstable,
 } from "lib/types"
 import { fetchContactKVs } from "../fetchContactKVs"
+import Redirect from "./Redirect"
 
 //TODO: add a loading state for when we're mutating data
 
@@ -36,7 +37,11 @@ export default function OrgSlugDashboardPage({
   const client = useClient()
   if (!client) return <div>loading...</div>
   // only try to fetch data if we have accessToken and userId from localStorage
-  return <HydratedOrgDashboard roomId={roomId} client={client} />
+  return (
+    <Redirect roomId={slug}>
+      <HydratedOrgDashboard roomId={roomId} client={client} />
+    </Redirect>
+  )
 }
 
 function HydratedOrgDashboard({

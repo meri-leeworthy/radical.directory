@@ -8,7 +8,7 @@ export function IconButton({
   label,
   onClick,
 }: {
-  children: React.ReactNode
+  children?: React.ReactNode
   alt: string
   label?: string
   onClick?: () => void
@@ -18,7 +18,7 @@ export function IconButton({
       className="self-start p-1 text-sm bg-[#1D170C11] rounded-full text-[#1D170C99] flex items-center"
       aria-label={alt}
       onClick={onClick}>
-      {children}
+      {children && children}
       {label && <span className="px-1">{label}</span>}
     </button>
   )

@@ -62,7 +62,11 @@ export default async function Orgs() {
         ))}
       </ul>
       <section className="opacity-60 font-body mt-24">
-        <p>don&apos;t panic, organise!</p>
+        <p>
+          <a href="http://enlacezapatista.ezln.org.mx/wp-content/uploads/2018/08/Manifiesto_Borrador-Final.pdf">
+            &ldquo;for a world in which many worlds fit&rdquo;
+          </a>
+        </p>
         <p className="my-4">
           <LoginLogout />
         </p>
