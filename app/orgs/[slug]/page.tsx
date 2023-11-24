@@ -7,7 +7,6 @@ import { Room, Client, Event } from "simple-matrix-sdk"
 import {
   getRoomMessagesIterator,
   getMessagesChunk,
-  parseFaqKVs,
   replaceEditedMessages,
 } from "lib/utils"
 import { Contact } from "./Contact"
@@ -50,7 +49,7 @@ export default async function OrgSlugPage({
 
   const contactKVs = await fetchContactKVs(room)
 
-  const faqKVs = parseFaqKVs(replacedMessages)
+  // const faqKVs = parseFaqKVs(replacedMessages)
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 
   return (
@@ -78,11 +77,12 @@ export default async function OrgSlugPage({
       <ul>
         {posts.map(({ content, origin_server_ts, event_id }, i) => (
           <li key={i} className="border-b border-[#1D170C33] pb-4">
-            {/* <Link href={`/post/${event_id}`}> */}
             <div className="flex mt-6 items-center gap-2 mb-3">
-              <h4 className="text-lg font-bold font-body">
-                {content && "title" in content && content?.title}
-              </h4>
+              <Link href={`/orgs/${slug}/post/${event_id}`}>
+                <h4 className="text-lg font-bold font-body">
+                  {content && "title" in content && content?.title}
+                </h4>
+              </Link>
               <span className="opacity-60 text-sm">
                 {getContextualDate(origin_server_ts)}
               </span>
@@ -90,7 +90,6 @@ export default async function OrgSlugPage({
             <p className="pl-4 font-thin font-body whitespace-pre-line">
               {content?.body}
             </p>
-            {/* </Link> */}
           </li>
         ))}
       </ul>

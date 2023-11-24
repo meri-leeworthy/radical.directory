@@ -1,12 +1,9 @@
 "use client"
 
-// export const dynamic = "force-dynamic"
-
 import { Room, Client, Event } from "simple-matrix-sdk"
 import {
   getRoomMessagesIterator,
   getMessagesChunk,
-  parseFaqKVs,
   replaceEditedMessages,
 } from "lib/utils"
 import { useClient } from "lib/useClient"
@@ -56,7 +53,7 @@ function HydratedOrgDashboard({
   const [contactKVs, setContactKVs] = useState<
     Record<string, string | undefined>
   >({})
-  const [faqKVs, setFaqKVs] = useState<Record<string, string | undefined>>({})
+  // const [faqKVs, setFaqKVs] = useState<Record<string, string | undefined>>({})
   const initialKVs = useRef<Partial<Record<ContactType, string>>>({})
   const room = new Room(roomId, client)
 
@@ -95,7 +92,7 @@ function HydratedOrgDashboard({
 
         console.log("replacedMessages", replacedMessages)
 
-        setFaqKVs(parseFaqKVs(replacedMessages))
+        // setFaqKVs(parseFaqKVs(replacedMessages))
         setDescription(
           messagesChunk.find(
             (message: Event) => message.type === "m.room.topic"
