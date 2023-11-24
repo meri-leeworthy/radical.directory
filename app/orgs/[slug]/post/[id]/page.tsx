@@ -5,6 +5,7 @@ const MERI_USERID = "@meri:radical.directory"
 
 import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
+import { getContextualDate } from "lib/utils"
 
 export default async function PostPage({
   params,
@@ -37,8 +38,11 @@ export default async function PostPage({
         className="bg-[#fff9] rounded-full px-2 py-1">
         &larr; {nameString}
       </Link>
-      <h1 className="font-body py-2">{post.content?.title}</h1>
-      <p className="whitespace-pre-line font-body">{post.content?.body}</p>
+      <h1 className="font-body py-1">{post.content?.title}</h1>
+      <span className="opacity-60 text-sm py-4">
+        {getContextualDate(post.origin_server_ts)}
+      </span>
+      <p className="whitespace-pre-line font-body py-4">{post.content?.body}</p>
     </div>
   )
 }
