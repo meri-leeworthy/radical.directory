@@ -1,5 +1,5 @@
 import { Room, Event } from "simple-matrix-sdk"
-import { getRoomMessagesIterator, getMessagesChunk } from "lib/serverUtils"
+import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 
 export async function Org({ room }: { room: Room }) {
   const messagesIterator = await getRoomMessagesIterator(room)

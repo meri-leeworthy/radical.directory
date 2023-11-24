@@ -9,7 +9,7 @@ import {
   parseContactKVs,
   parseFaqKVs,
   replaceEditedMessages,
-} from "lib/serverUtils"
+} from "lib/utils"
 import { useClient } from "lib/useClient"
 import { useEffect, useRef, useState } from "react"
 import { EditButton } from "./IconButton"

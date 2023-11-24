@@ -9,7 +9,7 @@ import {
   getMessagesChunk,
   parseFaqKVs,
   replaceEditedMessages,
-} from "lib/serverUtils"
+} from "lib/utils"
 import { Contact } from "./Contact"
 import { fetchContactKVs } from "./fetchContactKVs"
 import { IconButton } from "./edit/IconButton"
@@ -17,6 +17,8 @@ import { IconSettings } from "@tabler/icons-react"
 import Link from "next/link"
 import { IfLoggedIn } from "./IfLoggedIn"
 import { NewPost } from "./NewPost"
+import { directoryRadicalPostUnstable } from "lib/types"
+import { getContextualDate } from "lib/utils"
 
 export default async function OrgSlugPage({
   params,
@@ -41,6 +43,10 @@ export default async function OrgSlugPage({
   const replacedMessages = replaceEditedMessages(messages)
   // const oldContactKVs = parseContactKVs(replacedMessages)
   // console.log("oldContactKVs", oldContactKVs)
+
+  const posts = replacedMessages.filter(
+    message => message.content?.msgtype === directoryRadicalPostUnstable
+  )
 
   const contactKVs = await fetchContactKVs(room)
 
@@ -69,14 +75,20 @@ export default async function OrgSlugPage({
         <NewPost slug={slug} />
       </IfLoggedIn>
 
-      <h3 className="pt-4 font-body">Frequently Asked Questions</h3>
       <ul>
-        {Object.entries(faqKVs).map(([question, answer]) => (
-          <li key={question}>
-            <h4 className="py-2 pt-6 text-lg font-bold font-body">
-              {question}
-            </h4>
-            <p className="pl-4 font-thin font-body">{answer}</p>
+        {posts.map(({ content, origin_server_ts }, i) => (
+          <li key={i} className="border-b border-[#1D170C33] pb-4">
+            <div className="flex mt-6 items-center gap-2 mb-3">
+              <h4 className="text-lg font-bold font-body">
+                {content && "title" in content && content?.title}
+              </h4>
+              <span className="opacity-60 text-sm">
+                {getContextualDate(origin_server_ts)}
+              </span>
+            </div>
+            <p className="pl-4 font-thin font-body whitespace-pre-line">
+              {content?.body}
+            </p>
           </li>
         ))}
       </ul>
