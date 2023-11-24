@@ -7,7 +7,7 @@ export const Back = () => {
     <button
       type="button"
       onClick={() => router.back()}
-      className="self-center mt-6 text-2xl font-bold sm:self-start">
+      className="self-start mb-3 text-base sm:self-start">
       &larr; Back
     </button>
   )

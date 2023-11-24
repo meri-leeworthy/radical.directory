@@ -6,13 +6,11 @@ import { Room, Client, Event } from "simple-matrix-sdk"
 import {
   getRoomMessagesIterator,
   getMessagesChunk,
-  parseContactKVs,
   parseFaqKVs,
   replaceEditedMessages,
 } from "lib/utils"
 import { useClient } from "lib/useClient"
 import { useEffect, useRef, useState } from "react"
-import { EditButton } from "./IconButton"
 import { EditableDescription } from "./EditableDescription"
 import { EditableTitle } from "./EditableTitle"
 import { SectionType } from "./SectionType"
@@ -24,6 +22,7 @@ import {
 } from "lib/types"
 import { fetchContactKVs } from "../fetchContactKVs"
 import Redirect from "./Redirect"
+import { Back } from "components/Back"
 
 //TODO: add a loading state for when we're mutating data
 
@@ -147,11 +146,9 @@ function HydratedOrgDashboard({
     }
   }
 
-  // instead of FAQ, we have linked post custom event type
-  function updateFaq() {}
-
   return (
     <main className="flex flex-col w-full">
+      <Back />
       <EditableTitle
         {...{ editSection, setEditSection, name, setName, updateTitle }}
       />
@@ -174,21 +171,6 @@ function HydratedOrgDashboard({
           updateContact,
         }}
       />
-
-      <h3 className="flex justify-between pt-4 font-body">
-        Frequently Asked Questions{" "}
-        <EditButton alt="edit frequently asked questions" />
-      </h3>
-      <ul>
-        {Object.entries(faqKVs).map(([question, answer]) => (
-          <li key={question}>
-            <h4 className="flex justify-between py-2 pt-6 text-lg font-bold font-body">
-              {question}
-            </h4>
-            <p className="pl-4 font-thin font-body">{answer}</p>
-          </li>
-        ))}
-      </ul>
     </main>
   )
 }
