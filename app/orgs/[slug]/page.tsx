@@ -78,19 +78,19 @@ export default async function OrgSlugPage({
       <ul>
         {posts.map(({ content, origin_server_ts, event_id }, i) => (
           <li key={i} className="border-b border-[#1D170C33] pb-4">
-            <Link href={`/post/${event_id}`}>
-              <div className="flex mt-6 items-center gap-2 mb-3">
-                <h4 className="text-lg font-bold font-body">
-                  {content && "title" in content && content?.title}
-                </h4>
-                <span className="opacity-60 text-sm">
-                  {getContextualDate(origin_server_ts)}
-                </span>
-              </div>
-              <p className="pl-4 font-thin font-body whitespace-pre-line line-clamp-6">
-                {content?.body}
-              </p>
-            </Link>
+            {/* <Link href={`/post/${event_id}`}> */}
+            <div className="flex mt-6 items-center gap-2 mb-3">
+              <h4 className="text-lg font-bold font-body">
+                {content && "title" in content && content?.title}
+              </h4>
+              <span className="opacity-60 text-sm">
+                {getContextualDate(origin_server_ts)}
+              </span>
+            </div>
+            <p className="pl-4 font-thin font-body whitespace-pre-line">
+              {content?.body}
+            </p>
+            {/* </Link> */}
           </li>
         ))}
       </ul>
