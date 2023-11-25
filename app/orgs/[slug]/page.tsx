@@ -4,11 +4,7 @@ const MERI_USERID = "@meri:radical.directory"
 export const dynamic = "force-dynamic"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
-import {
-  getRoomMessagesIterator,
-  getMessagesChunk,
-  replaceEditedMessages,
-} from "lib/utils"
+import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 import { Contact } from "./Contact"
 import { fetchContactKVs } from "./fetchContactKVs"
 import { IconButton, OptionsButton } from "./edit/IconButton"
@@ -40,15 +36,14 @@ export default async function OrgSlugPage({
   const messages = messagesChunk.filter(
     message => message.type === "m.room.message"
   )
-  const replacedMessages = replaceEditedMessages(messages)
+  const replacedMessages = Room.replaceEditedMessages(messages)
   // const oldContactKVs = parseContactKVs(replacedMessages)
   // console.log("oldContactKVs", oldContactKVs)
 
-  const posts = replacedMessages
-    .filter(
-      message => message.content?.msgtype === directoryRadicalPostUnstable
-    )
-    .filter(message => !(message.content && "m.relates_to" in message.content))
+  const posts = replacedMessages.filter(
+    message => message.content?.msgtype === directoryRadicalPostUnstable
+  )
+  // .filter(message => !(message.content && "m.relates_to" in message.content))
 
   const contactKVs = await fetchContactKVs(room)
 

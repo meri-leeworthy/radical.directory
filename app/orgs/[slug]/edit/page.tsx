@@ -1,11 +1,7 @@
 "use client"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
-import {
-  getRoomMessagesIterator,
-  getMessagesChunk,
-  replaceEditedMessages,
-} from "lib/utils"
+import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 import { useClient } from "lib/useClient"
 import { useEffect, useRef, useState } from "react"
 import { EditableDescription } from "./EditableDescription"
@@ -86,7 +82,7 @@ function HydratedOrgDashboard({
         const messages = messagesChunk.filter(
           (message: Event) => message.type === "m.room.message"
         )
-        const replacedMessages = replaceEditedMessages(messages)
+        const replacedMessages = Room.replaceEditedMessages(messages)
         // initialKVs.current = parseContactKVs(replacedMessages)
         // setContactKVs(initialKVs.current)
 
