@@ -5,6 +5,7 @@ import { useClient } from "lib/useClient"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { Room } from "simple-matrix-sdk"
 import { IconNorthStar } from "@tabler/icons-react"
+import { SelectAuthor } from "components/SelectAuthor"
 
 export const NewPost = ({ slug }: { slug: string }) => {
   const [title, setTitle] = useState("")
@@ -52,9 +53,12 @@ export const NewPost = ({ slug }: { slug: string }) => {
             onChange={e => setContent(e.target.value)}
             className="w-full px-1 text-base placeholder:text-black placeholder:opacity-30 bg-transparent border border-[#1D170C1a] rounded"></textarea>
         </div>
-        <button type="submit" className="self-end rounded bg-[#ddd2ff] px-2">
-          Post
-        </button>
+        <div className="flex justify-between">
+          <SelectAuthor slug={slug} />
+          <button type="submit" className="self-end rounded bg-[#ddd2ff] px-2">
+            Post
+          </button>
+        </div>
       </form>
     </div>
   )

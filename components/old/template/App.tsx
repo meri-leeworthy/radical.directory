@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { Header } from "components/Header"
+import { Header } from "components/old/Header"
 // import { useQuery } from "@apollo/client";
 // import { AUTHENTICATED_USER, GET_USER_NAME } from "lib/apollo/queries";
 

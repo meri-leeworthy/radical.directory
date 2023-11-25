@@ -20,3 +20,11 @@ export const directoryRadicalMetaContactUnstable =
   "directory.radical.meta.contact.unstable"
 
 export const directoryRadicalPostUnstable = "directory.radical.post.unstable"
+
+export type DirectoryRadicalPostUnstable = {
+  title: string
+  body: string
+  tags: string[]
+  msgtype: typeof directoryRadicalPostUnstable
+  author: string
+}

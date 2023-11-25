@@ -1,0 +1,19 @@
+"use client"
+
+import { useState } from "react"
+import { OptionsButton } from "./edit/IconButton"
+
+export function Dropdown({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <div className="justify-self-end relative">
+      <OptionsButton onClick={() => setIsOpen(!isOpen)} />
+      <div
+        className={`absolute right-0 mt-1 w-20 bg-white rounded px-1 flex justify-center ${
+          !isOpen && "hidden"
+        }`}>
+        {children}
+      </div>
+    </div>
+  )
+}

@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic"
 
 import { Client, Room } from "simple-matrix-sdk"
 import { Form } from "./form"
-import { Back } from "components/Back"
+import { Back } from "components/old/Back"
 import Link from "next/link"
 
 const BASE_URL = "https://matrix.radical.directory"

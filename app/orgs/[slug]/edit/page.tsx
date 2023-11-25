@@ -19,7 +19,7 @@ import {
 } from "lib/types"
 import { fetchContactKVs } from "../fetchContactKVs"
 import Redirect from "./Redirect"
-import { Back } from "components/Back"
+import { Back } from "components/old/Back"
 
 //TODO: add a loading state for when we're mutating data
 

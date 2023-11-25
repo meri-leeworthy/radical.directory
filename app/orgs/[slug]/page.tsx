@@ -18,6 +18,7 @@ import { IfLoggedIn } from "./IfLoggedIn"
 import { NewPost } from "./NewPost"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { getContextualDate } from "lib/utils"
+import { Dropdown } from "./Dropdown"
 
 export default async function OrgSlugPage({
   params,
@@ -43,9 +44,11 @@ export default async function OrgSlugPage({
   // const oldContactKVs = parseContactKVs(replacedMessages)
   // console.log("oldContactKVs", oldContactKVs)
 
-  const posts = replacedMessages.filter(
-    message => message.content?.msgtype === directoryRadicalPostUnstable
-  )
+  const posts = replacedMessages
+    .filter(
+      message => message.content?.msgtype === directoryRadicalPostUnstable
+    )
+    .filter(message => !(message.content && "m.relates_to" in message.content))
 
   const contactKVs = await fetchContactKVs(room)
 
@@ -79,7 +82,7 @@ export default async function OrgSlugPage({
           <li key={i} className="border-b border-[#1D170C33] pb-4">
             <div className="flex w-full mt-6 justify-between items-center gap-2 mb-3">
               <div className="flex items-center gap-2">
-                <Link href={`/orgs/${slug}/post/${event_id}`}>
+                <Link href={`/orgs/${slug}/post/${event_id.split("$")[1]}`}>
                   <h4 className="text-lg font-bold font-body">
                     {content && "title" in content && content?.title}
                   </h4>
@@ -88,9 +91,13 @@ export default async function OrgSlugPage({
                   {getContextualDate(origin_server_ts)}
                 </span>
               </div>
-              <div className="justify-self-end">
-                <OptionsButton />
-              </div>
+              <Dropdown>
+                <Link
+                  href={`/orgs/${slug}/post/${event_id.split("$")[1]}/edit`}
+                  className="right-0">
+                  Edit Post
+                </Link>
+              </Dropdown>
             </div>
             <p className="pl-4 font-thin font-body whitespace-pre-line">
               {content?.body}
