@@ -11,19 +11,40 @@ export const NewPost = ({ slug }: { slug: string }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
+  const [author, setAuthor] = useState<[Room, string]>()
+
   const client = useClient()
   if (!client) return "loading..."
   const room = new Room(`!${slug}:radical.directory`, client)
 
   async function handlePostSubmit(event: React.FormEvent<HTMLFormElement>) {
+    // const authorRoom = new Room(content?.author, client)
+    // const roomName = await authorRoom.getName()
+    // console.log("roomName", roomName)
+    // const roomNameString =
+    //   roomName &&
+    //   typeof roomName === "object" &&
+    //   roomName !== null &&
+    //   "name" in roomName &&
+    //   typeof roomName.name === "string"
+    //     ? roomName.name
+    //     : ""
+
     event.preventDefault()
+    if (!author) return
+    const [authorRoom, authorName] = author
+    const roomId = authorRoom.useID()
+    const authorKV = { name: authorName, id: roomId }
     const messageEvent = {
       msgtype: directoryRadicalPostUnstable,
       title,
       body: content,
+      author: authorKV,
       tags: [],
     }
     await room.sendMessage(messageEvent)
+
+    location.reload()
     // redirect(`/orgs/${params.slug}`)
   }
 
@@ -54,7 +75,7 @@ export const NewPost = ({ slug }: { slug: string }) => {
             className="w-full px-1 text-base placeholder:text-black placeholder:opacity-30 bg-transparent border border-[#1D170C1a] rounded"></textarea>
         </div>
         <div className="flex justify-between">
-          <SelectAuthor slug={slug} />
+          <SelectAuthor author={author} setAuthor={setAuthor} slug={slug} />
           <button type="submit" className="self-end rounded bg-[#ddd2ff] px-2">
             Post
           </button>

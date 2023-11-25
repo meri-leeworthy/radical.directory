@@ -7,14 +7,15 @@ import { Room, Client, Event } from "simple-matrix-sdk"
 import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 import { Contact } from "./Contact"
 import { fetchContactKVs } from "./fetchContactKVs"
-import { IconButton, OptionsButton } from "./edit/IconButton"
+import { IconButton } from "./edit/IconButton"
 import { IconSettings } from "@tabler/icons-react"
 import Link from "next/link"
-import { IfLoggedIn } from "./IfLoggedIn"
-import { NewPost } from "./NewPost"
+import { IfLoggedIn } from "components/IfLoggedIn"
+import { NewPost } from "components/NewPost"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { getContextualDate } from "lib/utils"
 import { Dropdown } from "./Dropdown"
+import { PostEditMenu } from "./PostEditMenu"
 
 export default async function OrgSlugPage({
   params,
@@ -24,10 +25,13 @@ export default async function OrgSlugPage({
   const { slug } = params
   const roomId = `!${slug}:radical.directory`
 
-  const room = new Room(
-    roomId,
-    new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, MERI_USERID)
+  const client = new Client(
+    MATRIX_BASE_URL!,
+    RD_MERI_ACCESS_TOKEN!,
+    MERI_USERID
   )
+
+  const room = new Room(roomId, client)
 
   console.log(await room.getName())
 
@@ -37,17 +41,13 @@ export default async function OrgSlugPage({
     message => message.type === "m.room.message"
   )
   const replacedMessages = Room.replaceEditedMessages(messages)
-  // const oldContactKVs = parseContactKVs(replacedMessages)
-  // console.log("oldContactKVs", oldContactKVs)
 
   const posts = replacedMessages.filter(
     message => message.content?.msgtype === directoryRadicalPostUnstable
   )
-  // .filter(message => !(message.content && "m.relates_to" in message.content))
 
   const contactKVs = await fetchContactKVs(room)
 
-  // const faqKVs = parseFaqKVs(replacedMessages)
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 
   return (
@@ -73,32 +73,39 @@ export default async function OrgSlugPage({
       </IfLoggedIn>
 
       <ul>
-        {posts.map(({ content, origin_server_ts, event_id }, i) => (
-          <li key={i} className="border-b border-[#1D170C33] pb-4">
-            <div className="flex w-full mt-6 justify-between items-center gap-2 mb-3">
-              <div className="flex items-center gap-2">
-                <Link href={`/orgs/${slug}/post/${event_id.split("$")[1]}`}>
-                  <h4 className="text-lg font-bold font-body">
-                    {content && "title" in content && content?.title}
-                  </h4>
-                </Link>
-                <span className="opacity-60 text-sm justify-self-start">
-                  {getContextualDate(origin_server_ts)}
-                </span>
+        {posts.map(async ({ content, origin_server_ts, event_id }, i) => {
+          return (
+            <li
+              key={i}
+              className="border-b border-[#1D170C33] pb-4 flex flex-col items-start">
+              {content?.author && (
+                <h5 className="text-sm font-body mt-6">
+                  <Link href={content.author.id || ""}>
+                    {content?.author?.name}
+                    {content.author.id}
+                  </Link>
+                </h5>
+              )}
+              <div className="flex w-full mt-1 justify-between items-center gap-2 mb-1">
+                <div className="flex items-center gap-2">
+                  <Link href={`/orgs/${slug}/post/${event_id.split("$")[1]}`}>
+                    <h4 className="text-lg font-bold font-body">
+                      {content && "title" in content && content?.title}
+                    </h4>
+                  </Link>
+                  <span className="opacity-60 text-sm justify-self-start">
+                    {getContextualDate(origin_server_ts)}
+                  </span>
+                </div>
+                <PostEditMenu slug={slug} event_id={event_id} />
               </div>
-              <Dropdown>
-                <Link
-                  href={`/orgs/${slug}/post/${event_id.split("$")[1]}/edit`}
-                  className="right-0">
-                  Edit Post
-                </Link>
-              </Dropdown>
-            </div>
-            <p className="pl-4 font-thin font-body whitespace-pre-line">
-              {content?.body}
-            </p>
-          </li>
-        ))}
+
+              <p className="mt-4 pl-4 font-thin font-body whitespace-pre-line">
+                {content?.body}
+              </p>
+            </li>
+          )
+        })}
       </ul>
     </main>
   )
