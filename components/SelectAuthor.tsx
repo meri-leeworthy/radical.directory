@@ -83,7 +83,7 @@ export function SelectAuthor({
               )
               if (room) setAuthor(room)
             }}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            className="block w-full py-2 px-3 border border-gray-300 bg-transparent rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option key={thisRoom?.useID()} value={thisRoom?.useID()}>
               {thisRoomName}
             </option>

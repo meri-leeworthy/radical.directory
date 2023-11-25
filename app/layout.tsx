@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="w-screen flex justify-center bg-[#ebcdb066]">
-        <div className="max-w-xl w-full p-4">
+        <div className="max-w-xl lg:max-w-3xl w-full p-4">
           <header className="pb-4 mb-4 border-b border-[#1D170C] flex justify-between">
             <h1 className="text-lg">
               <Link href="/">Radical Directory</Link>

@@ -1,11 +1,11 @@
 "use client"
 
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useClient } from "lib/useClient"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { Room } from "simple-matrix-sdk"
 import { IconNorthStar } from "@tabler/icons-react"
-import { set } from "lodash"
+import { redirect } from "next/navigation"
 
 export default function EditPostPage({
   params,
@@ -54,7 +54,7 @@ export default function EditPostPage({
     //this should EDIT the post, not create a new one
     await room?.sendMessage(messageEvent)
     setIsLoading(false)
-    // redirect(`/orgs/${params.slug}`)
+    redirect(`/orgs/${params.slug}/post/${params.id}`)
   }
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {

@@ -49,7 +49,7 @@ export const NewPost = ({ slug }: { slug: string }) => {
   }
 
   return (
-    <div className="my-4 border border-[#1D170C22] rounded p-1 bg-[#fff3] flex flex-col">
+    <div className="mt-4 border border-[#1D170C22] rounded p-1 bg-[#fff3] flex flex-col">
       <form onSubmit={handlePostSubmit} className="flex flex-col gap-2">
         <div className="flex gap-1">
           <h3 className="opacity-80 w-36 text-base flex justify-center items-center gap-1 px-1 pr-2 bg-[#fff9] rounded">

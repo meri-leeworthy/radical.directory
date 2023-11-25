@@ -15,7 +15,7 @@ export function Contact({
   contactKVs: Record<ContactType, string | undefined>
 }) {
   return (
-    <ul className="text-sm font-body columns-2 opacity-60">
+    <ul className="text-sm font-body columns-2 lg:columns-1 opacity-60">
       {Object.entries(contactKVs).map(([contactType, contactValue]) => (
         <li key={contactType}>
           <ContactItem
@@ -36,8 +36,8 @@ export function ContactItem({
   contactValue: string | undefined
 }) {
   return (
-    <div className="flex items-center gap-1">
-      {getIcon(contactType)}{" "}
+    <div className="flex w-full justify-start items-center gap-1 overflow-clip">
+      <div className="">{getIcon(contactType)} </div>
       <a href={getHrefFormat(contactType, contactValue)}>
         {getLabel(contactType, contactValue)}
       </a>

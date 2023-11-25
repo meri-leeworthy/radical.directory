@@ -13,9 +13,7 @@ import Link from "next/link"
 import { IfLoggedIn } from "components/IfLoggedIn"
 import { NewPost } from "components/NewPost"
 import { directoryRadicalPostUnstable } from "lib/types"
-import { getContextualDate } from "lib/utils"
-import { Dropdown } from "./Dropdown"
-import { PostEditMenu } from "./PostEditMenu"
+import { OrgPosts } from "./OrgPosts"
 
 export default async function OrgSlugPage({
   params,
@@ -42,72 +40,49 @@ export default async function OrgSlugPage({
   )
   const replacedMessages = Room.replaceEditedMessages(messages)
 
-  const posts = replacedMessages.filter(
+  const messagesWithoutDeleted = replacedMessages.filter(
+    message => !("redacted_because" in message)
+  )
+
+  const posts = messagesWithoutDeleted.filter(
     message => message.content?.msgtype === directoryRadicalPostUnstable
   )
+
+  console.log("posts", posts)
 
   const contactKVs = await fetchContactKVs(room)
 
   const topic = messagesChunk.find(message => message.type === "m.room.topic")
 
   return (
-    <main>
-      <div className="flex justify-between items-center">
-        <h2 className="font-body">{room.useName()?.name}</h2>
-        <IfLoggedIn>
-          <Link href={`/orgs/${slug}/edit`}>
-            <IconButton alt="edit page">
-              <IconSettings size={16} />
-            </IconButton>
-          </Link>
-        </IfLoggedIn>
-      </div>
+    <>
+      <main className="flex flex-col lg:flex-row-reverse gap-4">
+        <section className="lg:w-48 w-full flex flex-col lg:flex-col-reverse justify-start lg:justify-end">
+          <p className="py-4 font-body lg:font-sans lg:font-light whitespace-pre-line lg:text-xs">
+            {topic?.content?.topic}
+          </p>
+          <Contact contactKVs={contactKVs} />
+        </section>
 
-      <p className="py-4 font-body whitespace-pre-line">
-        {topic?.content?.topic}
-      </p>
-      <Contact contactKVs={contactKVs} />
+        <section className="w-full">
+          <div className="flex justify-between items-center">
+            <h2 className="font-body">{room.useName()?.name}</h2>
+            <IfLoggedIn>
+              <Link href={`/orgs/${slug}/edit`}>
+                <IconButton alt="edit page">
+                  <IconSettings size={16} />
+                </IconButton>
+              </Link>
+            </IfLoggedIn>
+          </div>
+          <IfLoggedIn>
+            <NewPost slug={slug} />
+          </IfLoggedIn>
 
-      <IfLoggedIn>
-        <NewPost slug={slug} />
-      </IfLoggedIn>
-
-      <ul>
-        {posts.map(async ({ content, origin_server_ts, event_id }, i) => {
-          return (
-            <li
-              key={i}
-              className="border-b border-[#1D170C33] pb-4 flex flex-col items-start">
-              {content?.author && (
-                <h5 className="text-sm font-body mt-6">
-                  <Link href={content.author.id || ""}>
-                    {content?.author?.name}
-                    {content.author.id}
-                  </Link>
-                </h5>
-              )}
-              <div className="flex w-full mt-1 justify-between items-center gap-2 mb-1">
-                <div className="flex items-center gap-2">
-                  <Link href={`/orgs/${slug}/post/${event_id.split("$")[1]}`}>
-                    <h4 className="text-lg font-bold font-body">
-                      {content && "title" in content && content?.title}
-                    </h4>
-                  </Link>
-                  <span className="opacity-60 text-sm justify-self-start">
-                    {getContextualDate(origin_server_ts)}
-                  </span>
-                </div>
-                <PostEditMenu slug={slug} event_id={event_id} />
-              </div>
-
-              <p className="mt-4 pl-4 font-thin font-body whitespace-pre-line">
-                {content?.body}
-              </p>
-            </li>
-          )
-        })}
-      </ul>
-    </main>
+          <OrgPosts posts={posts} slug={slug} />
+        </section>
+      </main>
+    </>
   )
 }
 
