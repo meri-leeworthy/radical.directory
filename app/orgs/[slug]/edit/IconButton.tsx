@@ -1,21 +1,35 @@
 "use client"
 
-import { IconCheck, IconEdit, IconPlus, IconTrash } from "@tabler/icons-react"
+import {
+  IconCheck,
+  IconDotsVertical,
+  IconEdit,
+  IconPlus,
+  IconTrash,
+} from "@tabler/icons-react"
 
 export function IconButton({
   children,
   alt,
   label,
   onClick,
+  bg,
 }: {
   children?: React.ReactNode
   alt: string
   label?: string
   onClick?: () => void
+  bg?: "normal" | "hover" | "none"
 }) {
+  const bgClass =
+    bg === "hover"
+      ? "hover:bg-[#1D170C11]"
+      : bg === "none"
+      ? ""
+      : "bg-[#1D170C11]"
   return (
     <button
-      className="self-start p-1 text-sm bg-[#1D170C11] rounded-full text-[#1D170C99] flex items-center"
+      className={`self-start p-1 text-sm rounded-full text-[#1D170C99] flex items-center ${bgClass}`}
       aria-label={alt}
       onClick={onClick}>
       {children && children}
@@ -78,6 +92,20 @@ export function AddButton({
   return (
     <IconButton alt="Add" onClick={onClick} label={label}>
       <IconPlus size={16} />
+    </IconButton>
+  )
+}
+
+export function OptionsButton({
+  onClick,
+  label,
+}: {
+  onClick?: () => void
+  label?: string
+}) {
+  return (
+    <IconButton alt="Options" onClick={onClick} label={label} bg="hover">
+      <IconDotsVertical size={16} />
     </IconButton>
   )
 }

@@ -11,7 +11,7 @@ import {
 } from "lib/utils"
 import { Contact } from "./Contact"
 import { fetchContactKVs } from "./fetchContactKVs"
-import { IconButton } from "./edit/IconButton"
+import { IconButton, OptionsButton } from "./edit/IconButton"
 import { IconSettings } from "@tabler/icons-react"
 import Link from "next/link"
 import { IfLoggedIn } from "./IfLoggedIn"
@@ -77,15 +77,20 @@ export default async function OrgSlugPage({
       <ul>
         {posts.map(({ content, origin_server_ts, event_id }, i) => (
           <li key={i} className="border-b border-[#1D170C33] pb-4">
-            <div className="flex mt-6 items-center gap-2 mb-3">
-              <Link href={`/orgs/${slug}/post/${event_id}`}>
-                <h4 className="text-lg font-bold font-body">
-                  {content && "title" in content && content?.title}
-                </h4>
-              </Link>
-              <span className="opacity-60 text-sm">
-                {getContextualDate(origin_server_ts)}
-              </span>
+            <div className="flex w-full mt-6 justify-between items-center gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <Link href={`/orgs/${slug}/post/${event_id}`}>
+                  <h4 className="text-lg font-bold font-body">
+                    {content && "title" in content && content?.title}
+                  </h4>
+                </Link>
+                <span className="opacity-60 text-sm justify-self-start">
+                  {getContextualDate(origin_server_ts)}
+                </span>
+              </div>
+              <div className="justify-self-end">
+                <OptionsButton />
+              </div>
             </div>
             <p className="pl-4 font-thin font-body whitespace-pre-line">
               {content?.body}
