@@ -26,7 +26,7 @@ export function IconButton({
       ? "hover:bg-[#1D170C11]"
       : bg === "none"
       ? ""
-      : "bg-[#1D170C11]"
+      : "bg-[#1D170C11] hover:bg-[#1D170C22]"
   return (
     <button
       className={`self-start p-1 text-sm rounded-full text-[#1D170C99] flex items-center ${bgClass}`}

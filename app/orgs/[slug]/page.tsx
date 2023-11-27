@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/link-passhref */
 const { RD_MERI_ACCESS_TOKEN, MATRIX_BASE_URL } = process.env
 const MERI_USERID = "@meri:radical.directory"
 
@@ -6,14 +7,15 @@ export const dynamic = "force-dynamic"
 import { Room, Client, Event } from "simple-matrix-sdk"
 import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 import { Contact } from "./Contact"
-import { fetchContactKVs } from "./fetchContactKVs"
-import { IconButton } from "./edit/IconButton"
+import { fetchContactKVs } from "../../../components/fetchContactKVs"
+import { IconButton } from "../../../components/IconButton"
 import { IconSettings } from "@tabler/icons-react"
 import Link from "next/link"
 import { IfLoggedIn } from "components/IfLoggedIn"
 import { NewPost } from "components/NewPost"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { OrgPosts } from "./OrgPosts"
+import { Suspense } from "react"
 
 export default async function OrgSlugPage({
   params,
@@ -48,7 +50,16 @@ export default async function OrgSlugPage({
     message => message.content?.msgtype === directoryRadicalPostUnstable
   )
 
-  console.log("posts", posts)
+  // console.log("posts", posts)
+
+  const avatar = messagesChunk.find(
+    (message: Event) => message.type === "m.room.avatar"
+  )
+
+  const imageUri = avatar?.content?.url
+  const serverName = imageUri.split("://")[1].split("/")[0]
+  const mediaId = imageUri.split("://")[1].split("/")[1]
+  const avatarUrl = `https://matrix.radical.directory/_matrix/media/r0/download/${serverName}/${mediaId}`
 
   const contactKVs = await fetchContactKVs(room)
 
@@ -58,10 +69,14 @@ export default async function OrgSlugPage({
     <>
       <main className="flex flex-col lg:flex-row-reverse gap-4">
         <section className="lg:w-48 w-full flex flex-col lg:flex-col-reverse justify-start lg:justify-end">
-          <p className="py-4 font-body lg:font-sans lg:font-light whitespace-pre-line lg:text-xs">
+          <p className="py-4 font-body lg:font-sans lg:opacity-80 whitespace-pre-line lg:text-xs">
             {topic?.content?.topic}
           </p>
           <Contact contactKVs={contactKVs} />
+          {avatar?.content?.url && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatarUrl} alt="avatar" width="120" />
+          )}
         </section>
 
         <section className="w-full">
@@ -75,9 +90,11 @@ export default async function OrgSlugPage({
               </Link>
             </IfLoggedIn>
           </div>
-          <IfLoggedIn>
-            <NewPost slug={slug} />
-          </IfLoggedIn>
+          <Suspense fallback={<div>loading...</div>}>
+            <IfLoggedIn>
+              <NewPost slug={slug} />
+            </IfLoggedIn>
+          </Suspense>
 
           <OrgPosts posts={posts} slug={slug} />
         </section>

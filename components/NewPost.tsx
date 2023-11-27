@@ -50,9 +50,9 @@ export const NewPost = ({ slug }: { slug: string }) => {
 
   return (
     <div className="mt-4 border border-[#1D170C22] rounded p-1 bg-[#fff3] flex flex-col">
-      <form onSubmit={handlePostSubmit} className="flex flex-col gap-2">
+      <form onSubmit={handlePostSubmit} className="flex flex-col gap-1">
         <div className="flex gap-1">
-          <h3 className="opacity-80 w-36 text-base flex justify-center items-center gap-1 px-1 pr-2 bg-[#fff9] rounded">
+          <h3 className="opacity-80 w-36 text-base font-medium flex justify-center items-center gap-1 px-1 pr-2 bg-[#fff9] rounded">
             <IconNorthStar size={16} /> New Post
           </h3>
           <input
@@ -62,7 +62,7 @@ export const NewPost = ({ slug }: { slug: string }) => {
             aria-label="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
-            className="w-full px-1 bg-transparent placeholder:text-black placeholder:opacity-30 border border-[#1D170C1a] rounded"
+            className="w-full font-medium px-1 bg-transparent placeholder:text-black placeholder:opacity-30 border border-[#1D170C1a] rounded"
           />
         </div>
         <div className="flex flex-col">

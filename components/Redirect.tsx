@@ -4,7 +4,7 @@ const { MATRIX_BASE_URL } = process.env
 
 import { useEffect } from "react"
 import { redirect } from "next/navigation"
-import { Client } from "simple-matrix-sdk"
+import { useClient } from "lib/useClient"
 
 const Redirect = ({
   roomId,
@@ -13,12 +13,9 @@ const Redirect = ({
   roomId: string
   children: JSX.Element
 }) => {
+  const client = useClient()
   useEffect(() => {
-    if (typeof window === "undefined") return
-    const accessToken = localStorage.getItem("accessToken")
-    const userId = localStorage.getItem("userId")
-    if (!accessToken || !userId) redirect("/login")
-    const client = new Client(MATRIX_BASE_URL!, accessToken!, userId!)
+    if (!client) return
     client.getJoinedRooms().then(rooms => {
       if (!rooms.joined_rooms.includes(roomId)) redirect("/orgs")
     })

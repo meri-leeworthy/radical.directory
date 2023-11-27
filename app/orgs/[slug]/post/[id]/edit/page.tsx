@@ -5,7 +5,7 @@ import { useClient } from "lib/useClient"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { Room } from "simple-matrix-sdk"
 import { IconNorthStar } from "@tabler/icons-react"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export default function EditPostPage({
   params,
@@ -15,6 +15,7 @@ export default function EditPostPage({
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const client = useClient()
 
@@ -54,7 +55,7 @@ export default function EditPostPage({
     //this should EDIT the post, not create a new one
     await room?.sendMessage(messageEvent)
     setIsLoading(false)
-    redirect(`/orgs/${params.slug}/post/${params.id}`)
+    router.push(`/orgs/${params.slug}/post/${params.id}`)
   }
 
   function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -69,7 +70,7 @@ export default function EditPostPage({
     <div className="mt-3 border border-[#1D170C22] rounded p-1 bg-[#fff3] flex flex-col">
       <form onSubmit={handlePostSubmit} className="flex flex-col gap-2">
         <div className="flex gap-1">
-          <h3 className="opacity-80 w-36 text-base flex justify-center items-center gap-1 px-1 pr-2 bg-[#fff9] rounded">
+          <h3 className="opacity-80 w-36 text-base font-medium flex justify-center items-center gap-1 px-1 pr-2 bg-[#fff9] rounded">
             <IconNorthStar size={16} /> Edit
           </h3>
           <input
@@ -79,7 +80,7 @@ export default function EditPostPage({
             aria-label="title"
             value={title}
             onChange={handleTitleChange}
-            className="w-full px-1 bg-transparent placeholder:text-black placeholder:opacity-30 border border-[#1D170C1a] rounded"
+            className="w-full px-1 bg-transparent font-medium placeholder:text-black placeholder:opacity-30 border border-[#1D170C1a] rounded"
           />
         </div>
         <div className="flex flex-col">
@@ -100,7 +101,7 @@ export default function EditPostPage({
           className={`self-end rounded bg-[#ddd2ff] px-2 ${
             isLoading && "opacity-50"
           }`}>
-          Done
+          Save
         </button>
       </form>
     </div>

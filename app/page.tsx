@@ -4,9 +4,9 @@ export const dynamic = "force-dynamic"
 
 import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
-import { Org } from "./orgs/Org"
+import { Org } from "./orgs/[slug]/Org"
 import { Suspense } from "react"
-import LoginLogout from "./orgs/LoginLogout"
+import LoginLogout from "components/LoginLogout"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 const MERI_USERID = "@meri:radical.directory"
@@ -71,7 +71,11 @@ export default async function Orgs() {
           <LoginLogout />
         </p>
         <p>
-          chat with us on <a href="https://matrix.org">Matrix</a>:{" "}
+          chat with us on{" "}
+          <a href="https://matrix.org" className="underline">
+            matrix
+          </a>
+          :{" "}
           <a
             className="underline"
             href="https://matrix.to/#/#r.d:radical.directory">

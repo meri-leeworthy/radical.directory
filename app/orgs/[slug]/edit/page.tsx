@@ -13,9 +13,11 @@ import {
   DirectoryRadicalContactMetaUnstable,
   directoryRadicalMetaContactUnstable,
 } from "lib/types"
-import { fetchContactKVs } from "../fetchContactKVs"
-import Redirect from "./Redirect"
+import { fetchContactKVs } from "components/fetchContactKVs"
+import Redirect from "components/Redirect"
 import { Back } from "components/old/Back"
+import { UploadOrShowAvatar } from "components/UploadOrShowAvatar"
+import { set } from "lodash"
 
 //TODO: add a loading state for when we're mutating data
 
@@ -25,22 +27,21 @@ export default function OrgSlugDashboardPage({
   params: { slug: string }
 }) {
   const { slug } = params
-  const roomId = `!${slug}:radical.directory`
   const client = useClient()
   if (!client) return <div>loading...</div>
   // only try to fetch data if we have accessToken and userId from localStorage
   return (
     <Redirect roomId={slug}>
-      <HydratedOrgDashboard roomId={roomId} client={client} />
+      <HydratedOrgDashboard slug={slug} client={client} />
     </Redirect>
   )
 }
 
 function HydratedOrgDashboard({
-  roomId,
+  slug,
   client,
 }: {
-  roomId: string
+  slug: string
   client: Client
 }) {
   const [editSection, setEditSection] = useState<SectionType>(null)
@@ -49,12 +50,15 @@ function HydratedOrgDashboard({
   const [contactKVs, setContactKVs] = useState<
     Record<string, string | undefined>
   >({})
+  const [imageUri, setImageUri] = useState<string | null>(null)
+
   // const [faqKVs, setFaqKVs] = useState<Record<string, string | undefined>>({})
   const initialKVs = useRef<Partial<Record<ContactType, string>>>({})
-  const room = new Room(roomId, client)
+  const room = new Room(`!${slug}:radical.directory`, client)
 
   useEffect(() => {
     // console.log("running useEffect to fetch name")
+    if (!room) return
     room.getName().then(value => {
       if (
         !value ||
@@ -70,9 +74,7 @@ function HydratedOrgDashboard({
       }
     })
 
-    // console.log("running useEffect to fetch contactKVs")
     fetchContactKVs(room).then(contactKVs => {
-      // console.log("setting contactKVs:", contactKVs)
       initialKVs.current = contactKVs
       setContactKVs(contactKVs)
     })
@@ -83,8 +85,6 @@ function HydratedOrgDashboard({
           (message: Event) => message.type === "m.room.message"
         )
         const replacedMessages = Room.replaceEditedMessages(messages)
-        // initialKVs.current = parseContactKVs(replacedMessages)
-        // setContactKVs(initialKVs.current)
 
         console.log("replacedMessages", replacedMessages)
 
@@ -94,18 +94,25 @@ function HydratedOrgDashboard({
             (message: Event) => message.type === "m.room.topic"
           ).content.topic
         )
+
+        const avatar = messagesChunk.find(
+          (message: Event) => message.type === "m.room.avatar"
+        )
+        console.log("avatar", avatar)
+
+        setImageUri(avatar.content.url)
       })
     })
   }, [])
 
   // mutate room name
   function updateTitle(name: string) {
-    room.setName(name)
+    room?.setName(name)
   }
 
   // mutate room topic
   function updateDescription(description: string) {
-    room.setTopic(description)
+    room?.setTopic(description)
   }
 
   // mutate contact state events
@@ -127,7 +134,7 @@ function HydratedOrgDashboard({
       // console.log("actually sending request with contactValue:", contactValue)
       // console.log("contactKVs[contactType]:", contactKVs[contactType])
       room
-        .sendStateEvent(
+        ?.sendStateEvent(
           directoryRadicalMetaContactUnstable,
           content,
           contactType
@@ -142,6 +149,7 @@ function HydratedOrgDashboard({
   return (
     <main className="flex flex-col w-full">
       <Back />
+      <UploadOrShowAvatar imageUri={imageUri} slug={slug} />
       <EditableTitle
         {...{ editSection, setEditSection, name, setName, updateTitle }}
       />

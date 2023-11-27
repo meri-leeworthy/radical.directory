@@ -63,12 +63,12 @@ export function SelectAuthor({
   const [thisRoom, thisRoomName] = thisRoomTuple || []
 
   return (
-    <div>
-      {isClient && room && client && (
+    <div className="flex">
+      {isClient && room && client && adminRooms && (
         <>
           <label
             htmlFor="author"
-            className="block text-sm font-medium text-gray-700">
+            className="block text-sm font-medium text-gray-700 w-16">
             Post as
           </label>
           <select
