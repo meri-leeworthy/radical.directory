@@ -1,22 +1,22 @@
-const { RD_MERI_ACCESS_TOKEN, MATRIX_BASE_URL } = process.env
+const { MATRIX_BASE_URL, RD_PUBLIC_USERID } = process.env
 
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 
 import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
 import { Org } from "./orgs/[slug]/Org"
 import { Suspense } from "react"
 import LoginLogout from "components/LoginLogout"
+import { getServerAccessToken } from "lib/getServerAccessToken"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 const MERI_USERID = "@meri:radical.directory"
 
 async function getSpaceChildIds() {
-  const client = new Client(
-    MATRIX_BASE_URL!,
-    RD_MERI_ACCESS_TOKEN!,
-    MERI_USERID
-  )
+  const accessToken = await getServerAccessToken()
+
+  const client = new Client(MATRIX_BASE_URL!, accessToken, RD_PUBLIC_USERID!)
+
   const space = new Room(SPACE_ID, client)
   const state = await space.getState()
   const sortedState = Room.sortEvents(state)
@@ -33,12 +33,10 @@ function getIdLocalPart(id: string) {
 
 export default async function Orgs() {
   const roomIds = await getSpaceChildIds()
+  const accessToken = await getServerAccessToken()
   const rooms = roomIds.map(
     roomId =>
-      new Room(
-        roomId,
-        new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, MERI_USERID)
-      )
+      new Room(roomId, new Client(MATRIX_BASE_URL!, accessToken!, MERI_USERID))
   )
   await Promise.all(rooms.map(async room => await room.getName()))
 

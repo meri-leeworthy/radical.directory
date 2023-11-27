@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/link-passhref */
-const { RD_MERI_ACCESS_TOKEN, MATRIX_BASE_URL } = process.env
-const MERI_USERID = "@meri:radical.directory"
+const { MATRIX_BASE_URL, RD_PUBLIC_USERID } = process.env
 
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
 import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
 import { Contact } from "./Contact"
-import { fetchContactKVs } from "../../../components/fetchContactKVs"
-import { IconButton } from "../../../components/IconButton"
+import { fetchContactKVs } from "components/fetchContactKVs"
+import { IconButton } from "components/IconButton"
 import { IconSettings } from "@tabler/icons-react"
 import Link from "next/link"
 import { IfLoggedIn } from "components/IfLoggedIn"
@@ -16,6 +15,7 @@ import { NewPost } from "components/NewPost"
 import { directoryRadicalPostUnstable } from "lib/types"
 import { OrgPosts } from "./OrgPosts"
 import { Suspense } from "react"
+import { getServerAccessToken } from "lib/getServerAccessToken"
 
 export default async function OrgSlugPage({
   params,
@@ -25,11 +25,9 @@ export default async function OrgSlugPage({
   const { slug } = params
   const roomId = `!${slug}:radical.directory`
 
-  const client = new Client(
-    MATRIX_BASE_URL!,
-    RD_MERI_ACCESS_TOKEN!,
-    MERI_USERID
-  )
+  const accessToken = await getServerAccessToken()
+
+  const client = new Client(MATRIX_BASE_URL!, accessToken, RD_PUBLIC_USERID!)
 
   const room = new Room(roomId, client)
 
@@ -111,9 +109,11 @@ export async function generateMetadata({
   const { slug } = params
   const roomId = `!${slug}:radical.directory`
 
+  const accessToken = await getServerAccessToken()
+
   const room = new Room(
     roomId,
-    new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, MERI_USERID)
+    new Client(MATRIX_BASE_URL!, accessToken, RD_PUBLIC_USERID!)
   )
   console.log(await room.getName())
   const messagesIterator = await getRoomMessagesIterator(room)

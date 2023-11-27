@@ -1,6 +1,6 @@
 import { getContextualDate } from "lib/utils"
 import Link from "next/link"
-import { PostEditMenu } from "../../../components/PostEditMenu"
+import { PostEditMenu } from "components/PostEditMenu"
 
 export function OrgPosts({ slug, posts }: { slug: string; posts: any[] }) {
   return (

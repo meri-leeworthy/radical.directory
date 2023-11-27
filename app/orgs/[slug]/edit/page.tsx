@@ -17,7 +17,6 @@ import { fetchContactKVs } from "components/fetchContactKVs"
 import Redirect from "components/Redirect"
 import { Back } from "components/old/Back"
 import { UploadOrShowAvatar } from "components/UploadOrShowAvatar"
-import { set } from "lodash"
 
 //TODO: add a loading state for when we're mutating data
 
