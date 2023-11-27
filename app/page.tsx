@@ -15,7 +15,12 @@ const MERI_USERID = "@meri:radical.directory"
 async function getSpaceChildIds() {
   const accessToken = await getServerAccessToken()
 
-  const client = new Client(MATRIX_BASE_URL!, accessToken, RD_PUBLIC_USERID!)
+  const client = new Client(
+    MATRIX_BASE_URL!,
+    accessToken,
+    RD_PUBLIC_USERID!,
+    fetch
+  )
 
   const space = new Room(SPACE_ID, client)
   const state = await space.getState()
@@ -36,7 +41,10 @@ export default async function Orgs() {
   const accessToken = await getServerAccessToken()
   const rooms = roomIds.map(
     roomId =>
-      new Room(roomId, new Client(MATRIX_BASE_URL!, accessToken!, MERI_USERID))
+      new Room(
+        roomId,
+        new Client(MATRIX_BASE_URL!, accessToken!, MERI_USERID, fetch)
+      )
   )
   await Promise.all(rooms.map(async room => await room.getName()))
 

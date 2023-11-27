@@ -17,7 +17,8 @@ export default async function PostPage({
   const client = new Client(
     MATRIX_BASE_URL!,
     RD_MERI_ACCESS_TOKEN!,
-    MERI_USERID
+    MERI_USERID,
+    fetch
   )
   const room = new Room(roomId, client)
   const name = await room.getName()

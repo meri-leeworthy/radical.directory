@@ -12,7 +12,7 @@ export function useClient() {
     const userId = localStorage.getItem(USERID_STORAGE_KEY)
 
     if (accessToken && userId) {
-      setClient(new Client(BASE_URL, accessToken, userId))
+      setClient(new Client(BASE_URL, accessToken, userId, fetch))
     }
   }, [])
   return client

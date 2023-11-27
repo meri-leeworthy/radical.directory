@@ -16,7 +16,7 @@ async function getRoomMessagesIterator() {
     OPEN_LETTER_USERNAME,
     OPEN_LETTER_PASSWORD!
   )
-  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID)
+  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID, fetch)
   const room = new Room(ROOM_ID, client)
   const messagesIterator = room.getMessagesAsyncGenerator()()
   return messagesIterator

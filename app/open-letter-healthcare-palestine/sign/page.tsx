@@ -18,7 +18,7 @@ async function sendSignatory(name: string, work: string) {
     "openletter",
     OPEN_LETTER_PASSWORD!
   )
-  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID)
+  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID, fetch)
   const room = new Room(ROOM_ID, client)
   const content = {
     body: `name: ${name}\nwork: ${work}`,
