@@ -12,5 +12,6 @@ export function IfLoggedIn({ children }: { children: React.ReactNode }) {
   const accessToken = localStorage?.getItem("accessToken")
   const userId = localStorage?.getItem("userId")
 
-  return <>{isClient && accessToken && userId && children}</>
+  if (isClient && accessToken && userId) return <>{children}</>
+  return null
 }

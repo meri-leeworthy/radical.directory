@@ -1,6 +1,7 @@
 import { getContextualDate } from "lib/utils"
 import Link from "next/link"
 import { PostEditMenu } from "components/PostEditMenu"
+import { IfLoggedIn } from "components/IfLoggedIn"
 
 export function OrgPosts({ slug, posts }: { slug: string; posts: any[] }) {
   return (
@@ -33,7 +34,9 @@ export function OrgPosts({ slug, posts }: { slug: string; posts: any[] }) {
                   </h5>
                 )}
               </div>
-              <PostEditMenu slug={slug} event_id={event_id} />
+              <IfLoggedIn>
+                <PostEditMenu slug={slug} event_id={event_id} />
+              </IfLoggedIn>
             </div>
 
             <p className="mt-4 pl-4 font-thin font-body whitespace-pre-line">
