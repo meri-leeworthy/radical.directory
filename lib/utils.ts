@@ -1,5 +1,8 @@
 import { Room, Event } from "simple-matrix-sdk"
 
+export const noCacheFetch = (input: RequestInfo, init?: RequestInit) =>
+  fetch(input, { ...init, cache: "no-store" })
+
 export async function getMessagesChunk(messagesIterator: AsyncGenerator) {
   const { value } = await messagesIterator.next()
   return value.chunk

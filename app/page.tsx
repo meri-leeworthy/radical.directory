@@ -8,6 +8,7 @@ import { Org } from "./orgs/[slug]/Org"
 import { Suspense } from "react"
 import LoginLogout from "components/LoginLogout"
 import { getServerAccessToken } from "lib/getServerAccessToken"
+import { noCacheFetch } from "lib/utils"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 const MERI_USERID = "@meri:radical.directory"
@@ -43,7 +44,7 @@ export default async function Orgs() {
     roomId =>
       new Room(
         roomId,
-        new Client(MATRIX_BASE_URL!, accessToken!, MERI_USERID, fetch)
+        new Client(MATRIX_BASE_URL!, accessToken!, MERI_USERID, noCacheFetch)
       )
   )
   await Promise.all(rooms.map(async room => await room.getName()))

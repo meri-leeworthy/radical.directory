@@ -4,7 +4,11 @@ const { MATRIX_BASE_URL, RD_PUBLIC_USERID } = process.env
 // export const dynamic = "force-dynamic"
 
 import { Room, Client, Event } from "simple-matrix-sdk"
-import { getRoomMessagesIterator, getMessagesChunk } from "lib/utils"
+import {
+  getRoomMessagesIterator,
+  getMessagesChunk,
+  noCacheFetch,
+} from "lib/utils"
 import { Contact } from "./Contact"
 import { fetchContactKVs } from "components/fetchContactKVs"
 import { IconButton } from "components/IconButton"
@@ -31,7 +35,7 @@ export default async function OrgSlugPage({
     MATRIX_BASE_URL!,
     accessToken,
     RD_PUBLIC_USERID!,
-    fetch
+    noCacheFetch
   )
 
   const room = new Room(roomId, client)
