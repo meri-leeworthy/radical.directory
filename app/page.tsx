@@ -69,11 +69,6 @@ export default async function Orgs() {
         ))}
       </ul>
       <section className="opacity-60 font-body mt-24">
-        <p>
-          <a href="http://enlacezapatista.ezln.org.mx/wp-content/uploads/2018/08/Manifiesto_Borrador-Final.pdf">
-            &ldquo;for a world in which many worlds fit&rdquo;
-          </a>
-        </p>
         <p className="my-4">
           <LoginLogout />
         </p>
@@ -101,6 +96,11 @@ export default async function Orgs() {
           contribute code/ideas on{" "}
           <a className="underline" href="https://github.com/radicaldirectory">
             github
+          </a>
+        </p>
+        <p className="my-4">
+          <a href="http://enlacezapatista.ezln.org.mx/wp-content/uploads/2018/08/Manifiesto_Borrador-Final.pdf">
+            &ldquo;for a world in which many worlds fit&rdquo;
           </a>
         </p>
       </section>
