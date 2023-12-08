@@ -1,4 +1,4 @@
-import { EditButton, DoneButton } from "../../../../components/IconButton"
+import { EditButton, DoneButton } from "../../../../../components/IconButton"
 import { SectionType, sections } from "./SectionType"
 
 export function EditableDescription({

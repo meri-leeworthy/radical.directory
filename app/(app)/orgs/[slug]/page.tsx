@@ -63,9 +63,9 @@ export default async function OrgSlugPage({
     (message: Event) => message.type === "m.room.avatar"
   )
 
-  const imageUri = avatar?.content?.url
-  const serverName = imageUri.split("://")[1].split("/")[0]
-  const mediaId = imageUri.split("://")[1].split("/")[1]
+  const imageUri: string | undefined = avatar?.content?.url
+  const serverName = imageUri && imageUri.split("://")[1].split("/")[0]
+  const mediaId = imageUri && imageUri.split("://")[1].split("/")[1]
   const avatarUrl = `https://matrix.radical.directory/_matrix/media/r0/download/${serverName}/${mediaId}`
 
   const contactKVs = await fetchContactKVs(room)

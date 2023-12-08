@@ -18,6 +18,6 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     revalidated: false,
     now: Date.now(),
-    message: "Missing path to revalidate",
+    message: "Missing path or tag param to revalidate",
   })
 }

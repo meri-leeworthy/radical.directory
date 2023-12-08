@@ -17,6 +17,6 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     hashed: false,
     now: Date.now(),
-    message: "Missing path to revalidate",
+    message: "Pass a value to be hashed as a query parameter.",
   })
 }

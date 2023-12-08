@@ -7,7 +7,7 @@ import {
   DeleteButton,
   DoneButton,
   EditButton,
-} from "../../../../components/IconButton"
+} from "../../../../../components/IconButton"
 import { SectionType, sections } from "./SectionType"
 
 export function EditableContactSection({
