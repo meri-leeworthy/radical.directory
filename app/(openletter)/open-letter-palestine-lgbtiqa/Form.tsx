@@ -41,7 +41,7 @@ export function Form(props: {
       {showForm && (
         <>
           <form onSubmit={handleSubmit} className="flex flex-col mb-16 py-4">
-            <label htmlFor="name" className="text-xs opacity-80">
+            <label htmlFor="name" className="text-sm opacity-80">
               Full Name *
             </label>
             <input
@@ -53,7 +53,7 @@ export function Form(props: {
               required
               onChange={e => setName(e.target.value)}
             />
-            <label htmlFor="occupation" className="text-xs opacity-80">
+            <label htmlFor="occupation" className="text-sm opacity-80">
               Occupation and/or Union
             </label>
             <input
@@ -64,7 +64,7 @@ export function Form(props: {
               value={work}
               onChange={e => setWork(e.target.value)}
             />
-            <label htmlFor="occupation" className="text-xs opacity-80">
+            <label htmlFor="occupation" className="text-sm opacity-80">
               Location
             </label>
             <input
