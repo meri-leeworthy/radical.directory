@@ -51,7 +51,7 @@ export function Form(props: {
               required
               onChange={e => setName(e.target.value)}
             />
-            <label htmlFor="occupation">Occupation</label>
+            <label htmlFor="occupation">Occupation and/or Union</label>
             <input
               type="text"
               id="occupation"

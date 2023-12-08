@@ -67,11 +67,14 @@ export default async function Letter() {
       location,
     }))
 
+  const meri = signatories.pop()
+  meri && signatories.splice(signatories.length - 5, 0, meri)
+
   // console.log("signatories", signatories)
   return (
     <>
       <h1 className="font-black text-3xl lg:text-5xl pb-4">
-        No Pride in Genocide:
+        No Pride in Genocide
       </h1>
       <h2 className="font-bold pb-6">
         LGBTIQA+ Workers, Advocates, and Community Members in Australia in
@@ -217,14 +220,17 @@ export default async function Letter() {
           </div>
           <SignLetter />
 
-          <ul className="p-4 text-sm">
+          <ul className="p-4 text-sm self-center gap-2 gap-x-4 justify-center flex flex-wrap max-w-xl lg:w-60 sm:pl-16 lg:pl-0 lg:p-0 lg:pt-4">
             {signatories.map(({ name, work, location }, i) => (
-              <li key={i}>
-                {name}
-                <br />
-                <span className="pl-2 italic opacity-60">{work}</span>
-                <br />
-                <span className="pl-2 italic opacity-60">{location}</span>
+              <li key={i} className="pb-2 flex flex-col items-start gap-1 w-56">
+                <span className="">{name}</span>
+                <div className="">
+                  <span className="italic opacity-60">
+                    {work}
+                    {" • "}
+                  </span>
+                  <span className="italic opacity-60">{location}</span>
+                </div>
               </li>
             ))}
           </ul>

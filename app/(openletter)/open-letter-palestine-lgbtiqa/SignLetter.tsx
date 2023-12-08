@@ -28,7 +28,7 @@ async function sendSignatory(name: string, work: string, location: string) {
 
 export async function SignLetter() {
   return (
-    <div className="lg:w-64 flex flex-col">
+    <div className="lg:w-60 flex flex-col">
       <Form sendSignatory={sendSignatory} />
     </div>
   )
