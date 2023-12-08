@@ -51,12 +51,12 @@ export default async function Letter() {
   // console.log("reactions", reactions)
 
   const signatories = messages
-    .filter(message => reactions.includes(message.event_id))
+    .filter(message => reactions?.includes(message.event_id))
     .filter(
       message =>
-        message.content.body.includes("name:") &&
-        message.content.body.includes("\nwork:") &&
-        message.content.body.includes("\nlocation:")
+        message.content.body?.includes("name:") &&
+        message.content.body?.includes("\nwork:") &&
+        message.content.body?.includes("\nlocation:")
     )
     .map(message =>
       message.content.body.split("\n").flatMap(line => line.split(":"))
