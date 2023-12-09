@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /open-letter-palestine-lgbtiq
+Disallow: /open-letter-palestine-lgbtiqa
