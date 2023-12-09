@@ -1,4 +1,4 @@
-const { OPEN_LETTER_PASSWORD } = process.env
+const { OPEN_LETTER_PASSWORD, AS_TOKEN } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -7,19 +7,25 @@ import { Form } from "./Form"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
-const OPEN_LETTER_USERID = "@openletter:radical.directory"
+// const OPEN_LETTER_USERID = "@openletter:radical.directory"
 
 async function sendSignatory(name: string, work: string, location: string) {
   "use server"
-  const accessToken = await Client.login(
-    BASE_URL,
-    "openletter",
-    OPEN_LETTER_PASSWORD!,
-    fetch
-  )
-  const client = new Client(BASE_URL, accessToken, {
-    userId: OPEN_LETTER_USERID,
+  // const accessToken = await Client.login(
+  //   BASE_URL,
+  //   "openletter",
+  //   OPEN_LETTER_PASSWORD!,
+  //   fetch
+  // )
+  // const client = new Client(BASE_URL, accessToken, {
+  //   userId: OPEN_LETTER_USERID,
+  //   fetch,
+  // })
+  const client = new Client(BASE_URL, AS_TOKEN!, {
     fetch,
+    params: {
+      user_id: "@_relay_bot:radical.directory",
+    },
   })
   const room = new Room(ROOM_ID, client)
   const content = {

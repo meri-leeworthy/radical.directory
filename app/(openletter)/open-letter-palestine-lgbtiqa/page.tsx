@@ -1,4 +1,4 @@
-const { OPEN_LETTER_PASSWORD, AS_TOKEN } = process.env
+const { AS_TOKEN } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -7,18 +7,9 @@ import { SignLetter } from "./SignLetter"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
-const OPEN_LETTER_USERNAME = "openletter"
-const OPEN_LETTER_USERID = "@openletter:radical.directory"
 
 async function getRoomMessagesIterator() {
-  // const accessToken = await Client.login(
-  //   BASE_URL,
-  //   OPEN_LETTER_USERNAME,
-  //   OPEN_LETTER_PASSWORD!,
-  //   fetch // passes the Next.js caching server fetch function to the SDK
-  // )
   const client = new Client(BASE_URL, AS_TOKEN!, {
-    userId: OPEN_LETTER_USERID,
     fetch,
     params: {
       user_id: "@_relay_bot:radical.directory",
@@ -33,127 +24,76 @@ type Chunk = {
   type: string
   event_id: string
   content: { body: string; msgtype?: string; "m.relates_to"?: any }
-}[]
+}[] &
+  Event[]
 
 type ChunkResponse = {
-  start: string
+  start?: string
   end?: string
   chunk: Chunk
-}
-
-async function getMessagesChunk(
-  messagesIterator: AsyncGenerator,
-  end?: string
-): Promise<ChunkResponse> {
-  const { value } = await messagesIterator.next(end)
-
-  return value
 }
 
 async function getAllMessageChunks(
   messagesIterator: AsyncGenerator,
   end?: string
-): Promise<any[]> {
+): Promise<ChunkResponse[]> {
   const response = await messagesIterator.next(end)
-  console.log("response", response)
+  // console.log("response", response)
   const { value } = response
   if (!value || !value.end) return []
   return [value, ...(await getAllMessageChunks(messagesIterator, value.end))]
 }
 
-async function testRoom() {
-  const client = new Client(BASE_URL, AS_TOKEN!, {
-    userId: OPEN_LETTER_USERID,
-    fetch,
-  })
-  const room = new Room(ROOM_ID, client)
-  return await client.get("joined_rooms", {
-    user_id: "@_relay_bot:radical.directory",
-  })
-}
-
 export default async function Letter() {
   const messagesIterator = await getRoomMessagesIterator()
-
-  // const messagesChunk: ChunkResponse = await getMessagesChunk(messagesIterator)
-
-  // const { chunk, ...rest } = messagesChunk
-  // console.log("raw messages chunk", rest)
-  // console.log("chunk.length", chunk.length)
-
-  // console.log("chunk", chunk)
-
-  const response = await testRoom()
-  console.log("response", response)
-
   const allChunks = await getAllMessageChunks(messagesIterator)
-
-  // const { chunk: chunk2, ...rest2 } = messagesChunk2
-
   const unifiedChunk = allChunks.reduce(
-    (acc, chunk) => [...acc, ...chunk.chunk],
-    []
-  )
+    (acc, chunk) => {
+      return {
+        chunk: [...acc.chunk, ...chunk.chunk],
+      }
+    },
+    { chunk: [] }
+  ).chunk
 
-  console.log("unifiedChunk", unifiedChunk.length)
-
-  // const messagesChunk3 = messagesChunk2.end
-  //   ? await getMessagesChunk(messagesIterator)
-  //   : []
-
-  // // const { chunk: chunk2, ...rest2 } = messagesChunk2
-  // console.log("raw messages chunk3", messagesChunk3)
-
-  // console.log("messages", messagesChunk)
-
-  // const combinedChunk = [...messagesChunk.chunk]
+  // console.log("unifiedChunk", unifiedChunk.length)
 
   const messages = unifiedChunk.filter(
-    (message: Event) => message.type === "m.room.message"
+    message => message.type === "m.room.message"
   )
 
   const reactions = unifiedChunk
     .filter(
-      (message: Event) =>
+      message =>
         message?.type === "m.reaction" &&
         ((message?.content && message.content["m.relates_to"]?.key == "👍️") ||
           "👍")
     )
     .map(
-      (message: Event) =>
-        message?.content && message.content["m.relates_to"]?.event_id
+      message => message?.content && message.content["m.relates_to"]?.event_id
     )
     .filter((event_id: string) => !!event_id)
 
-  console.log("reactions", reactions, reactions?.length)
+  // console.log("reactions", reactions, reactions?.length)
 
   const signatories = messages
-    .filter((message: Event) => reactions?.includes(message.event_id))
+    .filter(message => reactions?.includes(message.event_id))
     .filter(
-      (message: Event) =>
+      message =>
         message?.content?.body?.includes("name:") &&
         message.content.body?.includes("\nwork:") &&
         message.content.body?.includes("\nlocation:")
     )
-    .map((message: Event) =>
+    .map(message =>
       message?.content?.body
         ?.split("\n")
         .flatMap((line: string) => line.split(":"))
     )
-    .map(
-      ([_name, name, _work, work, _location, location]: [
-        string,
-        string,
-        string,
-        string,
-        string,
-        string
-      ]) => ({
-        name,
-        work,
-        location,
-      })
-    )
+    .map(([_name, name, _work, work, _location, location]) => ({
+      name,
+      work,
+      location,
+    }))
 
   const meri = signatories.pop()
   meri && signatories.splice(signatories.length - 5, 0, meri)

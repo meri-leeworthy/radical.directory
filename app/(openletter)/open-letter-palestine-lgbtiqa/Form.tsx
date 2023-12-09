@@ -25,8 +25,8 @@ export function Form(props: {
   if (submitted) {
     return (
       <p>
-        Thank you for signing. After reviewing for spam will we add your name to
-        the list.
+        Thank you for signing. <b>It won&apos;t appear straight away.</b> After
+        reviewing for spam will we add your name to the list.
       </p>
     )
   }
