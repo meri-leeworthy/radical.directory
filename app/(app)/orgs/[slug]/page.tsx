@@ -31,12 +31,10 @@ export default async function OrgSlugPage({
 
   const accessToken = await getServerAccessToken()
 
-  const client = new Client(
-    MATRIX_BASE_URL!,
-    accessToken,
-    RD_PUBLIC_USERID!,
-    noCacheFetch
-  )
+  const client = new Client(MATRIX_BASE_URL!, accessToken, {
+    userId: RD_PUBLIC_USERID!,
+    fetch: noCacheFetch,
+  })
 
   const room = new Room(roomId, client)
 
@@ -122,7 +120,10 @@ export async function generateMetadata({
 
   const room = new Room(
     roomId,
-    new Client(MATRIX_BASE_URL!, accessToken, RD_PUBLIC_USERID!, fetch)
+    new Client(MATRIX_BASE_URL!, accessToken, {
+      userId: RD_PUBLIC_USERID!,
+      fetch,
+    })
   )
   console.log(await room.getName())
   const messagesIterator = await getRoomMessagesIterator(room)

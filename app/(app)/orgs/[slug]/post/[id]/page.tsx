@@ -14,12 +14,10 @@ export default async function PostPage({
 }) {
   const { slug, id } = params
   const roomId = `!${slug}:radical.directory`
-  const client = new Client(
-    MATRIX_BASE_URL!,
-    RD_MERI_ACCESS_TOKEN!,
-    MERI_USERID,
-    fetch
-  )
+  const client = new Client(MATRIX_BASE_URL!, RD_MERI_ACCESS_TOKEN!, {
+    userId: MERI_USERID,
+    fetch,
+  })
   const room = new Room(roomId, client)
   const name = await room.getName()
   const post = await room.getEvent(id)

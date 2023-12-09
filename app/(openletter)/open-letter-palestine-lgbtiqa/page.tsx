@@ -1,4 +1,4 @@
-const { OPEN_LETTER_PASSWORD } = process.env
+const { OPEN_LETTER_PASSWORD, AS_TOKEN } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -11,13 +11,16 @@ const OPEN_LETTER_USERNAME = "openletter"
 const OPEN_LETTER_USERID = "@openletter:radical.directory"
 
 async function getRoomMessagesIterator() {
-  const accessToken = await Client.login(
-    BASE_URL,
-    OPEN_LETTER_USERNAME,
-    OPEN_LETTER_PASSWORD!,
-    fetch // passes the Next.js caching server fetch function to the SDK
-  )
-  const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID, fetch)
+  // const accessToken = await Client.login(
+  //   BASE_URL,
+  //   OPEN_LETTER_USERNAME,
+  //   OPEN_LETTER_PASSWORD!,
+  //   fetch // passes the Next.js caching server fetch function to the SDK
+  // )
+  const client = new Client(BASE_URL, AS_TOKEN!, {
+    userId: OPEN_LETTER_USERID,
+    fetch,
+  })
   const room = new Room(ROOM_ID, client)
   const messagesIterator = room.getMessagesAsyncGenerator("b", 100)()
   return messagesIterator
@@ -48,9 +51,22 @@ async function getAllMessageChunks(
   messagesIterator: AsyncGenerator,
   end?: string
 ): Promise<any[]> {
-  const { value } = await messagesIterator.next(end)
+  const response = await messagesIterator.next(end)
+  console.log("response", response)
+  const { value } = response
   if (!value || !value.end) return []
   return [value, ...(await getAllMessageChunks(messagesIterator, value.end))]
+}
+
+async function testRoom() {
+  const client = new Client(BASE_URL, AS_TOKEN!, {
+    userId: OPEN_LETTER_USERID,
+    fetch,
+  })
+  const room = new Room(ROOM_ID, client)
+  return await client.get("joined_rooms", {
+    user_id: "@_relay_bot:radical.directory",
+  })
 }
 
 export default async function Letter() {
@@ -63,6 +79,9 @@ export default async function Letter() {
   // console.log("chunk.length", chunk.length)
 
   // console.log("chunk", chunk)
+
+  const response = await testRoom()
+  console.log("response", response)
 
   const allChunks = await getAllMessageChunks(messagesIterator)
 
@@ -135,6 +154,9 @@ export default async function Letter() {
 
   const meri = signatories.pop()
   meri && signatories.splice(signatories.length - 5, 0, meri)
+
+  // 27 signatures = height of page
+  // then grid of signatures?
 
   return (
     <>
@@ -301,7 +323,7 @@ export default async function Letter() {
                   <span className="">{name}</span>
                   <div className="">
                     <span className="italic opacity-60">
-                      {work && work + " • "}
+                      {work && `${work} • `}
                     </span>
                     <span className="italic opacity-60">{location}</span>
                   </div>
