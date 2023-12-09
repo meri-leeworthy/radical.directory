@@ -20,6 +20,9 @@ async function getRoomMessagesIterator() {
   const client = new Client(BASE_URL, AS_TOKEN!, {
     userId: OPEN_LETTER_USERID,
     fetch,
+    params: {
+      user_id: "@_relay_bot:radical.directory",
+    },
   })
   const room = new Room(ROOM_ID, client)
   const messagesIterator = room.getMessagesAsyncGenerator("b", 100)()

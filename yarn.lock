@@ -3560,10 +3560,10 @@ side-channel@^1.0.4:
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
 
-simple-matrix-sdk@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/simple-matrix-sdk/-/simple-matrix-sdk-0.2.0.tgz#89800e3f5ff3105cc9c5f8443c604ec3e4084f1c"
-  integrity sha512-alUO0GiYL1eW75aJAAJWCR/N2pF8moNx3p192w01B9xkKnDFN7jOu2/kLnrLvu0YamxiaGs6Dsn/o9TiuGwVCA==
+simple-matrix-sdk@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/simple-matrix-sdk/-/simple-matrix-sdk-0.2.1.tgz#bd054f0de8bc684c81af050708a7b358b4860836"
+  integrity sha512-9qCPfOdDUCXQv+FLc76YcqWLN6TyBnKEa59UTVGR7647OW2w3HvonEFHKYVQbQ49AXZ+LKs1Q1j5bE6Y4cVdjA==
 
 slash@^3.0.0:
   version "3.0.0"
