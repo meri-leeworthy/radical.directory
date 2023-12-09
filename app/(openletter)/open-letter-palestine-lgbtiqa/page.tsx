@@ -15,11 +15,11 @@ async function getRoomMessagesIterator() {
     BASE_URL,
     OPEN_LETTER_USERNAME,
     OPEN_LETTER_PASSWORD!,
-    fetch
+    fetch // passes the Next.js caching server fetch function to the SDK
   )
   const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID, fetch)
   const room = new Room(ROOM_ID, client)
-  const messagesIterator = room.getMessagesAsyncGenerator("b", 400)()
+  const messagesIterator = room.getMessagesAsyncGenerator("b", 600)()
   return messagesIterator
 }
 
@@ -70,9 +70,8 @@ export default async function Letter() {
   const reactions = messagesChunk.chunk
     .filter(
       message =>
-        (message?.type === "m.reaction" &&
-          message?.content["m.relates_to"]?.key == "👍️") ||
-        "👍"
+        message?.type === "m.reaction" &&
+        (message?.content["m.relates_to"]?.key == "👍️" || "👍")
     )
     .map(message => message?.content["m.relates_to"]?.event_id)
 
@@ -255,8 +254,7 @@ export default async function Letter() {
                 <span className="">{name}</span>
                 <div className="">
                   <span className="italic opacity-60">
-                    {work}
-                    {" • "}
+                    {work && work + " • "}
                   </span>
                   <span className="italic opacity-60">{location}</span>
                 </div>

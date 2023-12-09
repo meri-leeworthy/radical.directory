@@ -1,6 +1,4 @@
-import Link from "next/link"
 import "styles/globals.css"
-import Username from "components/Username"
 
 // bg-[#edd0b366] bg-[#ebcdb066]
 
