@@ -2,7 +2,7 @@ const { OPEN_LETTER_PASSWORD } = process.env
 
 export const dynamic = "force-dynamic"
 
-import { Client, Room } from "simple-matrix-sdk"
+import { Client, Room, Event } from "simple-matrix-sdk"
 import { SignLetter } from "./SignLetter"
 
 const BASE_URL = "https://matrix.radical.directory"
@@ -19,82 +19,119 @@ async function getRoomMessagesIterator() {
   )
   const client = new Client(BASE_URL, accessToken, OPEN_LETTER_USERID, fetch)
   const room = new Room(ROOM_ID, client)
-  const messagesIterator = room.getMessagesAsyncGenerator("b", 600)()
+  const messagesIterator = room.getMessagesAsyncGenerator("b", 100)()
   return messagesIterator
 }
 
-async function getMessagesChunk(messagesIterator: AsyncGenerator) {
-  const { value } = await messagesIterator.next()
+type Chunk = {
+  type: string
+  event_id: string
+  content: { body: string; msgtype?: string; "m.relates_to"?: any }
+}[]
+
+type ChunkResponse = {
+  start: string
+  end?: string
+  chunk: Chunk
+}
+
+async function getMessagesChunk(
+  messagesIterator: AsyncGenerator,
+  end?: string
+): Promise<ChunkResponse> {
+  const { value } = await messagesIterator.next(end)
 
   return value
+}
+
+async function getAllMessageChunks(
+  messagesIterator: AsyncGenerator,
+  end?: string
+): Promise<any[]> {
+  const { value } = await messagesIterator.next(end)
+  if (!value || !value.end) return []
+  return [value, ...(await getAllMessageChunks(messagesIterator, value.end))]
 }
 
 export default async function Letter() {
   const messagesIterator = await getRoomMessagesIterator()
 
-  type Chunk = {
-    type: string
-    event_id: string
-    content: { body: string; msgtype?: string; "m.relates_to"?: any }
-  }[]
+  // const messagesChunk: ChunkResponse = await getMessagesChunk(messagesIterator)
 
-  type ChunkResponse = {
-    start: string
-    end?: string
-    chunk: Chunk
-  }
-
-  const messagesChunk: ChunkResponse = await getMessagesChunk(messagesIterator)
-
-  const { chunk, ...rest } = messagesChunk
-  console.log("raw messages chunk", rest)
-  console.log("chunk.length", chunk.length)
+  // const { chunk, ...rest } = messagesChunk
+  // console.log("raw messages chunk", rest)
+  // console.log("chunk.length", chunk.length)
 
   // console.log("chunk", chunk)
 
-  // const messagesChunk2 = messagesChunk.end
+  const allChunks = await getAllMessageChunks(messagesIterator)
+
+  // const { chunk: chunk2, ...rest2 } = messagesChunk2
+
+  const unifiedChunk = allChunks.reduce(
+    (acc, chunk) => [...acc, ...chunk.chunk],
+    []
+  )
+
+  console.log("unifiedChunk", unifiedChunk.length)
+
+  // const messagesChunk3 = messagesChunk2.end
   //   ? await getMessagesChunk(messagesIterator)
   //   : []
 
-  // const { chunk: chunk2, ...rest2 } = messagesChunk2
-  // console.log("raw messages chunk2", rest2)
+  // // const { chunk: chunk2, ...rest2 } = messagesChunk2
+  // console.log("raw messages chunk3", messagesChunk3)
 
   // console.log("messages", messagesChunk)
 
-  const combinedChunk = [...messagesChunk.chunk]
+  // const combinedChunk = [...messagesChunk.chunk]
 
-  const messages = combinedChunk.filter(
-    message => message.type === "m.room.message"
+  const messages = unifiedChunk.filter(
+    (message: Event) => message.type === "m.room.message"
   )
 
-  const reactions = messagesChunk.chunk
+  const reactions = unifiedChunk
     .filter(
-      message =>
+      (message: Event) =>
         message?.type === "m.reaction" &&
-        (message?.content["m.relates_to"]?.key == "👍️" || "👍")
+        ((message?.content && message.content["m.relates_to"]?.key == "👍️") ||
+          "👍")
     )
-    .map(message => message?.content["m.relates_to"]?.event_id)
+    .map(
+      (message: Event) =>
+        message?.content && message.content["m.relates_to"]?.event_id
+    )
+    .filter((event_id: string) => !!event_id)
 
   console.log("reactions", reactions, reactions?.length)
 
   const signatories = messages
-    .filter(message => reactions?.includes(message.event_id))
+    .filter((message: Event) => reactions?.includes(message.event_id))
     .filter(
-      message =>
-        message.content.body?.includes("name:") &&
+      (message: Event) =>
+        message?.content?.body?.includes("name:") &&
         message.content.body?.includes("\nwork:") &&
         message.content.body?.includes("\nlocation:")
     )
-    .map(message =>
-      message.content.body
-        .split("\n")
+    .map((message: Event) =>
+      message?.content?.body
+        ?.split("\n")
         .flatMap((line: string) => line.split(":"))
     )
-    .map(([_name, name, _work, work, _location, location]) => ({
-      name,
-      work,
-      location,
-    }))
+    .map(
+      ([_name, name, _work, work, _location, location]: [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string
+      ]) => ({
+        name,
+        work,
+        location,
+      })
+    )
 
   const meri = signatories.pop()
   meri && signatories.splice(signatories.length - 5, 0, meri)
@@ -249,17 +286,28 @@ export default async function Letter() {
           <SignLetter />
 
           <ul className="p-4 text-sm self-center gap-2 gap-x-4 justify-center flex flex-wrap max-w-xl lg:w-60 sm:pl-16 lg:pl-0 lg:p-0 lg:pt-4">
-            {signatories.map(({ name, work, location }, i) => (
-              <li key={i} className="pb-2 flex flex-col items-start gap-1 w-56">
-                <span className="">{name}</span>
-                <div className="">
-                  <span className="italic opacity-60">
-                    {work && work + " • "}
-                  </span>
-                  <span className="italic opacity-60">{location}</span>
-                </div>
-              </li>
-            ))}
+            {signatories.map(
+              (
+                {
+                  name,
+                  work,
+                  location,
+                }: { name: string; work: string; location: string },
+                i: number
+              ) => (
+                <li
+                  key={i}
+                  className="pb-2 flex flex-col items-start gap-1 w-56">
+                  <span className="">{name}</span>
+                  <div className="">
+                    <span className="italic opacity-60">
+                      {work && work + " • "}
+                    </span>
+                    <span className="italic opacity-60">{location}</span>
+                  </div>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </div>
