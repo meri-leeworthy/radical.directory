@@ -16,7 +16,12 @@ async function register() {
 }
 
 export default async function ApplicationServiceTest() {
-  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, { fetch })
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
+    fetch,
+    params: {
+      user_id: "@_relay_bot:radical.directory",
+    },
+  })
 
   const account = await client.get("account/whoami", {
     user_id: "@_relay_bot:radical.directory",
@@ -24,30 +29,27 @@ export default async function ApplicationServiceTest() {
 
   console.log("account", account)
 
-  const asLogin = await client.post("login", {
-    type: "m.login.application_service",
-    identifier: {
-      type: "m.id.user",
-      user: "_relay_bot",
-    },
-  })
+  // const asLogin = await client.post("login", {
+  //   type: "m.login.application_service",
+  //   identifier: {
+  //     type: "m.id.user",
+  //     user: "_relay_bot",
+  //   },
+  // })
 
-  console.log("asLogin", asLogin)
+  // console.log("asLogin", asLogin)
 
-  const asClient = new Client(MATRIX_BASE_URL!, asLogin.access_token, { fetch })
+  // const asClient = new Client(MATRIX_BASE_URL!, asLogin.access_token, { fetch })
 
-  const joinedRooms = await asClient.getJoinedRooms()
+  const joinedRooms = await client.getJoinedRooms()
 
   console.log("joinedRooms", joinedRooms)
 
-  // const join = await asClient.post(
-  //   "join/!aNyqgXhDKOZKyvYdHa:radical.directory",
-  //   {
-  //     user_id: "@_relay_bot:radical.directory",
-  //   }
-  // )
+  const join = await client.post("join/!aClTOIoBPhZNaxWdCH:radical.directory", {
+    user_id: "@_relay_bot:radical.directory",
+  })
 
-  // console.log("join", join)
+  console.log("join", join)
 
   //TODO: create form for registering a new AS user
   //TODO: create form for joining a room

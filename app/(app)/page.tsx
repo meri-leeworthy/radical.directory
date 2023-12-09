@@ -1,4 +1,4 @@
-const { MATRIX_BASE_URL, RD_PUBLIC_USERID } = process.env
+const { MATRIX_BASE_URL, RD_PUBLIC_USERID, AS_TOKEN } = process.env
 
 // export const dynamic = "force-dynamic"
 
@@ -14,11 +14,18 @@ const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 const MERI_USERID = "@meri:radical.directory"
 
 async function getSpaceChildIds() {
-  const accessToken = await getServerAccessToken()
+  // const accessToken = await getServerAccessToken()
 
-  const client = new Client(MATRIX_BASE_URL!, accessToken, {
-    userId: RD_PUBLIC_USERID!,
+  // const client = new Client(MATRIX_BASE_URL!, accessToken, {
+  //   userId: RD_PUBLIC_USERID!,
+  //   fetch,
+  // })
+
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch,
+    params: {
+      user_id: "@_relay_bot:radical.directory",
+    },
   })
 
   const space = new Room(SPACE_ID, client)
@@ -37,18 +44,28 @@ function getIdLocalPart(id: string) {
 
 export default async function Orgs() {
   const roomIds = await getSpaceChildIds()
-  const accessToken = await getServerAccessToken()
+  // const accessToken = await getServerAccessToken()
   const rooms = roomIds.map(
     roomId =>
       new Room(
         roomId,
-        new Client(MATRIX_BASE_URL!, accessToken!, {
-          userId: MERI_USERID,
+        new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
           fetch: noCacheFetch,
+          params: {
+            user_id: "@_relay_bot:radical.directory",
+          },
         })
       )
   )
-  await Promise.all(rooms.map(async room => await room.getName()))
+  await Promise.all(
+    rooms.map(async room => {
+      try {
+        await room.getName()
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  )
 
   rooms.forEach(room => {
     console.log("room name", room.useName())
