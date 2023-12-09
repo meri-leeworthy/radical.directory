@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/link-passhref */
-const { MATRIX_BASE_URL, RD_PUBLIC_USERID } = process.env
+const { MATRIX_BASE_URL, RD_PUBLIC_USERID, AS_TOKEN } = process.env
 
 // export const dynamic = "force-dynamic"
 
@@ -31,9 +31,11 @@ export default async function OrgSlugPage({
 
   const accessToken = await getServerAccessToken()
 
-  const client = new Client(MATRIX_BASE_URL!, accessToken, {
-    userId: RD_PUBLIC_USERID!,
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch: noCacheFetch,
+    params: {
+      user_id: "@_relay_bot:radical.directory",
+    },
   })
 
   const room = new Room(roomId, client)
