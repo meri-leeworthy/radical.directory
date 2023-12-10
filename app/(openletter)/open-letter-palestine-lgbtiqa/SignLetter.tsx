@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic"
 
 import { Client, Room } from "simple-matrix-sdk"
 import { Form } from "./Form"
+import { revalidateTag } from "next/cache"
 
 const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
@@ -33,6 +34,7 @@ async function sendSignatory(name: string, work: string, location: string) {
     msgtype: "m.text",
   }
   await room.sendMessage(content)
+  revalidateTag("openletter")
 }
 
 export async function SignLetter() {

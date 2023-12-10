@@ -29,7 +29,7 @@ export default async function OrgSlugPage({
   const { slug } = params
   const roomId = `!${slug}:radical.directory`
 
-  const accessToken = await getServerAccessToken()
+  // const accessToken = await getServerAccessToken()
 
   const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch: noCacheFetch,
