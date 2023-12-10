@@ -20,7 +20,7 @@ async function getRoomMessagesIterator() {
     },
   })
   const room = new Room(ROOM_ID, client)
-  const messagesIterator = room.getMessagesAsyncGenerator("b", 100)()
+  const messagesIterator = room.getMessagesAsyncGenerator("b", 200)()
   return messagesIterator
 }
 
