@@ -1,19 +1,18 @@
-const { AS_TOKEN } = process.env
+const { AS_TOKEN, MATRIX_BASE_URL } = process.env
 
 // export const dynamic = "force-dynamic"
 
-import { Client, Room, Event } from "simple-matrix-sdk"
+import { Client, Room } from "simple-matrix-sdk"
 import { SignLetter } from "./SignLetter"
-import { Suspense } from "react"
 import { getCacheTagFetch } from "lib/utils"
+import { Signatories } from "./Signatories"
 
-const BASE_URL = "https://matrix.radical.directory"
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
 
 async function getRoomMessagesIterator() {
   const fetcher = getCacheTagFetch(["openletter"], 300)
 
-  const client = new Client(BASE_URL, AS_TOKEN!, {
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch: fetcher,
     params: {
       user_id: "@_relay_bot:radical.directory",
@@ -26,7 +25,7 @@ async function getRoomMessagesIterator() {
 
 async function getLengthState() {
   const fetcher = getCacheTagFetch(["openletter"], 300)
-  const client = new Client(BASE_URL, AS_TOKEN!, {
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch: fetcher,
     params: {
       user_id: "@_relay_bot:radical.directory",
@@ -40,9 +39,9 @@ async function getLengthState() {
   return storedLength?.length
 }
 
-async function validateLengthState(length: number) {
+export async function validateLengthState(length: number) {
   // const fetcher = getCacheTagFetch(["openletter"], 300)
-  const client = new Client(BASE_URL, AS_TOKEN!, {
+  const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
     fetch: fetch,
     params: {
       user_id: "@_relay_bot:radical.directory",
@@ -59,13 +58,6 @@ async function validateLengthState(length: number) {
   })
   console.log("resp", resp)
 }
-
-type Chunk = {
-  type: string
-  event_id: string
-  content: { body: string; msgtype?: string; "m.relates_to"?: any }
-}[] &
-  Event[]
 
 export default async function Letter() {
   const messagesIterator = await getRoomMessagesIterator()
@@ -246,130 +238,4 @@ function A({ children, href }: { children: React.ReactNode; href: string }) {
       {children}
     </a>
   )
-}
-
-function Signatory({
-  name,
-  work,
-  location,
-}: {
-  name: string
-  work: string
-  location: string
-}) {
-  return (
-    <li className="pb-2 flex flex-col items-start gap-1 w-56">
-      <span className="">{name}</span>
-      <div className="">
-        <span className="italic opacity-60">
-          {work.trim() !== "" && `${work} • `}
-        </span>
-        <span className="italic opacity-60">{location}</span>
-      </div>
-    </li>
-  )
-}
-
-async function Signatories({
-  end,
-  messagesIterator,
-  length,
-  messages,
-}: {
-  end: string
-  messagesIterator: AsyncGenerator
-  length?: number
-  messages?: Event[]
-}) {
-  //recursive component for fetching and rendering paginated signatories
-  const response = await messagesIterator.next(end)
-  const { value } = response
-  if (!value) return []
-
-  console.log("\nreceived messages", messages?.length)
-
-  const messagesToCheck = [...(messages || []), ...value.chunk]
-
-  // console.log(
-  //   "messagesToCheck",
-  //   messagesToCheck.map(msg => msg.type)
-  // )
-
-  console.log("messagesToCheck", messagesToCheck.length)
-
-  const combinedReactions = getReactions(messagesToCheck)
-  const signatories = messagesToSignatories(messagesToCheck, combinedReactions)
-  // don't include messages that have already been rendered
-  const remainingMessages = messagesToCheck.filter(
-    message => !signatories.find(signatory => signatory.id === message.event_id)
-  )
-
-  // console.log("remainingMessages", remainingMessages)
-
-  const newLength = (length || 0) + signatories.length
-
-  if (value.end.includes("t1-")) {
-    const meri = signatories.pop()
-    meri && signatories.splice(signatories.length - 5, 0, meri)
-
-    // check if length state key exists and is equal to signatories length
-    validateLengthState(newLength)
-  }
-
-  console.log("length", newLength)
-
-  return (
-    <>
-      {signatories.map((signatory, i) => (
-        <Signatory key={i} {...signatory} />
-      ))}
-      <Suspense fallback={<div>loading...</div>}>
-        <Signatories
-          end={value.end}
-          messagesIterator={messagesIterator}
-          length={newLength}
-          messages={remainingMessages}
-        />
-      </Suspense>
-    </>
-  )
-}
-
-function getReactions(chunk: Chunk) {
-  return chunk
-    .filter(
-      message =>
-        message?.type === "m.reaction" &&
-        ((message?.content && message.content["m.relates_to"]?.key == "👍️") ||
-          "👍")
-    )
-    .map(
-      message => message?.content && message.content["m.relates_to"]?.event_id
-    )
-    .filter((event_id: string) => !!event_id)
-}
-
-function messagesToSignatories(chunk: Chunk, reactions: string[]) {
-  const messages = chunk.filter(message => message.type === "m.room.message")
-
-  return messages
-    .filter(message => reactions?.includes(message.event_id))
-    .filter(
-      message =>
-        message?.content?.body?.includes("name:") &&
-        message.content.body?.includes("\nwork:") &&
-        message.content.body?.includes("\nlocation:")
-    )
-    .map(message => ({
-      tuple: message?.content?.body
-        ?.split("\n")
-        .flatMap((line: string) => line.split(":")),
-      id: message.event_id,
-    }))
-    .map(({ tuple: [_name, name, _work, work, _location, location], id }) => ({
-      name,
-      work,
-      location,
-      id,
-    }))
 }

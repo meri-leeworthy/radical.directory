@@ -7,11 +7,9 @@ import Link from "next/link"
 import { Org } from "./orgs/[slug]/Org"
 import { Suspense } from "react"
 import LoginLogout from "components/LoginLogout"
-import { getServerAccessToken } from "lib/getServerAccessToken"
 import { noCacheFetch } from "lib/utils"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
-const MERI_USERID = "@meri:radical.directory"
 
 async function getSpaceChildIds() {
   // const accessToken = await getServerAccessToken()

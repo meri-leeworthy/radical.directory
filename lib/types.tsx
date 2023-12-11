@@ -28,3 +28,10 @@ export type DirectoryRadicalPostUnstable = {
   msgtype: typeof directoryRadicalPostUnstable
   author: string
 }
+
+export type Chunk = {
+  type: string
+  event_id: string
+  content: { body: string; msgtype?: string; "m.relates_to"?: any }
+}[] &
+  Event[]
