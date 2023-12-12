@@ -68,7 +68,7 @@ export default async function Letter() {
 
   return (
     <>
-      <h1 className="font-black text-3xl lg:text-5xl pb-4">
+      <h1 className="font-black text-4xl md:text-5xl pb-4">
         No Pride in Genocide
       </h1>
       <h2 className="font-bold pb-6">

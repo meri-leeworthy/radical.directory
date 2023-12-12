@@ -3,7 +3,7 @@ import { Suspense } from "react"
 import { getReactions, messagesToSignatories } from "lib/getReactions"
 import { validateLengthState } from "./page"
 import { ClientSignatories } from "./ClientSignatories"
-import { Signatory } from "./Signatory"
+import { SideSignatory, Signatory } from "./Signatory"
 
 export async function Signatories({
   end,
@@ -39,7 +39,7 @@ export async function Signatories({
   return (
     <>
       {signatories.map((signatory, i) => (
-        <Signatory key={i} {...signatory} />
+        <SideSignatory key={i} {...signatory} />
       ))}
       {/* <Suspense fallback={<div>loading...</div>}>
         <ClientSignatories

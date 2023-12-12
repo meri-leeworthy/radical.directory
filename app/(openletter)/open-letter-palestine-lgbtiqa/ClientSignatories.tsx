@@ -108,7 +108,7 @@ export function ClientSignatories({}: // end,
       <h3 className="py-4 text-center text-base font-bold">All Signatories</h3>
 
       {signatories.map((signatory, i) => (
-        <Signatory key={i} {...signatory} horizontal />
+        <Signatory key={i} {...signatory} />
       ))}
 
       <button onClick={handleLoadMore} ref={ref} className="self-center">
