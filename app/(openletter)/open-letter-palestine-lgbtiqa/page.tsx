@@ -6,6 +6,7 @@ import { Client, Room } from "simple-matrix-sdk"
 import { SignLetter } from "./SignLetter"
 import { getCacheTagFetch } from "lib/utils"
 import { Signatories } from "./Signatories"
+import { ClientSignatories } from "./ClientSignatories"
 
 const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
 
@@ -24,9 +25,9 @@ async function getRoomMessagesIterator() {
 }
 
 async function getLengthState() {
-  const fetcher = getCacheTagFetch(["openletter"], 300)
+  // const fetcher = getCacheTagFetch(["openletter"], 300)
   const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
-    fetch: fetcher,
+    fetch,
     params: {
       user_id: "@_relay_bot:radical.directory",
     },
@@ -40,9 +41,8 @@ async function getLengthState() {
 }
 
 export async function validateLengthState(length: number) {
-  // const fetcher = getCacheTagFetch(["openletter"], 300)
   const client = new Client(MATRIX_BASE_URL!, AS_TOKEN!, {
-    fetch: fetch,
+    fetch,
     params: {
       user_id: "@_relay_bot:radical.directory",
     },
@@ -51,18 +51,18 @@ export async function validateLengthState(length: number) {
   const storedLength = await room.getStateEvent(
     "directory.radical.openletter.count"
   )
-  console.log("storedLength", storedLength, "real length", length)
-  if (storedLength?.content?.length === length) return
+  console.log("vls: storedLength", storedLength, "real length", length)
+  if (storedLength?.length === length) return undefined
   const resp = await room.sendStateEvent("directory.radical.openletter.count", {
     length,
   })
-  console.log("resp", resp)
+  return resp
 }
 
 export default async function Letter() {
   const messagesIterator = await getRoomMessagesIterator()
   const length = await getLengthState()
-
+  console.log("length", length)
   // 27 signatures = height of page
   // then grid of signatures?
 
@@ -215,10 +215,13 @@ export default async function Letter() {
           </div>
           <SignLetter />
 
-          <ul className="p-4 text-sm self-center gap-2 gap-x-4 justify-center flex flex-wrap max-w-xl lg:w-60 sm:pl-16 lg:pl-0 lg:p-0 lg:pt-4">
+          <ul className="hidden lg:flex p-4 text-sm self-center gap-2 gap-x-4 justify-center flex-wrap max-w-xl lg:w-60 sm:pl-16 lg:pl-0 lg:p-0 lg:pt-4">
             <Signatories end="" messagesIterator={messagesIterator} />
           </ul>
         </div>
+      </div>
+      <div className="flex flex-col items-center">
+        <ClientSignatories />
       </div>
     </>
   )

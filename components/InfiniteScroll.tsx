@@ -1,13 +1,13 @@
 "use client"
 import * as React from "react"
 
-type loadMoreAction<T extends string | number = any> = T extends number
-  ? (offset: T) => Promise<readonly [React.JSX.Element, number | null]>
-  : T extends string
-  ? (offset: T) => Promise<readonly [React.JSX.Element, string | null]>
-  : any
+// currently not used
 
-const InfiniteScroll = <T extends string | number = any>({
+type loadMoreAction<T extends string = any> = (
+  offset: T
+) => Promise<readonly [React.JSX.Element, string | null]>
+
+const InfiniteScroll = <T extends string = any>({
   children,
   initialOffset,
   loadMoreAction,
@@ -21,9 +21,7 @@ const InfiniteScroll = <T extends string | number = any>({
   )
 
   // const [disabled, setDisabled] = React.useState(false)
-  const currentOffsetRef = React.useRef<number | string | undefined>(
-    initialOffset
-  )
+  const currentOffsetRef = React.useRef<string | undefined>(initialOffset)
   // const [scrollLoad, setScrollLoad] = React.useState(true);
   const scrollLoad = true
   const [loading, setLoading] = React.useState(false)
@@ -79,7 +77,7 @@ const InfiniteScroll = <T extends string | number = any>({
     <>
       {children}
       {loadMoreNodes}
-      {loading ? "Loading..." : "Load More"}
+      <button ref={ref}>{loading ? "Loading..." : "Load More"}</button>
     </>
   )
 }

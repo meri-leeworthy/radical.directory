@@ -16,16 +16,18 @@ export async function Signatories({
   length?: number
   messages?: Event[]
 }) {
-  console.log("signatories end", end)
   const response = await messagesIterator.next(end)
   const { value } = response
   if (!value) return []
   const messagesToCheck = [...(messages || []), ...value.chunk]
   const combinedReactions = getReactions(messagesToCheck)
-  const signatories = messagesToSignatories(messagesToCheck, combinedReactions)
-  const remainingMessages = messagesToCheck.filter(
-    message => !signatories.find(signatory => signatory.id === message.event_id)
-  )
+  const signatories = messagesToSignatories(
+    messagesToCheck,
+    combinedReactions
+  ).slice(0, 20)
+  // const remainingMessages = messagesToCheck.filter(
+  //   message => !signatories.find(signatory => signatory.id === message.event_id)
+  // )
   const newLength = (length || 0) + signatories.length
 
   if (value.end.includes("t1-")) {
@@ -34,21 +36,18 @@ export async function Signatories({
     validateLengthState(newLength)
   }
 
-  console.log("signatories", signatories)
-  console.log("value.end", value.end)
-
   return (
     <>
       {signatories.map((signatory, i) => (
         <Signatory key={i} {...signatory} />
       ))}
-      {/* <Suspense fallback={<div>loading...</div>}> */}
-      <ClientSignatories
-        end={value.end}
-        length={newLength}
-        messages={remainingMessages}
-      />
-      {/* </Suspense> */}
+      {/* <Suspense fallback={<div>loading...</div>}>
+        <ClientSignatories
+          end={value.end}
+          length={newLength}
+          messages={remainingMessages}
+        />
+      </Suspense> */}
     </>
   )
 }

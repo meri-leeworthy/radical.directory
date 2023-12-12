@@ -1,4 +1,4 @@
-const { MATRIX_BASE_URL, RD_PUBLIC_USERID, AS_TOKEN } = process.env
+const { MATRIX_BASE_URL, AS_TOKEN } = process.env
 
 // export const dynamic = "force-dynamic"
 

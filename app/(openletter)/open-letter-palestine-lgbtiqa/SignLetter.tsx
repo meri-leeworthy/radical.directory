@@ -1,4 +1,4 @@
-const { OPEN_LETTER_PASSWORD, AS_TOKEN } = process.env
+const { AS_TOKEN } = process.env
 
 export const dynamic = "force-dynamic"
 
@@ -12,16 +12,6 @@ const ROOM_ID = "!aNyqgXhDKOZKyvYdHa:radical.directory"
 
 async function sendSignatory(name: string, work: string, location: string) {
   "use server"
-  // const accessToken = await Client.login(
-  //   BASE_URL,
-  //   "openletter",
-  //   OPEN_LETTER_PASSWORD!,
-  //   fetch
-  // )
-  // const client = new Client(BASE_URL, accessToken, {
-  //   userId: OPEN_LETTER_USERID,
-  //   fetch,
-  // })
   const client = new Client(BASE_URL, AS_TOKEN!, {
     fetch,
     params: {
@@ -34,6 +24,15 @@ async function sendSignatory(name: string, work: string, location: string) {
     msgtype: "m.text",
   }
   await room.sendMessage(content)
+  const storedLength = await room.getStateEvent(
+    "directory.radical.openletter.count"
+  )
+  const newLength = parseInt(storedLength?.length || "0") + 1
+  // console.log("storedLength", storedLength, "newLength", newLength)
+  const resp = await room.sendStateEvent("directory.radical.openletter.count", {
+    length: newLength,
+  })
+  console.log("resp", resp)
   revalidateTag("openletter")
 }
 

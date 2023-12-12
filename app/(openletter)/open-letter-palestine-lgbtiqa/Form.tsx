@@ -17,7 +17,7 @@ export function Form(props: {
     e.preventDefault()
     console.log("submitting")
     setLoading(true)
-    props.sendSignatory(name, work, location)
+    await props.sendSignatory(name, work, location)
     setLoading(false)
     setSubmitted(true)
   }
@@ -79,7 +79,7 @@ export function Form(props: {
               type="submit"
               disabled={loading}
               className="self-end mt-4 flex justify-center px-2 py-0 border-black border-2 rounded font-bold bg-black text-pink-200 hover:bg-transparent hover:text-black">
-              Submit
+              {loading ? "loading..." : "Submit"}
             </button>
           </form>
         </>
