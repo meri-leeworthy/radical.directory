@@ -36,7 +36,7 @@ async function getLengthState() {
   const storedLength = await room.getStateEvent(
     "directory.radical.openletter.count"
   )
-  console.log("storedLength", storedLength)
+  // console.log("storedLength", storedLength)
   return storedLength?.length
 }
 
@@ -62,7 +62,7 @@ export async function validateLengthState(length: number) {
 export default async function Letter() {
   const messagesIterator = await getRoomMessagesIterator()
   const length = await getLengthState()
-  console.log("length", length)
+  // console.log("length", length)
   // 27 signatures = height of page
   // then grid of signatures?
 

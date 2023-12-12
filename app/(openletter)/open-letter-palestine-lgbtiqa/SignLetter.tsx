@@ -32,7 +32,7 @@ async function sendSignatory(name: string, work: string, location: string) {
   const resp = await room.sendStateEvent("directory.radical.openletter.count", {
     length: newLength,
   })
-  console.log("resp", resp)
+  // console.log("resp", resp)
   revalidateTag("openletter")
 }
 

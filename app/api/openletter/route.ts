@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
     limit: 200,
     dir: "b",
   })
-  console.log("calling route handler with ", end)
+  // console.log("calling route handler with ", end)
   return NextResponse.json(messages)
 }
 
 export async function PUT(request: NextRequest) {
   const count = await request.json()
   const response = await validateLengthState(count)
-  console.log("open letter count updater response", response)
+  // console.log("open letter count updater response", response)
   return NextResponse.json(response || {})
 }

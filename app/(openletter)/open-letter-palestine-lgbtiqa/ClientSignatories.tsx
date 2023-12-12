@@ -76,7 +76,7 @@ export function ClientSignatories({}: // end,
     }
   }, [loadMoreAction, loadMore])
 
-  console.log("ends compared", endRef.current)
+  // console.log("ends compared", endRef.current)
 
   const combinedReactions = getReactions(messages)
   const signatories = messagesToSignatories(messages, combinedReactions)
@@ -96,8 +96,8 @@ export function ClientSignatories({}: // end,
       .then(console.log)
   }
 
-  console.log("ends compared", endRef.current)
-  console.log("signatories", signatories)
+  // console.log("ends compared", endRef.current)
+  // console.log("signatories", signatories)
 
   const handleLoadMore = () => {
     setLoadMore(true)

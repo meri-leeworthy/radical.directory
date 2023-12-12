@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 export function Form(props: {
-  sendSignatory: (name: string, work: string, location: string) => void
+  sendSignatory: (name: string, work: string, location: string) => Promise<void>
 }) {
   const [showForm, setShowForm] = useState<boolean>(false)
   const [name, setName] = useState<string>("")
@@ -11,11 +11,10 @@ export function Form(props: {
   const [location, setLocation] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log("submitting")
+    // console.log("submitting")
     setLoading(true)
     await props.sendSignatory(name, work, location)
     setLoading(false)
