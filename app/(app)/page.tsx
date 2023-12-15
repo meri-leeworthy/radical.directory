@@ -6,8 +6,8 @@ import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
 import { Org } from "./orgs/[slug]/Org"
 import { Suspense } from "react"
-import LoginLogout from "components/LoginLogout"
 import { noCacheFetch } from "lib/utils"
+import { Footer } from "../../components/Footer"
 
 const SPACE_ID = "!LYcDqbaOzMrwVZsVRJ:radical.directory"
 
@@ -84,42 +84,7 @@ export default async function Orgs() {
           </li>
         ))}
       </ul>
-      <section className="opacity-60 font-body mt-24">
-        <p className="my-4">
-          <LoginLogout />
-        </p>
-        <p>
-          chat with us on{" "}
-          <a href="https://matrix.org" className="underline">
-            matrix
-          </a>
-          :{" "}
-          <a
-            className="underline"
-            href="https://matrix.to/#/#r.d:radical.directory">
-            #r.d:radical.directory
-          </a>
-        </p>
-        <p>
-          email{" "}
-          <a
-            className="underline"
-            href="mailto:radicaldirectory@protonmail.com">
-            radicaldirectory@protonmail.com
-          </a>
-        </p>
-        <p>
-          contribute code/ideas on{" "}
-          <a className="underline" href="https://github.com/radicaldirectory">
-            github
-          </a>
-        </p>
-        <p className="my-4">
-          <a href="http://enlacezapatista.ezln.org.mx/wp-content/uploads/2018/08/Manifiesto_Borrador-Final.pdf">
-            &ldquo;for a world in which many worlds fit&rdquo;
-          </a>
-        </p>
-      </section>
+      <Footer />
     </>
   )
 }

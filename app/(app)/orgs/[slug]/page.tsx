@@ -21,6 +21,37 @@ import { OrgPosts } from "./OrgPosts"
 import { Suspense } from "react"
 import { getServerAccessToken } from "lib/getServerAccessToken"
 
+function deleteEditedMessages(messages: Event[]) {
+  // const editMessages = messages.filter(
+  //   message => message?.content && "m.new_content" in message.content
+  // )
+
+  const rootEvents = new Map<string, Event[]>()
+
+  messages.forEach(message => {
+    if (message?.content && "m.relates_to" in message.content) {
+      const id = message.content["m.relates_to"].event_id
+      const edits = rootEvents.get(id)
+      rootEvents.set(id, [...(edits || []), message])
+    }
+  })
+
+  // console.log("rootEvents", rootEvents)
+
+  rootEvents.forEach((edits, id) => {
+    const finalEdit = edits.reduce((acc, edit) => {
+      if (edit.origin_server_ts > acc.origin_server_ts) {
+        return edit
+      }
+      return acc
+    })
+    console.log("finalEdit", finalEdit)
+    rootEvents.set(id, [finalEdit])
+  })
+
+  return [...rootEvents.values()].flat()
+}
+
 export default async function OrgSlugPage({
   params,
 }: {
@@ -47,11 +78,10 @@ export default async function OrgSlugPage({
   const messages = messagesChunk.filter(
     message => message.type === "m.room.message"
   )
-  const replacedMessages = Room.replaceEditedMessages(messages)
 
-  const messagesWithoutDeleted = replacedMessages.filter(
-    message => !("redacted_because" in message)
-  )
+  const messagesWithoutDeleted = deleteEditedMessages(messages)
+
+  // console.log("messagesWithoutDeleted", messagesWithoutDeleted)
 
   const posts = messagesWithoutDeleted.filter(
     message => message.content?.msgtype === directoryRadicalPostUnstable

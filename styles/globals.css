@@ -366,10 +366,21 @@ body {
   border-color: #1D170C;
 }
 
-html {
+/* html {
   background-attachment: fixed;
   background-image: url("../assets/clean-gray-paper.png");
-}
+} */
+
+/* body {
+  width: 250px;
+  height: 250px;
+  filter: contrast(100%) brightness(500%);
+  background-attachment: fixed;
+  background-size: 350px;
+  background-repeat: repeat;
+  background: linear-gradient(334deg, rgba(255,0,0,1), rgba(255,255,255,0.5) 40%, rgba(255,255,255,1) 50%), url("../assets/noise.svg");
+} */
+  
 
 a {
   color: inherit;

@@ -1,21 +1,28 @@
 "use client"
 
-import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { Suspense } from "react"
 
 const LoginLogout = () => {
-  if (typeof window === "undefined") return null
-  const accessToken = localStorage.getItem("accessToken")
+  const router = useRouter()
+  const accessToken =
+    typeof localStorage !== "undefined" && localStorage.getItem("accessToken")
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken")
-    location.reload()
+    if (typeof window === "undefined") return null
+    if (accessToken) {
+      localStorage.removeItem("accessToken")
+      location.reload()
+    } else {
+      router.push("/login")
+    }
   }
 
-  if (accessToken) {
-    return <button onClick={handleLogout}>logout</button>
-  } else {
-    return <Link href="/login">login</Link>
-  }
+  return (
+    <button onClick={handleLogout}>
+      <Suspense fallback="login">{accessToken ? "logout" : "login"}</Suspense>
+    </button>
+  )
 }
 
 export default LoginLogout
