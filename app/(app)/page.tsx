@@ -4,7 +4,7 @@ const { MATRIX_BASE_URL, AS_TOKEN } = process.env
 
 import { Client, Room } from "simple-matrix-sdk"
 import Link from "next/link"
-import { Org } from "./orgs/[slug]/Org"
+import { Org } from "./id/[slug]/Org"
 import { Suspense } from "react"
 import { noCacheFetch } from "lib/utils"
 import { Footer } from "../../components/Footer"
@@ -76,7 +76,7 @@ export default async function Orgs() {
       <ul>
         {rooms.map((org, i) => (
           <li key={i}>
-            <Link href={`/orgs/${getIdLocalPart(roomIds[i])}`}>
+            <Link href={`/id/${getIdLocalPart(roomIds[i])}`}>
               <Suspense fallback={<>loading...</>}>
                 <Org room={org} />
               </Suspense>

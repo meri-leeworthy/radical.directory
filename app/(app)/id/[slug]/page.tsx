@@ -120,7 +120,7 @@ export default async function OrgSlugPage({
           <div className="flex justify-between items-center">
             <h2 className="font-body">{room.useName()?.name}</h2>
             <IfLoggedIn>
-              <Link href={`/orgs/${slug}/edit`}>
+              <Link href={`/id/${slug}/edit`}>
                 <IconButton alt="edit page">
                   <IconSettings size={16} />
                 </IconButton>

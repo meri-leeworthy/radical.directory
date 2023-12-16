@@ -32,9 +32,7 @@ export default async function PostPage({
 
   return (
     <div>
-      <Link
-        href={`/orgs/${slug}`}
-        className="bg-[#fff9] rounded-full px-2 py-1">
+      <Link href={`/id/${slug}`} className="bg-[#fff9] rounded-full px-2 py-1">
         &larr; {nameString}
       </Link>
       <h1 className="font-body py-1">{post.content?.title}</h1>

@@ -16,7 +16,7 @@ export function OrgPosts({ slug, posts }: { slug: string; posts: any[] }) {
             </span>
             <div className="flex w-full mt-1 justify-between items-center gap-2 mb-1">
               <div className="flex items-center gap-2">
-                <Link href={`/orgs/${slug}/post/${event_id.split("$")[1]}`}>
+                <Link href={`/id/${slug}/post/${event_id.split("$")[1]}`}>
                   <h4 className="text-lg font-bold font-body">
                     {content && "title" in content && content?.title}
                   </h4>
